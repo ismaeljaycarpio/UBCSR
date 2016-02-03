@@ -1,0 +1,111 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="UBCSR.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title><%: Page.Title %> - UBCSR</title>
+
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <asp:PlaceHolder runat="server">
+        <script src="<%: ResolveUrl("~/Scripts/jquery-2.1.4.js") %>"></script>
+        <script src="<%: ResolveUrl("~/Scripts/modernizr-2.6.2.js") %>"></script>
+        <script src="<%: ResolveUrl("~/Scripts/bootstrap.js") %>"></script>
+        <script src="<%: ResolveUrl("~/Scripts/moment.js") %>"></script>
+        <script src="<%: ResolveUrl("~/Scripts/bootstrap-datepicker.js") %>"></script>
+    </asp:PlaceHolder>
+
+    <meta name="viewport" content="width=device-width" />
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = u.createElement(o), i, f; for (s.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", u.getElementsByTagName(o)[0].parentNode.appendChild(s), t.cookie = u.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace", "Ajax"]; i.length;) r("track" + i.pop()); return r("setAuthenticatedUserContext"), r("clearAuthenticatedUserContext"), config.disableExceptionTracking || (i = "onerror", r("_" + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t["_" + i](config, r, u, e, o), s }), t
+        }({
+            instrumentationKey: "4d502e7c-1fc9-4c7d-8587-035894d332f1"
+        });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+        </asp:ScriptManager>
+
+        <script>
+            $(function () {
+                $('body').on('hidden.bs.modal', function () {
+                    $(this).find('input[type="text"],textarea').val('');
+                    $('.label-danger').hide();
+                });
+            });
+        </script>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" runat="server" href="~/">UBCSR |</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <asp:LoginView ID="LoginView1"
+                        runat="server"
+                        ViewStateMode="Disabled">
+                        <AnonymousTemplate>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a runat="server" href="~/Account/Login.aspx">Log in</a></li>
+                            </ul>
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <ul class="nav navbar-nav">
+                                <li><a runat="server" href="~/Default">Home</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a runat="server"
+                                        href="#"
+                                        class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        role="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <asp:LoginName ID="LoginName1" runat="server" />
+                                        <span class="glyphicon glyphicon-user"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                </li>
+                            </ul>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div class="container body-content">
+            <div class="breadcrumb">
+                <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+            </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>&copy; <%: DateTime.Now.Year %> - UBCSR</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
