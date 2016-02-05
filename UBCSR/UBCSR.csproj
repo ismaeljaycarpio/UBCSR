@@ -398,6 +398,8 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="DAL\FileMaintenance.cs" />
+    <Compile Include="DAL\Report.cs" />
+    <Compile Include="DAL\Transaction.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
