@@ -16,7 +16,7 @@
                         <div class="modal-body">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="txtAddDescription">Description</label>
+                                    <label for="txtAddDescription">Category</label>
                                     <asp:TextBox ID="txtAddDescription" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                         runat="server"
@@ -24,35 +24,9 @@
                                         ControlToValidate="txtAddDescription"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Description is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="txtAddVenue">Venue</label>
-                                    <asp:TextBox ID="txtAddVenue" runat="server" CssClass="form-control" placeholder="Venue"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtAddVenue"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Venue is required"></asp:RequiredFieldValidator>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="txtAddDate">Date</label>
-                                    <asp:TextBox ID="txtAddDate" runat="server" CssClass="form-control clsDatePicker" placeholder="Date" data-provide="datepicker"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtAddDate"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Date is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary" Text="Save" ValidationGroup="vgAdd" OnClick="btnSave_Click" />
@@ -77,7 +51,7 @@
                     <ContentTemplate>
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Edit Training</h4>
+                            <h4 class="modal-title">Edit Category</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form">
@@ -86,7 +60,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtEditDescription">Description</label>
+                                    <label for="txtEditDescription">Category</label>
                                     <asp:TextBox ID="txtEditDescription" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                         runat="server"
@@ -94,34 +68,8 @@
                                         ControlToValidate="txtEditDescription"
                                         CssClass="label label-danger"
                                         ValidationGroup="vsEdit"
-                                        ErrorMessage="Description is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="txtEditVenue">Venue</label>
-                                    <asp:TextBox ID="txtEditVenue" runat="server" CssClass="form-control" placeholder="Venue"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtEditVenue"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Venue is required"></asp:RequiredFieldValidator>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="txtEditDate">Date</label>
-                                    <asp:TextBox ID="txtEditDate" runat="server" CssClass="form-control" placeholder="Date" data-provide="datepicker"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtEditDate"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Date is required"></asp:RequiredFieldValidator>
-                                </div>
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -150,7 +98,7 @@
                     <div class="table-responsive">
                         <asp:UpdatePanel ID="upAwards" runat="server">
                             <ContentTemplate>
-                                <asp:GridView ID="gvAwards"
+                                <asp:GridView ID="gvCategory"
                                     runat="server"
                                     class="table table-striped table-hover"
                                     GridLines="None"
@@ -172,23 +120,12 @@
 
                                         <asp:TemplateField HeaderText="Description">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Venue">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblVenue" runat="server" Text='<%# Eval("Venue") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Date">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>'></asp:Label>
+                                                <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
                                         <asp:CommandField ShowDeleteButton="true" />
+
                                     </Columns>
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
