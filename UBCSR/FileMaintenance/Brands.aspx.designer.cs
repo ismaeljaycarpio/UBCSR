@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UBCSR.Account
+namespace UBCSR.FileMaintenance
 {
 
 
-    public partial class Login
+    public partial class Brand
     {
     }
 }

@@ -13,5 +13,30 @@ namespace UBCSR.FileMaintenance
         {
 
         }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gvEmployee_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+        }
+
+        protected void gvEmployee_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gvEmployee_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
+        protected void gvEmployee_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+        {
+
+        }
     }
 }

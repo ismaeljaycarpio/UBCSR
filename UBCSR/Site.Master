@@ -64,12 +64,19 @@
                         ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Login.aspx">Log in</a></li>
+                                <li><a runat="server" href="~/Login.aspx">Log in</a></li>
                             </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav">
-                                <li><a runat="server" href="~/Default">Home</a></li>
+                                <li><a runat="server" href="~/Default.aspx">Home</a></li>
+                                <li class="dropdown"><a runat="server" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File Maintenance<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
+                                        <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
+                                        <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">

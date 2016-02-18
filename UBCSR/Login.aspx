@@ -1,6 +1,5 @@
-﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="UBCSR.Account.Login" %>
+﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="UBCSR.Login" %>
 
-<%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -8,7 +7,10 @@
         <div class="col-lg-6 col-lg-offset-3 text-center">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <asp:Login runat="server" ViewStateMode="Disabled" RenderOuterTable="false">
+                    <asp:Login runat="server" 
+                        ViewStateMode="Disabled" 
+                        RenderOuterTable="false" 
+                        DestinationPageUrl="~/Default.aspx">
                         <LayoutTemplate>
                             <p class="validation-summary-errors text-danger">
                                 <asp:Literal runat="server" ID="FailureText" />

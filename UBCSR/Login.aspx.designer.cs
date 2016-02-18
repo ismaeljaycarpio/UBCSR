@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UBCSR.Account
+namespace UBCSR
 {
 
 
