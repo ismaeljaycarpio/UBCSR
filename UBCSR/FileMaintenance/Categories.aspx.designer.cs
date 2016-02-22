@@ -22,13 +22,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.UpdatePanel upAdd;
         
         /// <summary>
-        /// txtAddDescription control.
+        /// txtAddCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddDescription;
+        protected global::System.Web.UI.WebControls.TextBox txtAddCategory;
         
         /// <summary>
         /// RequiredFieldValidator1 control.
@@ -67,13 +67,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.Label lblRowId;
         
         /// <summary>
-        /// txtEditDescription control.
+        /// txtEditCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditDescription;
+        protected global::System.Web.UI.WebControls.TextBox txtEditCategory;
         
         /// <summary>
         /// RequiredFieldValidator3 control.
@@ -94,13 +94,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.Button btnUpdate;
         
         /// <summary>
-        /// upAwards control.
+        /// upCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upAwards;
+        protected global::System.Web.UI.UpdatePanel upCategory;
         
         /// <summary>
         /// gvCategory control.

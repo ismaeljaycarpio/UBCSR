@@ -32,9 +32,10 @@
                     </div>
                     <div class="navbar-collapse collapse sidebar-navbar-collapse">
                         <ul class="nav navbar-nav" id="nav">
-                            <li id="viewemp"><a runat="server" href="~/FileMaintenance/Categories">Categories</a></li>
-                            <li id="profiledetails"><a runat="server" href="~/FileMaintenance/Items">Items</a></li>
-                            <li id="jobDetails"><a runat="server" href="~/FileMaintenance/Accounts">Accounts</a></li>
+                            <li id="cat"><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
+                            <li id="brands"><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
+                            <li id="items"><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
+                            <li id="accounts"><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
                         </ul>
                     </div>
                     <!--/.nav-collapse -->

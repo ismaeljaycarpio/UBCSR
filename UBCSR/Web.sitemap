@@ -3,6 +3,7 @@
     <siteMapNode url="~/Default.aspx" title="Home"  description="">
       <siteMapNode title="File Maintenance">
         <siteMapNode url="~/FileMaintenance/Categories.aspx" title="Categories"></siteMapNode>
+        <siteMapNode url="~/FileMaintenance/Brands.aspx" title="Brands"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Items.aspx" title="Items"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Accounts.aspx" title="Accounts"></siteMapNode>
       </siteMapNode>

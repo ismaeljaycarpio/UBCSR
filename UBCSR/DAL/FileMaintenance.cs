@@ -33,13 +33,14 @@ namespace UBCSR.DAL
             }
         }
 
-        public void editCategory(string categoryName)
+        public void editCategory(string categoryName, string Id)
         {
-            strSql = "UPDATE ItemCategory SET CategoryName = @CategoryName";
+            strSql = "UPDATE ItemCategory SET CategoryName = @CategoryName WHERE Id = @Id";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@CategoryName", categoryName);
+                comm.Parameters.AddWithValue("@Id", Id);
                 conn.Open();
                 comm.ExecuteNonQuery();
                 comm.Dispose();
@@ -63,7 +64,7 @@ namespace UBCSR.DAL
 
         public DataTable searchCategory(string categorySearch)
         {
-            strSql = "SELECT * FROM ItemCategory WHERE CategoryName LIKE '%'@CategoryName'%'";
+            strSql = "SELECT * FROM ItemCategory WHERE CategoryName LIKE '%' + @CategoryName + '%'";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
@@ -79,6 +80,26 @@ namespace UBCSR.DAL
                 return dTable;
             }
         }
+
+        public DataTable getCategory(int categoryId)
+        {
+            strSql = "SELECT * FROM ItemCategory WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@Id", categoryId);
+                dTable = new DataTable();
+                adp = new SqlDataAdapter(comm);
+
+                conn.Open();
+                adp.Fill(dTable);
+                comm.Dispose();
+                conn.Close();
+
+                return dTable;
+            }
+        }
+
         #endregion
 
         #region Brand
@@ -96,13 +117,14 @@ namespace UBCSR.DAL
             }
         }
 
-        public void editBrand(string brandName)
+        public void editBrand(string brandName, string Id)
         {
-            strSql = "UPDATE ItemBrand SET BrandName = @BrandName";
+            strSql = "UPDATE ItemBrand SET BrandName = @BrandName WHERE Id = @Id";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@BrandName", brandName);
+                comm.Parameters.AddWithValue("@Id", Id);
                 conn.Open();
                 comm.ExecuteNonQuery();
                 comm.Dispose();
@@ -126,11 +148,30 @@ namespace UBCSR.DAL
 
         public DataTable searchBrand(string brandSearch)
         {
-            strSql = "SELECT * FROM ItemBrand WHERE BrandName LIKE '%'@BrandName'%'";
+            strSql = "SELECT * FROM ItemBrand WHERE BrandName LIKE '%'+ @BrandName + '%'";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@BrandName", brandSearch);
+                dTable = new DataTable();
+                adp = new SqlDataAdapter(comm);
+
+                conn.Open();
+                adp.Fill(dTable);
+                comm.Dispose();
+                conn.Close();
+
+                return dTable;
+            }
+        }
+
+        public DataTable getBrand(int brandId)
+        {
+            strSql = "SELECT * FROM ItemBrand WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@Id", brandId);
                 dTable = new DataTable();
                 adp = new SqlDataAdapter(comm);
 

@@ -69,10 +69,10 @@
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav">
-                                <li><a runat="server" href="~/Default.aspx">Home</a></li>
                                 <li class="dropdown"><a runat="server" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File Maintenance<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
+                                        <li><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                                         <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
                                         <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
                                     </ul>
@@ -92,7 +92,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
                                 </li>
                             </ul>
                         </LoggedInTemplate>

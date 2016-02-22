@@ -16,12 +16,12 @@
                         <div class="modal-body">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="txtAddDescription">Category</label>
-                                    <asp:TextBox ID="txtAddDescription" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
+                                    <label for="txtAddCategory">Category</label>
+                                    <asp:TextBox ID="txtAddCategory" runat="server" CssClass="form-control" placeholder="Category"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtAddDescription"
+                                        ControlToValidate="txtAddCategory"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Category is required"></asp:RequiredFieldValidator>
@@ -60,12 +60,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtEditDescription">Category</label>
-                                    <asp:TextBox ID="txtEditDescription" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
+                                    <label for="txtEditCategory">Category</label>
+                                    <asp:TextBox ID="txtEditCategory" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtEditDescription"
+                                        ControlToValidate="txtEditCategory"
                                         CssClass="label label-danger"
                                         ValidationGroup="vsEdit"
                                         ErrorMessage="Category is required"></asp:RequiredFieldValidator>
@@ -78,7 +78,7 @@
                         </div>
                     </ContentTemplate>
                     <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="gvAwards" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="gvCategory" EventName="RowCommand" />
                         <asp:AsyncPostBackTrigger ControlID="btnUpdate" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
@@ -91,12 +91,12 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h5>Awards</h5>
+                    <h5>Category</h5>
                 </div>
 
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <asp:UpdatePanel ID="upAwards" runat="server">
+                        <asp:UpdatePanel ID="upCategory" runat="server">
                             <ContentTemplate>
                                 <asp:GridView ID="gvCategory"
                                     runat="server"
@@ -106,9 +106,11 @@
                                     AutoGenerateColumns="false"
                                     AllowPaging="true"
                                     DataKeyNames="Id"
+                                    PageSize="3"
                                     EmptyDataText="No Record(s) found"
-                                    OnRowDeleting="gvAwards_RowDeleting"
-                                    OnRowCommand="gvAwards_RowCommand">
+                                    OnPageIndexChanging="gvCategory_PageIndexChanging"
+                                    OnRowDeleting="gvCategory_RowDeleting"
+                                    OnRowCommand="gvCategory_RowCommand">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Row Id" Visible="false">
                                             <ItemTemplate>
@@ -118,9 +120,9 @@
 
                                         <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
 
-                                        <asp:TemplateField HeaderText="Description">
+                                        <asp:TemplateField HeaderText="Category">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
+                                                <asp:Label ID="lblCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -133,12 +135,12 @@
                                 <asp:Button ID="btnOpenModal"
                                     runat="server"
                                     CssClass="btn btn-info btn-sm"
-                                    Text="Add Award"
+                                    Text="Add Category"
                                     OnClick="btnOpenModal_Click"
                                     CausesValidation="false" />
                             </ContentTemplate>
                             <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="gvAwards" />
+                                <asp:AsyncPostBackTrigger ControlID="gvCategory" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
