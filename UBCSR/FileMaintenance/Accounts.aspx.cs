@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Web.Security;
 
 namespace UBCSR.FileMaintenance
 {
@@ -18,6 +19,7 @@ namespace UBCSR.FileMaintenance
             if (!Page.IsPostBack)
             {
                 bindData();
+                populateDropdowns();
             }
         }
 
@@ -187,6 +189,33 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#addModal').modal('show');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text, "pass123");
+            System.Web.Security.Roles.AddUserToRole(newUser.UserName, ddlAddRole.SelectedItem.Text);
+
+            fm.addUser(Guid.Parse(newUser.ProviderUserKey.ToString()),
+                txtAddFirstName.Text,
+                txtAddMiddleName.Text,
+                txtAddLastName.Text,
+                txtAddUserId.Text);
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#addModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+
+        }
+
+        protected void populateDropdowns()
+        {
+            ddlAddRole.DataSource = fm.getRoles();
+            ddlAddRole.DataTextField = "RoleName";
+            ddlAddRole.DataValueField = "RoleId";
+            ddlAddRole.DataBind();
         }
     }
 }

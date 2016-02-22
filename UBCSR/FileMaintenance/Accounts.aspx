@@ -16,40 +16,63 @@
                         <div class="modal-body">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="ddlAddCategory">Category</label>
-                                    <asp:DropDownList ID="ddlAddCategory" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <label for="ddlAddRole">Role</label>
+                                    <asp:DropDownList ID="ddlAddRole" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="ddlAddCategory"
+                                        ControlToValidate="ddlAddRole"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Role is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="ddlAddBrand">Brand</label>
-                                    <asp:DropDownList ID="ddlAddBrand" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="ddlAddBrand"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="txtAddItem">Item</label>
-                                    <asp:TextBox ID="txtAddItem" runat="server" CssClass="form-control" placeholder="Item"></asp:TextBox>
+                                    <label for="txtAddUserId">User Id</label>
+                                    <asp:TextBox ID="txtAddUserId" runat="server" CssClass="form-control" placeholder="User ID"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtAddItem"
+                                        ControlToValidate="txtAddUserId"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Item is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="ID is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtAddLastName">Last Name</label>
+                                    <asp:TextBox ID="txtAddLastName" runat="server" CssClass="form-control" placeholder="Last Name"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtAddLastName"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Last Name is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtAddMiddleName">Middle Name</label>
+                                    <asp:TextBox ID="txtAddMiddleName" runat="server" CssClass="form-control" placeholder="Middle Name"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtAddMiddleName"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Middle Name is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtAddFirstName">First Name</label>
+                                    <asp:TextBox ID="txtAddFirstName" runat="server" CssClass="form-control" placeholder="First Name"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtAddFirstName"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="First Name is required"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
 
@@ -66,7 +89,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="updateModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <!-- Update Modal content-->
@@ -152,6 +175,8 @@
                                     OnPageIndexChanging="gvAccount_PageIndexChanging"
                                     OnSelectedIndexChanging="gvAccount_SelectedIndexChanging">
                                     <Columns>
+                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+
                                         <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("StudentId") %>'></asp:Label>
@@ -185,7 +210,7 @@
                                         </asp:TemplateField>
 
                                         <asp:BoundField DataField="RoleName" HeaderText="Role" SortExpression="RoleName" />
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit Role" CommandName="editRecord" />
+
                                     </Columns>
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>

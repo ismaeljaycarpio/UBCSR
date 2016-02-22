@@ -75,6 +75,8 @@
                                         <li><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                                         <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
                                         <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
+                                        <hr />
+                                        <li><a runat="server" href="~/FileMaintenance/Roles.aspx">Roles</a></li>
                                     </ul>
                                 </li>
                             </ul>

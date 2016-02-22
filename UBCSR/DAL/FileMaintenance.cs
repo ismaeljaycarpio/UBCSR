@@ -344,7 +344,7 @@ namespace UBCSR.DAL
         #region Account
         public DataTable searchUser(string searchKeyWord)
         {
-            strSql = "SELECT Memberships.UserId, Memberships.IsApproved, " +
+            strSql = "SELECT Account.StudentId, Memberships.UserId, Memberships.IsApproved, " +
                 "Roles.RoleName, " +
                 "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
                 "FROM Memberships " +
@@ -379,7 +379,7 @@ namespace UBCSR.DAL
 
         public DataTable SelectUserAccounts(Guid UserId)
         {
-            strSql = "SELECT Memberships.UserId, Memberships.IsApproved, " +
+            strSql = "SELECT Account.StudentId, Memberships.UserId, Memberships.IsApproved, " +
                 "Roles.RoleName, Roles.RoleId," +
                 "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
                 "FROM Memberships, UsersInRoles, Roles,Account " +
@@ -466,10 +466,82 @@ namespace UBCSR.DAL
                 Roles.AddUserToRole(_user.UserName, roleName);
             }
         }
-        #endregion
 
-        #region Role
+        public void addUser(Guid UserId, string firstName, string middleName, string lastName, string studentId)
+        {
+            strSql = "INSERT INTO Account VALUES(@UserId,@FirstName,@MiddleName,@LastName,@StudentId)";
 
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@UserId", UserId);
+                comm.Parameters.AddWithValue("@FirstName", firstName);
+                comm.Parameters.AddWithValue("@MiddleName", middleName);
+                comm.Parameters.AddWithValue("@LastName", lastName);
+                comm.Parameters.AddWithValue("@StudentId", studentId);
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
+
+        public DataTable getRole(Guid roleId)
+        {
+            strSql = "SELECT * FROM Roles WHERE RoleId = @RoleId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+            comm = new SqlCommand(strSql, conn);
+            comm.Parameters.AddWithValue("@RoleId", roleId);
+            dTable = new DataTable();
+            adp = new SqlDataAdapter(comm);
+
+            conn.Open();
+            adp.Fill(dTable);
+            conn.Close();
+
+            return dTable;
+        }
+
+        public DataTable getRoles()
+        {
+            strSql = "SELECT * FROM Roles";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+            comm = new SqlCommand(strSql, conn);
+            dTable = new DataTable();
+            adp = new SqlDataAdapter(comm);
+
+            conn.Open();
+            adp.Fill(dTable);
+            conn.Close();
+
+            return dTable;
+        }
+
+        public void updateRole(string roleName, Guid RoleId)
+        {
+            strSql = "UPDATE Roles SET RoleName = @RoleName WHERE RoleId = @RoleId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@RoleId", RoleId);
+                comm.Parameters.AddWithValue("@RoleName", roleName);
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
 
         #endregion
     }
