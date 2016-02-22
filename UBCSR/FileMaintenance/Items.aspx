@@ -11,45 +11,45 @@
                     <ContentTemplate>
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Add Award</h4>
+                            <h4 class="modal-title">Add Item</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="txtAddDescription">Description</label>
-                                    <asp:TextBox ID="txtAddDescription" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
+                                    <label for="ddlAddCategory">Category</label>
+                                    <asp:DropDownList ID="ddlAddCategory" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtAddDescription"
+                                        ControlToValidate="ddlAddCategory"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Description is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtAddVenue">Venue</label>
-                                    <asp:TextBox ID="txtAddVenue" runat="server" CssClass="form-control" placeholder="Venue"></asp:TextBox>
+                                    <label for="ddlAddBrand">Brand</label>
+                                    <asp:DropDownList ID="ddlAddBrand" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtAddVenue"
+                                        ControlToValidate="ddlAddBrand"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Venue is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label for="txtAddDate">Date</label>
-                                    <asp:TextBox ID="txtAddDate" runat="server" CssClass="form-control clsDatePicker" placeholder="Date" data-provide="datepicker"></asp:TextBox>
+                                    <label for="txtAddItem">Item</label>
+                                    <asp:TextBox ID="txtAddItem" runat="server" CssClass="form-control" placeholder="Item"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtAddDate"
+                                        ControlToValidate="txtAddItem"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Date is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Item is required"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
 
@@ -77,7 +77,7 @@
                     <ContentTemplate>
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Edit Training</h4>
+                            <h4 class="modal-title">Edit Item</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form">
@@ -86,51 +86,51 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtEditDescription">Description</label>
-                                    <asp:TextBox ID="txtEditDescription" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
+                                    <label for="ddlEditCategory">Category</label>
+                                    <asp:DropDownList ID="ddlEditCategory" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtEditDescription"
+                                        ControlToValidate="ddlEditCategory"
                                         CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Description is required"></asp:RequiredFieldValidator>
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtEditVenue">Venue</label>
-                                    <asp:TextBox ID="txtEditVenue" runat="server" CssClass="form-control" placeholder="Venue"></asp:TextBox>
+                                    <label for="ddlEditBrand">Brand</label>
+                                    <asp:DropDownList ID="ddlEditBrand" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtEditVenue"
+                                        ControlToValidate="ddlEditBrand"
                                         CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Venue is required"></asp:RequiredFieldValidator>
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label for="txtEditDate">Date</label>
-                                    <asp:TextBox ID="txtEditDate" runat="server" CssClass="form-control" placeholder="Date" data-provide="datepicker"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
+                                    <label for="txtEditItem">Item</label>
+                                    <asp:TextBox ID="txtEditItem" runat="server" CssClass="form-control" placeholder="Item"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtEditDate"
+                                        ControlToValidate="txtEditItem"
                                         CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Date is required"></asp:RequiredFieldValidator>
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Item is required"></asp:RequiredFieldValidator>
                                 </div>
 
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary" Text="Update" ValidationGroup="vsEdit" OnClick="btnUpdate_Click" />
+                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary" Text="Update" ValidationGroup="vgEdit" OnClick="btnUpdate_Click" />
                             <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
                     </ContentTemplate>
                     <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="gvAwards" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="gvItem" EventName="RowCommand" />
                         <asp:AsyncPostBackTrigger ControlID="btnUpdate" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
@@ -143,14 +143,14 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h5>Awards</h5>
+                    <h5>Items</h5>
                 </div>
 
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <asp:UpdatePanel ID="upAwards" runat="server">
+                        <asp:UpdatePanel ID="upItems" runat="server">
                             <ContentTemplate>
-                                <asp:GridView ID="gvAwards"
+                                <asp:GridView ID="gvItem"
                                     runat="server"
                                     class="table table-striped table-hover"
                                     GridLines="None"
@@ -159,8 +159,9 @@
                                     AllowPaging="true"
                                     DataKeyNames="Id"
                                     EmptyDataText="No Record(s) found"
-                                    OnRowDeleting="gvAwards_RowDeleting"
-                                    OnRowCommand="gvAwards_RowCommand">
+                                    OnPageIndexChanging="gvItem_PageIndexChanging"
+                                    OnRowDeleting="gvItem_RowDeleting"
+                                    OnRowCommand="gvItem_RowCommand">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Row Id" Visible="false">
                                             <ItemTemplate>
@@ -170,21 +171,21 @@
 
                                         <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
 
-                                        <asp:TemplateField HeaderText="Description">
+                                        <asp:TemplateField HeaderText="Category">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
+                                                <asp:Label ID="lblCategory" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Venue">
+                                        <asp:TemplateField HeaderText="Brand">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblVenue" runat="server" Text='<%# Eval("Venue") %>'></asp:Label>
+                                                <asp:Label ID="lblBrand" runat="server" Text='<%# Eval("BrandName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Date">
+                                        <asp:TemplateField HeaderText="Item">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>'></asp:Label>
+                                                <asp:Label ID="lblItem" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -196,12 +197,12 @@
                                 <asp:Button ID="btnOpenModal"
                                     runat="server"
                                     CssClass="btn btn-info btn-sm"
-                                    Text="Add Award"
+                                    Text="Add Item"
                                     OnClick="btnOpenModal_Click"
                                     CausesValidation="false" />
                             </ContentTemplate>
                             <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="gvAwards" />
+                                <asp:AsyncPostBackTrigger ControlID="gvItem" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>

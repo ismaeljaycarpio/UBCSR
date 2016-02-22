@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.Configuration;
+using System.Web.Security;
 
 
 namespace UBCSR.DAL
@@ -186,12 +187,14 @@ namespace UBCSR.DAL
         #endregion
 
         #region Item
-        public void addItem(string itemName)
+        public void addItem(string itemCatId, string itemBrandId, string itemName)
         {
-            strSql = "INSERT INTO Item VALUES(@ItemName)";
+            strSql = "INSERT INTO Item VALUES(@ItemCategoryId,@ItemBrandId,@ItemName)";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@ItemCategoryId", itemCatId);
+                comm.Parameters.AddWithValue("@ItemBrandId", itemBrandId);
                 comm.Parameters.AddWithValue("@ItemName", itemName);
                 conn.Open();
                 comm.ExecuteNonQuery();
@@ -200,13 +203,16 @@ namespace UBCSR.DAL
             }
         }
 
-        public void editItem(string itemName)
+        public void editItem(string itemCatId, string itemBrandId, string itemName, string Id)
         {
-            strSql = "UPDATE Item SET ItemName = @ItemName";
+            strSql = "UPDATE Item SET ItemCategoryId = @ItemCategoryId, ItemBrandId = @ItemBrandId, ItemName = @ItemName WHERE Id = @Id";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@ItemCategoryId", itemCatId);
+                comm.Parameters.AddWithValue("@ItemBrandId", itemBrandId);
                 comm.Parameters.AddWithValue("@ItemName", itemName);
+                comm.Parameters.AddWithValue("@Id", Id);
                 conn.Open();
                 comm.ExecuteNonQuery();
                 comm.Dispose();
@@ -230,7 +236,11 @@ namespace UBCSR.DAL
 
         public DataTable searchItem(string itemSearch)
         {
-            strSql = "SELECT * FROM Item WHERE ItemName LIKE '%'@ItemName'%'";
+            strSql = "SELECT Item.Id, ItemCategory.CategoryName, ItemBrand.BrandName, Item.ItemName FROM " +
+                "ItemCategory, ItemBrand, Item " +
+                "WHERE Item.ItemCategoryId = ItemCategory.Id AND " +
+                "Item.ItemBrandId = ItemBrand.Id AND " +
+                "Item.ItemName LIKE '%' + @ItemName + '%'";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
@@ -247,10 +257,29 @@ namespace UBCSR.DAL
             }
         }
 
+        public DataTable getItem(int rowId)
+        {
+            strSql = "SELECT * FROM Item WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@Id", rowId);
+                dTable = new DataTable();
+                adp = new SqlDataAdapter(comm);
+
+                conn.Open();
+                adp.Fill(dTable);
+                comm.Dispose();
+                conn.Close();
+
+                return dTable;
+            }
+        }
+
         //category
         public DataTable searchItemByCat(string itemSearch, string itemCat)
         {
-            strSql = "SELECT * FROM Item WHERE ItemName LIKE '%'@ItemName'%' AND ItemCat = @ItemCat";
+            strSql = "SELECT * FROM Item WHERE ItemName LIKE '%' + @ItemName + '%' AND ItemCategoryId = @ItemCat";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
@@ -271,7 +300,7 @@ namespace UBCSR.DAL
         //brand
         public DataTable searchItemByBrand(string itemSearch, string itemBrand)
         {
-            strSql = "SELECT * FROM Item WHERE ItemName LIKE '%'@ItemName'%' AND ItemBrand = @ItemBrand";
+            strSql = "SELECT * FROM Item WHERE ItemName LIKE '%'@ItemName'%' AND ItemBrandId = @ItemBrandId";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
@@ -310,6 +339,138 @@ namespace UBCSR.DAL
                 return dTable;
             }
         }
+        #endregion
+
+        #region Account
+        public DataTable searchUser(string searchKeyWord)
+        {
+            strSql = "SELECT Memberships.UserId, Memberships.IsApproved, " +
+                "Roles.RoleName, " +
+                "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
+                "FROM Memberships " +
+                "LEFT JOIN UsersInRoles " +
+                "ON Memberships.UserId = UsersInRoles.UserId " +
+                "LEFT JOIN Roles " +
+                "ON Roles.RoleId = UsersInRoles.RoleId " +
+                "LEFT JOIN Account " +
+                "ON Memberships.UserId = +Account.UserId " +
+                "WHERE " +
+                "(Account.FirstName LIKE '%' + @searchKeyWord + '%' OR " +
+                "Account.MiddleName LIKE '%' + @searchKeyWord + '%' OR " +
+                "Account.LastName LIKE '%' + @searchKeyWord + '%') " +
+                "ORDER BY Account.Id ASC";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+            comm = new SqlCommand(strSql, conn);
+            comm.Parameters.AddWithValue("@searchKeyWord", searchKeyWord);
+            dTable = new DataTable();
+            adp = new SqlDataAdapter(comm);
+
+            conn.Open();
+            adp.Fill(dTable);
+
+            comm.Dispose();
+            adp.Dispose();
+            conn.Close();
+
+            return dTable;
+        }
+
+        public DataTable SelectUserAccounts(Guid UserId)
+        {
+            strSql = "SELECT Memberships.UserId, Memberships.IsApproved, " +
+                "Roles.RoleName, Roles.RoleId," +
+                "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
+                "FROM Memberships, UsersInRoles, Roles,Account " +
+                "WHERE " +
+                "Memberships.UserId = Account.UserId " +
+                "AND Memberships.UserId = UsersInRoles.UserId " +
+                "AND UsersInRoles.RoleId = Roles.RoleId " +
+                "AND Memberships.UserId = @UserId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+            comm = new SqlCommand(strSql, conn);
+            comm.Parameters.AddWithValue("@UserId", UserId);
+            dTable = new DataTable();
+            adp = new SqlDataAdapter(comm);
+
+            conn.Open();
+            adp.Fill(dTable);
+            conn.Close();
+
+            return dTable;
+        }
+
+        public void DeactivateUser(Guid UserId)
+        {
+            strSql = "UPDATE Memberships SET IsApproved = 'False' WHERE UserId = @UserId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@UserId", UserId);
+
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
+
+        public void ActivateUser(Guid UserId)
+        {
+            strSql = "UPDATE Memberships SET IsApproved = 'True' WHERE UserId = @UserId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@UserId", UserId);
+
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
+
+        public void ResetPassword(Guid UserId)
+        {
+            MembershipUser mu = Membership.GetUser(UserId);
+            string userName = mu.UserName;
+
+            mu.ChangePassword(mu.ResetPassword(), "pass123");
+        }
+
+        public void ChangeRole(Guid UserId, string roleName)
+        {
+            //get user
+            MembershipUser _user = Membership.GetUser(UserId);
+
+            //remove user from all his/her roles
+            foreach (string role in Roles.GetRolesForUser(_user.UserName))
+            {
+                Roles.RemoveUserFromRole(_user.UserName, role);
+            }
+
+            //assign user to new role
+            if (!Roles.IsUserInRole(_user.UserName, roleName))
+            {
+                Roles.AddUserToRole(_user.UserName, roleName);
+            }
+        }
+        #endregion
+
+        #region Role
+
+
         #endregion
     }
 }

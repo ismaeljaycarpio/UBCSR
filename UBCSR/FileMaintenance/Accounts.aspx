@@ -1,6 +1,72 @@
 ﻿<%@ Page Title="Accounts" Language="C#" MasterPageFile="~/NestedFileMaintenance.master" AutoEventWireup="true" CodeBehind="Accounts.aspx.cs" Inherits="UBCSR.FileMaintenance.Accounts" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <!-- Add Modal -->
+    <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="upAdd" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add User</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="ddlAddCategory">Category</label>
+                                    <asp:DropDownList ID="ddlAddCategory" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlAddCategory"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlAddBrand">Brand</label>
+                                    <asp:DropDownList ID="ddlAddBrand" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlAddBrand"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="txtAddItem">Item</label>
+                                    <asp:TextBox ID="txtAddItem" runat="server" CssClass="form-control" placeholder="Item"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtAddItem"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Item is required"></asp:RequiredFieldValidator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary" Text="Save" ValidationGroup="vgAdd" OnClick="btnSave_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="btnSave" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+    
     <div id="updateModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <!-- Update Modal content-->
@@ -36,7 +102,7 @@
                         </div>
                     </ContentTemplate>
                     <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="gvEmployee" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="gvAccount" EventName="RowCommand" />
                         <asp:AsyncPostBackTrigger ControlID="btnUpdate" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
@@ -48,7 +114,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h5>Employee Accounts</h5>
+                    <h5>User Accounts</h5>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -68,12 +134,10 @@
                         </div>
                     </div>
 
-                    <asp:Button runat="server" Text="Word" ID="btnExportToPDF" OnClick="btnExportToPDF_Click" />
-                    <asp:Button runat="server" ID="btnExcel" OnClick="btnExcel_Click" Text="Excel" />
                     <div class="table-responsive">
-                        <asp:UpdatePanel ID="upEmployee" runat="server">
+                        <asp:UpdatePanel ID="upAccount" runat="server">
                             <ContentTemplate>
-                                <asp:GridView ID="gvEmployee"
+                                <asp:GridView ID="gvAccount"
                                     runat="server"
                                     class="table table-striped table-hover dataTable"
                                     GridLines="None"
@@ -82,15 +146,15 @@
                                     ShowFooter="true"
                                     AllowSorting="true"
                                     DataKeyNames="UserId"
-                                    OnSorting="gvEmployee_Sorting"
-                                    OnRowDataBound="gvEmployee_RowDataBound"
-                                    OnRowCommand="gvEmployee_RowCommand"
-                                    OnPageIndexChanging="gvEmployee_PageIndexChanging"
-                                    OnSelectedIndexChanging="gvEmployee_SelectedIndexChanging">
+                                    OnSorting="gvAccount_Sorting"
+                                    OnRowDataBound="gvAccount_RowDataBound"
+                                    OnRowCommand="gvAccount_RowCommand"
+                                    OnPageIndexChanging="gvAccount_PageIndexChanging"
+                                    OnSelectedIndexChanging="gvAccount_SelectedIndexChanging">
                                     <Columns>
-                                        <asp:TemplateField HeaderText="ID" SortExpression="Emp_Id">
+                                        <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblEmp_Id" runat="server" Text='<%# Eval("Emp_Id") %>'></asp:Label>
+                                                <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("StudentId") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -125,9 +189,16 @@
                                     </Columns>
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
+                                <!-- Trigger the modal with a button -->
+                                <asp:Button ID="btnOpenModal"
+                                    runat="server"
+                                    CssClass="btn btn-info btn-sm"
+                                    Text="Add User"
+                                    OnClick="btnOpenModal_Click"
+                                    CausesValidation="false" />
                             </ContentTemplate>
                             <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="gvEmployee" />
+                                <asp:AsyncPostBackTrigger ControlID="gvAccount" />
                             </Triggers>
                         </asp:UpdatePanel>
 

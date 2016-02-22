@@ -106,7 +106,6 @@
                                     AutoGenerateColumns="false"
                                     AllowPaging="true"
                                     DataKeyNames="Id"
-                                    PageSize="3"
                                     EmptyDataText="No Record(s) found"
                                     OnPageIndexChanging="gvCategory_PageIndexChanging"
                                     OnRowDeleting="gvCategory_RowDeleting"

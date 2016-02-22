@@ -252,6 +252,7 @@
     <Content Include="FileMaintenance\Brands.aspx" />
     <Content Include="FileMaintenance\Categories.aspx" />
     <Content Include="FileMaintenance\Items.aspx" />
+    <Content Include="FileMaintenance\Roles.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
@@ -441,6 +442,13 @@
     </Compile>
     <Compile Include="FileMaintenance\Items.aspx.designer.cs">
       <DependentUpon>Items.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FileMaintenance\Roles.aspx.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FileMaintenance\Roles.aspx.designer.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
