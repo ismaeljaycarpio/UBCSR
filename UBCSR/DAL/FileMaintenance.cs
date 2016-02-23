@@ -353,7 +353,7 @@ namespace UBCSR.DAL
                 "LEFT JOIN Roles " +
                 "ON Roles.RoleId = UsersInRoles.RoleId " +
                 "LEFT JOIN Account " +
-                "ON Memberships.UserId = +Account.UserId " +
+                "ON Memberships.UserId = Account.UserId " +
                 "WHERE " +
                 "(Account.FirstName LIKE '%' + @searchKeyWord + '%' OR " +
                 "Account.MiddleName LIKE '%' + @searchKeyWord + '%' OR " +

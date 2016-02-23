@@ -167,6 +167,8 @@
                                     AutoGenerateColumns="false"
                                     AllowPaging="true"
                                     ShowFooter="true"
+                                    ShowHeaderWhenEmpty="true"
+                                    EmptyDataText="No Record(s) found"
                                     AllowSorting="true"
                                     DataKeyNames="UserId"
                                     OnSorting="gvAccount_Sorting"
