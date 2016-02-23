@@ -22,7 +22,7 @@ namespace UBCSR.FileMaintenance
 
         protected void bindData()
         {
-            gvCategory.DataSource = fm.searchCategory("");
+            gvCategory.DataSource = fm.searchCategory(txtSearch.Text);
             gvCategory.DataBind();
         }
 
@@ -86,12 +86,39 @@ namespace UBCSR.FileMaintenance
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
             }
+            else if (e.CommandName.Equals("deleteRecord"))
+            {
+                string rowId = ((Label)gvCategory.Rows[index].FindControl("lblRowId")).Text;
+                hfDeleteId.Value = rowId;
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#deleteModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void gvCategory_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvCategory.PageIndex = e.NewPageIndex;
             bindData();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            bindData();
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            fm.deleteCategory(hfDeleteId.Value);
+            bindData();
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#deleteModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
 
     }

@@ -381,7 +381,7 @@ namespace UBCSR.DAL
         {
             strSql = "SELECT Account.StudentId, Memberships.UserId, Memberships.IsApproved, " +
                 "Roles.RoleName, Roles.RoleId," +
-                "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
+                "Account.LastName, Account.FirstName,Account.MiddleName " +
                 "FROM Memberships, UsersInRoles, Roles,Account " +
                 "WHERE " +
                 "Memberships.UserId = Account.UserId " +
@@ -507,13 +507,14 @@ namespace UBCSR.DAL
             return dTable;
         }
 
-        public DataTable getRoles()
+        public DataTable getRoles(string roleName)
         {
-            strSql = "SELECT * FROM Roles";
+            strSql = "SELECT * FROM Roles WHERE RoleName LIKE '%' + @RoleName + '%'";
 
             conn = new SqlConnection();
             conn.ConnectionString = CONN_STRING;
             comm = new SqlCommand(strSql, conn);
+            comm.Parameters.AddWithValue("@RoleName", roleName);
             dTable = new DataTable();
             adp = new SqlDataAdapter(comm);
 
@@ -542,6 +543,71 @@ namespace UBCSR.DAL
             comm.Dispose();
             conn.Dispose();
         }
+
+        public void changeUsername(Guid UserId, string newUsername)
+        {
+            strSql = "UPDATE Users SET UserName = @UserName WHERE UserId = @UserId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@UserName", newUsername);
+                comm.Parameters.AddWithValue("@UserId", UserId);
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
+
+        public void editUser(Guid UserId, string firstName, string middleName, string lastName, string studentId)
+        {
+            strSql = "UPDATE Account SET " +
+                "FirstName = @FirstName, " +
+                "MiddleName = @MiddleName, " +
+                "LastName = @LastName, " +
+                "StudentId = @StudentId " +
+                "WHERE UserId = @UserId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@FirstName", firstName);
+                comm.Parameters.AddWithValue("@MiddleName", middleName);
+                comm.Parameters.AddWithValue("@LastName", lastName);
+                comm.Parameters.AddWithValue("@StudentId", studentId);
+                comm.Parameters.AddWithValue("@UserId", UserId);
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
+
+        public void deleteUser(string userName)
+        {
+            strSql = "DELETE FROM Account WHERE StudentId = @StudentId";
+
+            conn = new SqlConnection();
+            conn.ConnectionString = CONN_STRING;
+
+            using (comm = new SqlCommand(strSql, conn))
+            {
+                conn.Open();
+                comm.Parameters.AddWithValue("@StudentId", userName);
+                comm.ExecuteNonQuery();
+                conn.Close();
+            }
+            comm.Dispose();
+            conn.Dispose();
+        }
+
 
         #endregion
     }

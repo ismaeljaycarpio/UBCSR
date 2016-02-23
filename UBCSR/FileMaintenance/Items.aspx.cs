@@ -24,7 +24,7 @@ namespace UBCSR.FileMaintenance
 
         protected void bindData()
         {
-            gvItem.DataSource = fm.searchItem("");
+            gvItem.DataSource = fm.searchItem(txtSearch.Text);
             gvItem.DataBind();
         }
 
@@ -90,6 +90,17 @@ namespace UBCSR.FileMaintenance
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
             }
+            else if (e.CommandName.Equals("deleteRecord"))
+            {
+                string rowId = ((Label)gvItem.Rows[index].FindControl("lblRowId")).Text;
+                hfDeleteId.Value = rowId;
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#deleteModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void gvItem_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -119,6 +130,22 @@ namespace UBCSR.FileMaintenance
             ddlEditBrand.DataTextField = "BrandName";
             ddlEditBrand.DataValueField = "Id";
             ddlEditBrand.DataBind();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            bindData();
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            fm.deleteItem(hfDeleteId.Value);
+            bindData();
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#deleteModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
     }
 }

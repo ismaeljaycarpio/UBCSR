@@ -22,7 +22,7 @@ namespace UBCSR.FileMaintenance
 
         protected void bindData()
         {
-            gvRole.DataSource = fm.getRoles();
+            gvRole.DataSource = fm.getRoles(txtSearch.Text);
             gvRole.DataBind();
         }
 
@@ -85,6 +85,17 @@ namespace UBCSR.FileMaintenance
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
             }
+            else if (e.CommandName.Equals("deleteRecord"))
+            {
+                string rowId = ((Label)gvRole.Rows[index].FindControl("lblRoleName")).Text;
+                lblDeleteId.Text = rowId;
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#deleteModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
@@ -94,6 +105,24 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#addModal').modal('show');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            bindData();
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            System.Web.Security.Roles.DeleteRole(lblDeleteId.Text);
+
+            bindData();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#deleteModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
     }
 }

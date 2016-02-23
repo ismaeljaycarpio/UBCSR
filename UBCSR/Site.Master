@@ -81,16 +81,12 @@
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
+                                <li>
                                     <a runat="server"
-                                        href="#"
-                                        class="dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        role="button"
-                                        aria-haspopup="true"
-                                        aria-expanded="false">
+                                        href="~/Account/ChangePassword.aspx">
                                         <asp:LoginName ID="LoginName1" runat="server" />
                                         <span class="glyphicon glyphicon-user"></span>
+                                        <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault()%></span>
                                     </a>
                                 </li>
                                 <li>

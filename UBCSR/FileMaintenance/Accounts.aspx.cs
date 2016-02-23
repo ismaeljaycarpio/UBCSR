@@ -25,7 +25,22 @@ namespace UBCSR.FileMaintenance
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            fm.ChangeRole(Guid.Parse(lblRowId.Text), DDLRole.SelectedItem.Text);
+            //change username
+            fm.changeUsername(Guid.Parse(lblRowId.Text), txtEditUserId.Text);
+
+            //remove to existing role
+            System.Web.Security.Roles.RemoveUserFromRoles(txtEditUserId.Text,
+                System.Web.Security.Roles.GetRolesForUser(txtEditUserId.Text));
+        
+            //add to role
+            System.Web.Security.Roles.AddUserToRole(txtEditUserId.Text, ddlEditRole.SelectedItem.Text);
+
+            //update user's info
+            fm.editUser(Guid.Parse(lblRowId.Text),
+                txtEditFirstName.Text,
+                txtEditMiddleName.Text,
+                txtEditLastName.Text,
+                txtEditUserId.Text);
 
             bindData();
 
@@ -126,13 +141,29 @@ namespace UBCSR.FileMaintenance
 
                 dt = fm.SelectUserAccounts((Guid)(gvAccount.DataKeys[index].Value));
                 lblRowId.Text = dt.Rows[0]["UserId"].ToString();
-                txtEditName.Text = dt.Rows[0]["FullName"].ToString();
-                DDLRole.SelectedValue = dt.Rows[0]["RoleId"].ToString();
+                txtEditFirstName.Text = dt.Rows[0]["FirstName"].ToString();
+                txtEditMiddleName.Text = dt.Rows[0]["MiddleName"].ToString();
+                txtEditLastName.Text = dt.Rows[0]["LastName"].ToString();
+                txtEditUserId.Text = dt.Rows[0]["StudentId"].ToString();
+                ddlEditRole.SelectedValue = dt.Rows[0]["RoleId"].ToString();
 
                 sb.Append(@"<script type='text/javascript'>");
                 sb.Append("$('#updateModal').modal('show');");
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
+            }
+            else if(e.CommandName.Equals("deleteRecord"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                string userName = ((Label)gvAccount.Rows[index].FindControl("lblStudentId")).Text;
+                lblStudentId.Text = userName;
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#deleteModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
         }
 
@@ -202,6 +233,8 @@ namespace UBCSR.FileMaintenance
                 txtAddLastName.Text,
                 txtAddUserId.Text);
 
+            bindData();
+
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#addModal').modal('hide');");
@@ -212,10 +245,42 @@ namespace UBCSR.FileMaintenance
 
         protected void populateDropdowns()
         {
-            ddlAddRole.DataSource = fm.getRoles();
+            ddlAddRole.DataSource = fm.getRoles("");
             ddlAddRole.DataTextField = "RoleName";
             ddlAddRole.DataValueField = "RoleId";
             ddlAddRole.DataBind();
+
+            ddlEditRole.DataSource = fm.getRoles("");
+            ddlEditRole.DataTextField = "RoleName";
+            ddlEditRole.DataValueField = "RoleId";
+            ddlEditRole.DataBind();
+        }
+
+        protected void gvAccount_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            string userName = ((Label)gvAccount.Rows[e.RowIndex].FindControl("lblStudentId")).Text;
+            Membership.DeleteUser(userName, true);
+
+            //delete account info
+            fm.deleteUser(userName);
+
+            bindData();
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            Membership.DeleteUser(lblStudentId.Text, true);
+
+            //delete account info
+            fm.deleteUser(lblStudentId.Text);
+
+            bindData();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#deleteModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
     }
 }

@@ -2,10 +2,33 @@
 ===========================================================================
 Task ===============================  UI  =========== Functionality =======
 ===========================================================================
+DELETE - No Confirmation
+
 Login
 Logout
+Change Password
+Reset Password
+Activate/Deactivate Account
 
+Add User
+Edit User
+Search User (basic)
+Delete User
 
+Add Category
+Edit
+Delete
+Search 
+
+Add Brand
+Edit
+Delete
+Search 
+
+Add Item
+Edit
+Delete
+Search 
 
 
 
@@ -13,7 +36,18 @@ Logout
 
 ===========================================================================
 ===========================================================================
-Categories - Id,CategoryName
-Brand - Id,BrandName
-Item - Id,ItemName,ItemBrandId
+ItemCategory - Id,CategoryName
+ItemBrand - Id,BrandName
+Item - Id,ItemCategoryId, ItemBrandId, ItemName
+Account - Id, UserId, FirstName, MiddleName, LastName, StudentId
+
+Inventory
+- add item to inventory table(expiration date/)
+
+Borrowing
+
+Returning
+
+Reports
+
 
