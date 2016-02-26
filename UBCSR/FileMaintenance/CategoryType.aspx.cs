@@ -6,30 +6,31 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
+
 namespace UBCSR.FileMaintenance
 {
-    public partial class Categories : System.Web.UI.Page
+    public partial class CategoryType : System.Web.UI.Page
     {
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!Page.IsPostBack)
+            if (!Page.IsPostBack)
             {
                 bindData();
-                populateDropdowns();
             }
         }
 
         protected void bindData()
         {
-            gvCategory.DataSource = fm.searchCategory(txtSearch.Text);
+            gvCategory.DataSource = fm.searchCategoryType(txtSearch.Text);
             gvCategory.DataBind();
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            fm.addCategory(txtAddCategory.Text, ddlAddCategoryType.SelectedValue);
+            fm.addCategoryType(txtAddCategoryType.Text);
 
             bindData();
 
@@ -42,9 +43,9 @@ namespace UBCSR.FileMaintenance
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-           fm.editCategory(txtEditCategory.Text, ddlEditCategoryType.SelectedValue,lblRowId.Text);
+            fm.editCategoryType(txtEditCategoryType.Text, lblRowId.Text);
 
-           bindData();
+            bindData();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -53,21 +54,31 @@ namespace UBCSR.FileMaintenance
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditHideModalScript", sb.ToString(), false);
         }
 
-        protected void btnOpenModal_Click(object sender, EventArgs e)
+        protected void btnDelete_Click(object sender, EventArgs e)
         {
+            fm.deleteCategoryType(hfDeleteId.Value);
+            bindData();
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('show');");
+            sb.Append("$('#deleteModal').modal('hide');");
             sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            bindData();
+        }
+
+        protected void gvCategory_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvCategory.PageIndex = e.NewPageIndex;
+            bindData();
         }
 
         protected void gvCategory_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            string rowId = ((Label)gvCategory.Rows[e.RowIndex].FindControl("lblRowId")).Text;
-            fm.deleteCategory(rowId);
 
-            bindData();
         }
 
         protected void gvCategory_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -78,10 +89,9 @@ namespace UBCSR.FileMaintenance
             {
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-                dt = fm.getCategory((int)(gvCategory.DataKeys[index].Value));
+                dt = fm.getCategoryType((int)(gvCategory.DataKeys[index].Value));
                 lblRowId.Text = dt.Rows[0]["Id"].ToString();
-                ddlEditCategoryType.SelectedValue = dt.Rows[0]["CategoryTypeId"].ToString();
-                txtEditCategory.Text = dt.Rows[0]["CategoryName"].ToString();
+                txtEditCategoryType.Text = dt.Rows[0]["CategoryType"].ToString();
 
                 sb.Append(@"<script type='text/javascript'>");
                 sb.Append("$('#updateModal').modal('show');");
@@ -101,40 +111,13 @@ namespace UBCSR.FileMaintenance
             }
         }
 
-        protected void gvCategory_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-            gvCategory.PageIndex = e.NewPageIndex;
-            bindData();
-        }
-
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            bindData();
-        }
-
-        protected void btnDelete_Click(object sender, EventArgs e)
-        {
-            fm.deleteCategory(hfDeleteId.Value);
-            bindData();
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#deleteModal').modal('hide');");
+            sb.Append("$('#addModal').modal('show');");
             sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
         }
-
-        protected void populateDropdowns()
-        {
-            ddlAddCategoryType.DataSource = fm.searchCategoryType("");
-            ddlAddCategoryType.DataTextField = "CategoryType";
-            ddlAddCategoryType.DataValueField = "Id";
-            ddlAddCategoryType.DataBind();
-
-            ddlEditCategoryType.DataSource = fm.searchCategoryType("");
-            ddlEditCategoryType.DataTextField = "CategoryType";
-            ddlEditCategoryType.DataValueField = "Id";
-            ddlEditCategoryType.DataBind();
-        }
-
     }
 }

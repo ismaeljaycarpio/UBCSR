@@ -194,10 +194,12 @@
     <Content Include="FileMaintenance\Accounts.aspx" />
     <Content Include="FileMaintenance\Brands.aspx" />
     <Content Include="FileMaintenance\Categories.aspx" />
+    <Content Include="FileMaintenance\CategoryType.aspx" />
     <Content Include="FileMaintenance\Items.aspx" />
     <Content Include="FileMaintenance\Roles.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Inventory\Default.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
@@ -350,6 +352,13 @@
     <Compile Include="FileMaintenance\Categories.aspx.designer.cs">
       <DependentUpon>Categories.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FileMaintenance\CategoryType.aspx.cs">
+      <DependentUpon>CategoryType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FileMaintenance\CategoryType.aspx.designer.cs">
+      <DependentUpon>CategoryType.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FileMaintenance\Items.aspx.cs">
       <DependentUpon>Items.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -366,6 +375,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventory\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Categories" Language="C#" MasterPageFile="~/NestedFileMaintenance.master" AutoEventWireup="true" CodeBehind="Categories.aspx.cs" Inherits="UBCSR.FileMaintenance.Categories" %>
+﻿<%@ Page Title="Category Type" Language="C#" MasterPageFile="~/NestedFileMaintenance.master" AutoEventWireup="true" CodeBehind="CategoryType.aspx.cs" Inherits="UBCSR.FileMaintenance.CategoryType" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!-- Add Modal -->
@@ -11,32 +11,20 @@
                     <ContentTemplate>
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Add Category</h4>
+                            <h4 class="modal-title">Add Category Type</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="ddlAddCategoryType">Category Type</label>
-                                    <asp:DropDownList ID="ddlAddCategoryType" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="ddlAddCategoryType"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="txtAddCategory">Category</label>
-                                    <asp:TextBox ID="txtAddCategory" runat="server" CssClass="form-control" placeholder="Category"></asp:TextBox>
+                                    <label for="txtAddCategoryType">Category Type</label>
+                                    <asp:TextBox ID="txtAddCategoryType" runat="server" CssClass="form-control" placeholder="Category Type"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtAddCategory"
+                                        ControlToValidate="txtAddCategoryType"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
-                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +51,7 @@
                     <ContentTemplate>
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Edit Category</h4>
+                            <h4 class="modal-title">Edit Category Type</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form">
@@ -72,27 +60,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="ddlEditCategoryType">Category Type</label>
-                                    <asp:DropDownList ID="ddlEditCategoryType" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="ddlEditCategoryType"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="txtEditCategory">Category</label>
-                                    <asp:TextBox ID="txtEditCategory" runat="server" CssClass="form-control" placeholder="Description"></asp:TextBox>
+                                    <label for="txtEditCategoryType">Category Type</label>
+                                    <asp:TextBox ID="txtEditCategoryType" runat="server" CssClass="form-control" placeholder="Category Type"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="txtEditCategory"
+                                        ControlToValidate="txtEditCategoryType"
                                         CssClass="label label-danger"
                                         ValidationGroup="vsEdit"
-                                        ErrorMessage="Category is required"></asp:RequiredFieldValidator>
+                                        ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +120,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h5>Categories</h5>
+                    <h5>Category Type</h5>
                 </div>
 
                 <div class="panel-body">
@@ -189,12 +165,6 @@
 
                                         <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
 
-                                        <asp:TemplateField HeaderText="Category">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
                                         <asp:TemplateField HeaderText="Category Type">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblCategoryType" runat="server" Text='<%# Eval("CategoryType") %>'></asp:Label>
@@ -210,7 +180,7 @@
                                 <asp:Button ID="btnOpenModal"
                                     runat="server"
                                     CssClass="btn btn-info btn-sm"
-                                    Text="Add Category"
+                                    Text="Add Category Type"
                                     OnClick="btnOpenModal_Click"
                                     CausesValidation="false" />
                             </ContentTemplate>

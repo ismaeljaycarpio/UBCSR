@@ -19,14 +19,14 @@ namespace UBCSR.DAL
         SqlDataAdapter adp;
         DataTable dTable;
 
-        #region Category
-        public void addCategory(string categoryName)
+        #region CategoryType
+        public void addCategoryType(string categoryType)
         {
-            strSql = "INSERT INTO ItemCategory VALUES(@CategoryName)";
+            strSql = "INSERT INTO ItemCategoryType VALUES(@CategoryType)";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
-                comm.Parameters.AddWithValue("@CategoryName", categoryName);
+                comm.Parameters.AddWithValue("@CategoryType", categoryType);
                 conn.Open();
                 comm.ExecuteNonQuery();
                 comm.Dispose();
@@ -34,13 +34,98 @@ namespace UBCSR.DAL
             }
         }
 
-        public void editCategory(string categoryName, string Id)
+        public void editCategoryType(string categoryType, string Id)
         {
-            strSql = "UPDATE ItemCategory SET CategoryName = @CategoryName WHERE Id = @Id";
+            strSql = "UPDATE ItemCategoryType SET CategoryType = @CategoryType WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@CategoryType", categoryType);
+                comm.Parameters.AddWithValue("@Id", Id);
+                conn.Open();
+                comm.ExecuteNonQuery();
+                comm.Dispose();
+                conn.Close();
+            }
+        }
+
+        public void deleteCategoryType(string categoryId)
+        {
+            strSql = "DELETE ItemCategoryType WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@Id", categoryId);
+                conn.Open();
+                comm.ExecuteNonQuery();
+                comm.Dispose();
+                conn.Close();
+            }
+        }
+
+        public DataTable searchCategoryType(string categoryType)
+        {
+            strSql = "SELECT * FROM ItemCategoryType WHERE CategoryType LIKE '%' + @CategoryType + '%'";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@CategoryType", categoryType);
+                dTable = new DataTable();
+                adp = new SqlDataAdapter(comm);
+
+                conn.Open();
+                adp.Fill(dTable);
+                comm.Dispose();
+                conn.Close();
+
+                return dTable;
+            }
+        }
+
+        public DataTable getCategoryType(int categoryId)
+        {
+            strSql = "SELECT * FROM ItemCategoryType WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@Id", categoryId);
+                dTable = new DataTable();
+                adp = new SqlDataAdapter(comm);
+
+                conn.Open();
+                adp.Fill(dTable);
+                comm.Dispose();
+                conn.Close();
+
+                return dTable;
+            }
+        }
+        #endregion
+
+        #region Category
+        public void addCategory(string categoryName, string categoryTypeId)
+        {
+            strSql = "INSERT INTO ItemCategory VALUES(@CategoryName,@CategoryTypeId)";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@CategoryName", categoryName);
+                comm.Parameters.AddWithValue("@CategoryTypeId", categoryTypeId);
+                conn.Open();
+                comm.ExecuteNonQuery();
+                comm.Dispose();
+                conn.Close();
+            }
+        }
+
+        public void editCategory(string categoryName, string categoryTypeId, string Id)
+        {
+            strSql = "UPDATE ItemCategory SET CategoryName = @CategoryName, CategoryTypeId = @CategoryTypeId WHERE Id = @Id";
+            using (conn = new SqlConnection(CONN_STRING))
+            {
+                comm = new SqlCommand(strSql, conn);
+                comm.Parameters.AddWithValue("@CategoryName", categoryName);
+                comm.Parameters.AddWithValue("@CategoryTypeId", categoryTypeId);
                 comm.Parameters.AddWithValue("@Id", Id);
                 conn.Open();
                 comm.ExecuteNonQuery();
@@ -65,7 +150,11 @@ namespace UBCSR.DAL
 
         public DataTable searchCategory(string categorySearch)
         {
-            strSql = "SELECT * FROM ItemCategory WHERE CategoryName LIKE '%' + @CategoryName + '%'";
+            strSql = "SELECT ItemCategory.Id, ItemCategory.CategoryName, ItemCategoryType.CategoryType " +
+                "FROM ItemCategory, ItemCategoryType " +
+                "WHERE " +
+                "ItemCategoryType.Id = ItemCategory.CategoryTypeId AND " +
+                "CategoryName LIKE '%' + @CategoryName + '%'";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);

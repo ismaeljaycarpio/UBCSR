@@ -4,11 +4,13 @@
       <siteMapNode title="Login" url="~/Login.aspx"></siteMapNode>
       <siteMapNode title="Change Password" url="~/Account/ChangePassword.aspx"></siteMapNode>
       <siteMapNode title="File Maintenance">
+        <siteMapNode url="~/FileMaintenance/CategoryType.aspx" title="Category Type"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Categories.aspx" title="Categories"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Brands.aspx" title="Brands"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Items.aspx" title="Items"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Accounts.aspx" title="Accounts"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Roles.aspx" title="Roles"></siteMapNode>
       </siteMapNode>
+      <siteMapNode title="Inventory" url="~/Inventory/Default.aspx"></siteMapNode>
     </siteMapNode>
 </siteMap>

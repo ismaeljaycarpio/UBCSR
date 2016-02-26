@@ -10,7 +10,7 @@
 namespace UBCSR.FileMaintenance {
     
     
-    public partial class Categories {
+    public partial class CategoryType {
         
         /// <summary>
         /// upAdd control.
@@ -22,31 +22,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.UpdatePanel upAdd;
         
         /// <summary>
-        /// ddlAddCategoryType control.
+        /// txtAddCategoryType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAddCategoryType;
-        
-        /// <summary>
-        /// RequiredFieldValidator2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
-        /// <summary>
-        /// txtAddCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddCategory;
+        protected global::System.Web.UI.WebControls.TextBox txtAddCategoryType;
         
         /// <summary>
         /// RequiredFieldValidator1 control.
@@ -85,31 +67,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.Label lblRowId;
         
         /// <summary>
-        /// ddlEditCategoryType control.
+        /// txtEditCategoryType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEditCategoryType;
-        
-        /// <summary>
-        /// RequiredFieldValidator4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
-        
-        /// <summary>
-        /// txtEditCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditCategory;
+        protected global::System.Web.UI.WebControls.TextBox txtEditCategoryType;
         
         /// <summary>
         /// RequiredFieldValidator3 control.
