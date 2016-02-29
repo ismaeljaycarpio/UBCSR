@@ -31,9 +31,11 @@ Delete
 Search 
 
 ===========================================================================
-======================= Feb 26 2016 =======================================
+======================= Feb 29 2016 =======================================
 ===========================================================================
-Borrowing/Returning/Reports
+client task:
+	- refine borrowing/returning process
+
 
 
 ===========================================================================
@@ -41,12 +43,6 @@ Borrowing/Returning/Reports
 ===========================================================================
 Add ItemCategoryType
 Update ItemCategory
-Add Inventory [Transaction]
-	- Add Item in Inventory
-	- Edit Item in Invetory
-	- Update Item Stocks
-	- Delete Item in Inventory
-	- Search Item in Inventory
 
 
 

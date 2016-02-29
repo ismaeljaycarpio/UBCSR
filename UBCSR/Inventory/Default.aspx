@@ -55,13 +55,6 @@
                                 <div class="form-group">
                                     <label for="txtAddSerial">Serial</label>
                                     <asp:TextBox ID="txtAddSerial" runat="server" CssClass="form-control" placeholder="Serial"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtAddSerial"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Serial is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
@@ -140,13 +133,6 @@
                                 <div class="form-group">
                                     <label for="txtEditSerial">Serial</label>
                                     <asp:TextBox ID="txtEditSerial" runat="server" CssClass="form-control" placeholder="Serial"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtEditSerial"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgEdit"
-                                        ErrorMessage="Serial is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
