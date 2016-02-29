@@ -266,7 +266,7 @@
 
                                         <asp:TemplateField HeaderText="Full Name" SortExpression="FullName">
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lnkFNAME" runat="server" Text='<%# Eval("FullName") %>' CommandName="Select"></asp:LinkButton>
+                                                <asp:Label ID="lnkFNAME" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
