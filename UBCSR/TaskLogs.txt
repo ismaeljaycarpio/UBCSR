@@ -31,6 +31,47 @@ Delete
 Search 
 
 ===========================================================================
+======================= Mar 16 2016 =======================================
+===========================================================================
+Borrowing Module
+	- list all borrowed transaction
+		- student
+		- 
+	- borrow (add)
+	- edit
+
+	- instructor will first file a borrowing  form
+		Fields: [BorrowInstructor]
+			- Id
+			- Instructor Name / UserId
+			- Subject
+			- Experiment No
+			- Filed Date
+			- Date Needed
+			- Time Needed
+			-> Connected to [BorrowedItems]
+
+	- Borrowed Items
+		Fields: [BorrowedItems]
+			- Id
+			- BorrowInstructorId
+			- Quantity
+			- Status - (//)
+
+	- Students will based their borrowing from the instructors record
+		Fields: [BorrowStudent]
+			- Id
+			- Group Leader / UserId
+			- BorrowInstructorId
+			- GroupNo
+			- Year and Section
+			- Schedule
+			- Lab Room
+			- Status - (//)
+			-> Connected to [BorrowInstructor]
+
+
+===========================================================================
 ======================= Feb 29 2016 =======================================
 ===========================================================================
 client task:

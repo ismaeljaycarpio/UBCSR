@@ -421,6 +421,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="borrow\" />
     <Folder Include="Images\" />
     <Folder Include="Reports\" />
   </ItemGroup>
