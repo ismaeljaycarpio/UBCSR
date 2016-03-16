@@ -41,22 +41,27 @@ Borrowing Module
 	- edit
 
 	- instructor will first file a borrowing  form
-		Fields: [BorrowInstructor]
+		Fields: [BorrowInstructor] <BASE>
 			- Id
 			- Instructor Name / UserId
 			- Subject
 			- Experiment No
+			- Lab Room
 			- Filed Date
 			- Date Needed
-			- Time Needed
+			- Time Needed Start
+			- Time Needed End
+			- Status - (Approve/Disapprove)
+			- Remarks - disapprove because we only have 1 microscope
 			-> Connected to [BorrowedItems]
 
 	- Borrowed Items
-		Fields: [BorrowedItems]
+		Fields: [BorrowedItem]
 			- Id
-			- BorrowInstructorId
+			- BorrowStudentId
 			- Quantity
-			- Status - (//)
+			- Status - (/Okay/Breakage/Missing/)
+			- remarks - state the reason
 
 	- Students will based their borrowing from the instructors record
 		Fields: [BorrowStudent]
@@ -64,10 +69,11 @@ Borrowing Module
 			- Group Leader / UserId
 			- BorrowInstructorId
 			- GroupNo
-			- Year and Section
-			- Schedule
-			- Lab Room
-			- Status - (//)
+			- Year
+			- Section
+			- Status - (/Okay/HasBreakage/HasMissing/Released/Returned)
+				 - Released : stay in borrow area
+				 - Returned : move to return area
 			-> Connected to [BorrowInstructor]
 
 

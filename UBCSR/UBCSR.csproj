@@ -175,6 +175,7 @@
     <Content Include="App_Data\aspnet-UBCSR-20160203174442_log.ldf">
       <DependentUpon>aspnet-UBCSR-20160203174442.mdf</DependentUpon>
     </Content>
+    <Content Include="borrow\default.aspx" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -321,6 +322,13 @@
     </Compile>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="borrow\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="borrow\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DAL\FileMaintenance.cs" />
     <Compile Include="DAL\Report.cs" />
     <Compile Include="DAL\Transaction.cs" />
@@ -421,7 +429,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="borrow\" />
     <Folder Include="Images\" />
     <Folder Include="Reports\" />
   </ItemGroup>
