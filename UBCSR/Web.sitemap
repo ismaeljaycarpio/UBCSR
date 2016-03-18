@@ -12,5 +12,6 @@
         <siteMapNode url="~/FileMaintenance/Roles.aspx" title="Roles"></siteMapNode>
       </siteMapNode>
       <siteMapNode title="Inventory" url="~/Inventory/Default.aspx"></siteMapNode>
+      <siteMapNode title="Borrow" url="~/borrow/default.aspx"></siteMapNode>
     </siteMapNode>
 </siteMap>

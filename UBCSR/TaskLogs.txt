@@ -52,6 +52,7 @@ Borrowing Module
 			- Time Needed Start
 			- Time Needed End
 			- Status - (Approve/Disapprove)
+					 - if approve, can see by the student assistant
 			- Remarks - disapprove because we only have 1 microscope
 			-> Connected to [BorrowedItems]
 
@@ -74,6 +75,10 @@ Borrowing Module
 			- Status - (/Okay/HasBreakage/HasMissing/Released/Returned)
 				 - Released : stay in borrow area
 				 - Returned : move to return area
+			- ReturnDate
+				 - - trigger returned date when press select 'Returned'
+			- Course
+					 
 			-> Connected to [BorrowInstructor]
 
 
