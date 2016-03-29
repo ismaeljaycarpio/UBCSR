@@ -3,7 +3,128 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <!-- Add Modal -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5>Inventory</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <asp:Button ID="btnSearch"
+                                            runat="server"
+                                            CssClass="btn btn-primary"
+                                            Text="Go"
+                                            OnClick="btnSearch_Click" />
+                                    </span>
+                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <asp:UpdatePanel ID="upInv" runat="server">
+                            <ContentTemplate>
+                                <asp:GridView ID="gvInventory"
+                                    runat="server"
+                                    class="table table-striped table-hover dataTable"
+                                    GridLines="None"
+                                    ShowHeader="true"
+                                    ShowHeaderWhenEmpty="true"
+                                    AutoGenerateColumns="false"
+                                    AllowPaging="true"
+                                    AllowSorting="true"
+                                    DataKeyNames="Id"
+                                    ShowFooter="true"
+                                    EmptyDataText="No Record(s) found"
+                                    OnSorting="gvInventory_Sorting"
+                                    OnPageIndexChanging="gvInventory_PageIndexChanging"
+                                    OnRowDataBound="gvInventory_RowDataBound"
+                                    OnRowCommand="gvInventory_RowCommand"
+                                    OnSelectedIndexChanging="gvInventory_SelectedIndexChanging">
+                                    <Columns>
+                                        <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:ButtonField HeaderText="Edit" ButtonType="Link" Text="Edit" CommandName="editRecord" />
+                                        <asp:ButtonField HeaderText="Update Stocks" ButtonType="Link" Text="Update Stocks" CommandName="updateRecord" />
+
+                                        <asp:TemplateField HeaderText="Item" SortExpression="ItemName">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblItemName" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Brand" SortExpression="BrandName">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblBrandName" runat="server" Text='<%# Eval("BrandName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Category" SortExpression="CategoryName">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Stocks" SortExpression="Stocks">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblStocks" runat="server" Text='<%# Eval("Stocks") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Expiration" SortExpression="Expiration">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Convert.ToDateTime(Eval("Expiration")).ToShortDateString() %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Serial" SortExpression="Serial">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblSerial" runat="server" Text='<%# Eval("Serial") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Remarks">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblRemakrs" runat="server" Text='<%# Eval("Remarks") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:ButtonField HeaderText="Delete" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
+
+                                    </Columns>
+                                    <PagerStyle CssClass="pagination-ys" />
+                                </asp:GridView>
+
+                                <asp:Button ID="btnOpenModal"
+                                    runat="server"
+                                    CssClass="btn btn-info btn-sm"
+                                    Text="Add Item to Inventory"
+                                    OnClick="btnOpenModal_Click"
+                                    CausesValidation="false" />
+
+
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="gvInventory" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -248,124 +369,4 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5>Inventory</h5>
-                </div>
-                <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <asp:Button ID="btnSearch"
-                                            runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="Go"
-                                            OnClick="btnSearch_Click" />
-                                    </span>
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <asp:UpdatePanel ID="upInv" runat="server">
-                            <ContentTemplate>
-                                <asp:GridView ID="gvInventory"
-                                    runat="server"
-                                    class="table table-striped table-hover dataTable"
-                                    GridLines="None"
-                                    ShowHeader="true"
-                                    ShowHeaderWhenEmpty="true"
-                                    AutoGenerateColumns="false"
-                                    AllowPaging="true"
-                                    AllowSorting="true"
-                                    DataKeyNames="Id"
-                                    ShowFooter="true"
-                                    EmptyDataText="No Record(s) found"
-                                    OnSorting="gvInventory_Sorting"
-                                    OnPageIndexChanging="gvInventory_PageIndexChanging"
-                                    OnRowDataBound="gvInventory_RowDataBound"
-                                    OnRowCommand="gvInventory_RowCommand"
-                                    OnSelectedIndexChanging="gvInventory_SelectedIndexChanging">
-                                    <Columns>
-                                        <asp:TemplateField HeaderText="Row Id" Visible="false">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:ButtonField HeaderText="Edit" ButtonType="Link" Text="Edit" CommandName="editRecord" />
-                                        <asp:ButtonField HeaderText="Update Stocks" ButtonType="Link" Text="Update Stocks" CommandName="updateRecord" />
-
-                                        <asp:TemplateField HeaderText="Item" SortExpression="ItemName">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblItemName" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Brand" SortExpression="BrandName">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblBrandName" runat="server" Text='<%# Eval("BrandName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Category" SortExpression="CategoryName">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Stocks" SortExpression="Stocks">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblStocks" runat="server" Text='<%# Eval("Stocks") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Expiration" SortExpression="Expiration">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Convert.ToDateTime(Eval("Expiration")).ToShortDateString() %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Serial" SortExpression="Serial">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblSerial" runat="server" Text='<%# Eval("Serial") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Remarks">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblRemakrs" runat="server" Text='<%# Eval("Remarks") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:ButtonField HeaderText="Delete" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
-
-                                    </Columns>
-                                    <PagerStyle CssClass="pagination-ys" />
-                                </asp:GridView>
-
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add Item to Inventory"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
-
-
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="gvInventory" />
-                            </Triggers>
-                        </asp:UpdatePanel>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </asp:Content>

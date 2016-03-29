@@ -1,34 +1,8 @@
 ﻿===========================================================================
+======================= Mar 29 2016 =======================================
 ===========================================================================
-Task ===============================  UI  =========== Functionality =======
-===========================================================================
-DELETE - No Confirmation
+- move modal below row - to enable search on  enter
 
-Login
-Logout
-Change Password
-Reset Password
-Activate/Deactivate Account
-
-Add User
-Edit User
-Search User (basic)
-Delete User
-
-Add Category
-Edit
-Delete
-Search 
-
-Add Brand
-Edit
-Delete
-Search 
-
-Add Item
-Edit
-Delete
-Search 
 
 ===========================================================================
 ======================= Mar 16 2016 =======================================
@@ -114,4 +88,36 @@ Returning
 
 Reports
 
+
+===========================================================================
+===========================================================================
+Task ===============================  UI  =========== Functionality =======
+===========================================================================
+DELETE - No Confirmation
+
+Login
+Logout
+Change Password
+Reset Password
+Activate/Deactivate Account
+
+Add User
+Edit User
+Search User (basic)
+Delete User
+
+Add Category
+Edit
+Delete
+Search 
+
+Add Brand
+Edit
+Delete
+Search 
+
+Add Item
+Edit
+Delete
+Search 
 

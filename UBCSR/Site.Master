@@ -96,7 +96,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -129,7 +129,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -162,7 +162,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -183,7 +183,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -204,13 +204,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/Default.aspx" CausesValidation="false" />
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
                                         </li>
                                     </ul>
                                 </ContentTemplate>
                             </asp:RoleGroup>
 
-                            
+
                         </RoleGroups>
                     </asp:LoginView>
                 </div>

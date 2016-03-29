@@ -1,6 +1,110 @@
 ﻿<%@ Page Title="Accounts" Language="C#" MasterPageFile="~/NestedFileMaintenance.master" AutoEventWireup="true" CodeBehind="Accounts.aspx.cs" Inherits="UBCSR.FileMaintenance.Accounts" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5>User Accounts</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <asp:Button ID="btnSearch"
+                                            runat="server"
+                                            CssClass="btn btn-primary"
+                                            Text="Go"
+                                            OnClick="btnSearch_Click" />
+                                    </span>
+                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <asp:UpdatePanel ID="upAccount" runat="server">
+                            <ContentTemplate>
+                                <asp:GridView ID="gvAccount"
+                                    runat="server"
+                                    class="table table-striped table-hover dataTable"
+                                    GridLines="None"
+                                    AutoGenerateColumns="false"
+                                    AllowPaging="true"
+                                    ShowFooter="true"
+                                    ShowHeaderWhenEmpty="true"
+                                    EmptyDataText="No Record(s) found"
+                                    AllowSorting="true"
+                                    DataKeyNames="UserId"
+                                    OnSorting="gvAccount_Sorting"
+                                    OnRowDataBound="gvAccount_RowDataBound"
+                                    OnRowCommand="gvAccount_RowCommand"
+                                    OnPageIndexChanging="gvAccount_PageIndexChanging"
+                                    OnSelectedIndexChanging="gvAccount_SelectedIndexChanging">
+                                    <Columns>
+                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+
+                                        <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("StudentId") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Full Name" SortExpression="FullName">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lnkFNAME" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Account Status" SortExpression="IsApproved">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lblStatus"
+                                                    runat="server"
+                                                    OnClick="lblStatus_Click"
+                                                    Text='<%# (Boolean.Parse(Eval("IsApproved").ToString())) ? "Active" : "Inactive" %>'>
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Reset Password">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lblReset"
+                                                    runat="server"
+                                                    OnClick="lblReset_Click"
+                                                    Text="Reset Password">
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:BoundField DataField="RoleName" HeaderText="Role" SortExpression="RoleName" />
+
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
+
+                                    </Columns>
+                                    <PagerStyle CssClass="pagination-ys" />
+                                </asp:GridView>
+                                <!-- Trigger the modal with a button -->
+                                <asp:Button ID="btnOpenModal"
+                                    runat="server"
+                                    CssClass="btn btn-info btn-sm"
+                                    Text="Add User"
+                                    OnClick="btnOpenModal_Click"
+                                    CausesValidation="false" />
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="gvAccount" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
@@ -208,110 +312,6 @@
                         <asp:AsyncPostBackTrigger ControlID="btnDelete" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5>User Accounts</h5>
-                </div>
-                <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <asp:Button ID="btnSearch"
-                                            runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="Go"
-                                            OnClick="btnSearch_Click" />
-                                    </span>
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <asp:UpdatePanel ID="upAccount" runat="server">
-                            <ContentTemplate>
-                                <asp:GridView ID="gvAccount"
-                                    runat="server"
-                                    class="table table-striped table-hover dataTable"
-                                    GridLines="None"
-                                    AutoGenerateColumns="false"
-                                    AllowPaging="true"
-                                    ShowFooter="true"
-                                    ShowHeaderWhenEmpty="true"
-                                    EmptyDataText="No Record(s) found"
-                                    AllowSorting="true"
-                                    DataKeyNames="UserId"
-                                    OnSorting="gvAccount_Sorting"
-                                    OnRowDataBound="gvAccount_RowDataBound"
-                                    OnRowCommand="gvAccount_RowCommand"
-                                    OnPageIndexChanging="gvAccount_PageIndexChanging"
-                                    OnSelectedIndexChanging="gvAccount_SelectedIndexChanging">
-                                    <Columns>
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
-
-                                        <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("StudentId") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Full Name" SortExpression="FullName">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lnkFNAME" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Account Status" SortExpression="IsApproved">
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lblStatus"
-                                                    runat="server"
-                                                    OnClick="lblStatus_Click"
-                                                    Text='<%# (Boolean.Parse(Eval("IsApproved").ToString())) ? "Active" : "Inactive" %>'>
-                                                </asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Reset Password">
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lblReset"
-                                                    runat="server"
-                                                    OnClick="lblReset_Click"
-                                                    Text="Reset Password">
-                                                </asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:BoundField DataField="RoleName" HeaderText="Role" SortExpression="RoleName" />
-
-                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
-
-                                    </Columns>
-                                    <PagerStyle CssClass="pagination-ys" />
-                                </asp:GridView>
-                                <!-- Trigger the modal with a button -->
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add User"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="gvAccount" />
-                            </Triggers>
-                        </asp:UpdatePanel>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -214,9 +214,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="NestedFileMaintenance.master" />
-    <Content Include="dbAccess\DataClasses1.dbml">
+    <Content Include="CSRContext.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataClasses1.designer.cs</LastGenOutput>
+      <LastGenOutput>CSRContext.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\UBCSR.pubxml" />
@@ -335,12 +335,12 @@
     <Compile Include="borrow\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DAL\BorrowTransaction.cs" />
-    <Compile Include="dbAccess\DataClasses1.designer.cs">
+    <Compile Include="CSRContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
+      <DependentUpon>CSRContext.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DAL\BorrowTransaction.cs" />
     <Compile Include="DAL\FileMaintenance.cs" />
     <Compile Include="DAL\Report.cs" />
     <Compile Include="DAL\Transaction.cs" />
@@ -452,9 +452,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dbAccess\DataClasses1.dbml.layout">
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
-    </None>
+    <Content Include="CSRContext.dbml.layout">
+      <DependentUpon>CSRContext.dbml</DependentUpon>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
