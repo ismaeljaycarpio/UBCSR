@@ -35,13 +35,14 @@ namespace UBCSR.borrow
             {
                 //approvals
             }
-            else if(User.IsInRole("CSH Head"))
+            else if(User.IsInRole("CSR Head"))
             {
                 //approvals
             }
             else
             {
                 //admin
+
             }
         }
 
