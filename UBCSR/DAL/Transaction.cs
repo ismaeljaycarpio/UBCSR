@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.Configuration;
 using System.Web.Security;
+using System.Data.SqlTypes;
 
 namespace UBCSR.DAL
 {
@@ -19,7 +20,11 @@ namespace UBCSR.DAL
         DataTable dTable;
 
         #region Inventory
-        public void addToInventory(string itemId, string stocks, DateTime expiration, string serial, string remarks)
+        public void addToInventory(string itemId, 
+            string stocks, 
+            string expiration, 
+            string serial, 
+            string remarks)
         {
             strSql = "INSERT INTO Inventory VALUES(@ItemId,@Stocks,@Expiration,@Serial,@DateAdded,@Remarks)";
             using (conn = new SqlConnection(CONN_STRING))
@@ -27,7 +32,16 @@ namespace UBCSR.DAL
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@ItemId", itemId);
                 comm.Parameters.AddWithValue("@Stocks", stocks);
-                comm.Parameters.AddWithValue("@Expiration", expiration);
+
+                if (expiration != String.Empty)
+                {
+                    comm.Parameters.AddWithValue("@Expiration", Convert.ToDateTime(expiration));
+                }
+                else
+                {
+                    comm.Parameters.AddWithValue("@Expiration", SqlDateTime.Null);
+                }
+
                 comm.Parameters.AddWithValue("@Serial", serial);
                 comm.Parameters.AddWithValue("@DateAdded", DateTime.Now);
                 comm.Parameters.AddWithValue("@Remarks", remarks);
@@ -38,8 +52,11 @@ namespace UBCSR.DAL
             }
         }
 
-        public void editInventory(string itemId, string stocks, 
-            DateTime expiration, string serial, string remarks,
+        public void editInventory(string itemId, 
+            string stocks, 
+            string expiration, 
+            string serial, 
+            string remarks,
             string Id)
         {
             strSql = "UPDATE Inventory SET ItemId = @ItemId, Stocks = @Stocks, Expiration = @Expiration, " +
@@ -50,7 +67,16 @@ namespace UBCSR.DAL
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@ItemId", itemId);
                 comm.Parameters.AddWithValue("@Stocks", stocks);
-                comm.Parameters.AddWithValue("@Expiration", expiration);
+
+                if(expiration != String.Empty)
+                {
+                    comm.Parameters.AddWithValue("@Expiration", Convert.ToDateTime(expiration));
+                }
+                else
+                {
+                    comm.Parameters.AddWithValue("@Expiration", SqlDateTime.Null);
+                }
+   
                 comm.Parameters.AddWithValue("@Serial", serial);
                 comm.Parameters.AddWithValue("@Remarks", remarks);
                 comm.Parameters.AddWithValue("@Id", Id);
@@ -100,7 +126,13 @@ namespace UBCSR.DAL
                 "WHERE Item.ItemCategoryId = ItemCategory.Id AND " +
                 "Item.ItemBrandId = ItemBrand.Id AND " +
                 "Item.Id = Inventory.ItemId AND " +
-                "Item.ItemName LIKE '%' + @ItemName + '%'";
+                "(Item.ItemName LIKE '%' + @ItemName + '%' OR " + 
+                "ItemCategory.CategoryName LIKE '%' + @ItemName + '%' OR " +
+                "ItemBrand.BrandName LIKE '%' + @ItemName + '%' OR " +
+                "Inventory.Stocks LIKE '%' + @ItemName + '%' OR " +
+                "Inventory.Serial LIKE '%' + @ItemName + '%' OR " +
+                "Inventory.Remarks LIKE '%' + @ItemName + '%'" +
+                ")";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);

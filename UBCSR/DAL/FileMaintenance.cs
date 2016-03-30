@@ -446,7 +446,10 @@ namespace UBCSR.DAL
                 "WHERE " +
                 "(Account.FirstName LIKE '%' + @searchKeyWord + '%' OR " +
                 "Account.MiddleName LIKE '%' + @searchKeyWord + '%' OR " +
-                "Account.LastName LIKE '%' + @searchKeyWord + '%') " +
+                "Account.LastName LIKE '%' + @searchKeyWord + '%' OR " +
+                "Roles.RoleName LIKE '%' + @searchKeyWord + '%' OR " +
+                "Memberships.IsApproved LIKE '%' + @searchKeyWord + '%' OR " +
+                "Account.StudentId LIKE '%' + @searchKeyWord + '%') " +
                 "ORDER BY Account.Id ASC";
 
             conn = new SqlConnection();

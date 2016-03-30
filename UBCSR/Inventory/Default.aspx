@@ -83,7 +83,7 @@
 
                                         <asp:TemplateField HeaderText="Expiration" SortExpression="Expiration">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Convert.ToDateTime(Eval("Expiration")).ToShortDateString() %>'></asp:Label>
+                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Eval("Expiration", "{0: dddd - d MMM yyyy}") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -124,7 +124,7 @@
         </div>
     </div>
 
-        <!-- Add Modal -->
+    <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -164,13 +164,6 @@
                                 <div class="form-group">
                                     <label for="txtAddExpiration">Expiration Date</label>
                                     <asp:TextBox ID="txtAddExpiration" runat="server" CssClass="form-control" data-provide="datepicker"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtAddExpiration"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Expiration is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
@@ -242,13 +235,6 @@
                                 <div class="form-group">
                                     <label for="txtEditExpiration">Expiration Date</label>
                                     <asp:TextBox ID="txtEditExpiration" runat="server" CssClass="form-control" data-provide="datepicker"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="txtEditExpiration"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgEdit"
-                                        ErrorMessage="Expiration is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">

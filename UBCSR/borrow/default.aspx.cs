@@ -6,18 +6,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
 
-
 namespace UBCSR.borrow
 {
     public partial class _default : System.Web.UI.Page
     {
-        //dbAccess.DataClasses1DataContext db = new dbAccess.DataClasses1DataContext();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!Page.IsPostBack)
             {
+                bindGridview();
 
+                txtSearch.Focus();
             }
         }
 
@@ -42,7 +41,7 @@ namespace UBCSR.borrow
             else
             {
                 //admin
-                lblTitle.Text = "";
+                lblTitle.Text = "Admin - Borrowed List";
             }
         }
 

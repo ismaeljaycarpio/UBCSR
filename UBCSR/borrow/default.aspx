@@ -7,7 +7,7 @@
     <asp:Panel ID="Panel1" runat="server" DefaultButton="btnSearch">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-danger">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h5><asp:Label ID="lblTitle" runat="server"></asp:Label></h5>
                     </div>
@@ -100,7 +100,7 @@
                                     </asp:GridView>
                                     <asp:Button ID="btnOpenModal"
                                         runat="server"
-                                        CssClass="btn btn-info btn-sm"
+                                        CssClass="btn btn-default btn-sm"
                                         Text="Borrow"
                                         OnClick="btnOpenModal_Click"
                                         CausesValidation="false" />

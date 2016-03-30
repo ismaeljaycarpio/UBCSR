@@ -110,7 +110,7 @@ namespace UBCSR.Inventory
         {
             tr.addToInventory(ddlAddItem.SelectedValue,
                 txtAddStocks.Text,
-                Convert.ToDateTime(txtAddExpiration.Text),
+                txtAddExpiration.Text,
                 txtAddSerial.Text, txtAddRemarks.Text);
 
             bindData();
@@ -144,7 +144,7 @@ namespace UBCSR.Inventory
         {
             tr.editInventory(ddlEditItem.SelectedValue,
                 txtEditStocks.Text,
-                Convert.ToDateTime(txtEditExpiration.Text),
+                txtEditExpiration.Text,
                 txtEditSerial.Text,
                 txtEditRemarks.Text,
                 lblRowId.Text);
