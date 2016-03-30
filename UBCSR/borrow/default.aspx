@@ -60,8 +60,7 @@
                                                     <asp:LinkButton ID="lbEdit" runat="server" Text="Edit" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex %>'></asp:LinkButton>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="LeaveName" HeaderText="Leave" SortExpression="LeaveName" />
-                                            <asp:BoundField DataField="NumberOfDays" HeaderText="No Of Days" SortExpression="NumberOfDays" />
+
                                             <asp:BoundField DataField="FiledDate" HeaderText="Filed Date" SortExpression="FiledDate" />
 
                                             <asp:TemplateField HeaderText="Duration" SortExpression="FromDate">
@@ -106,7 +105,8 @@
                                         OnClick="btnOpenModal_Click"
                                         CausesValidation="false" />
                                 </ContentTemplate>
-                                <Triggers></Triggers>
+                                <Triggers>
+                                </Triggers>
                             </asp:UpdatePanel>
                         </div>
                     </div>
@@ -115,5 +115,4 @@
         </div>
     </asp:Panel>
     <asp:HiddenField ID="hfUserId" runat="server" />
-
 </asp:Content>

@@ -1,1 +1,49 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="aspnet-UBCSR-20160203174442" Class="CSRContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-UBCSR-20160203174442.mdf;Initial Catalog=aspnet-UBCSR-20160203174442;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="aspnet_UBCSR_20160203174442ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ItemCategoryType" Member="ItemCategoryTypes">
+    <Type Name="ItemCategoryType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="ItemCategoryType_ItemCategory" Member="ItemCategories" ThisKey="Id" OtherKey="CategoryTypeId" Type="ItemCategory" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemCategory" Member="ItemCategories">
+    <Type Name="ItemCategory">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CategoryTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ItemCategory_Item" Member="Items" ThisKey="Id" OtherKey="ItemCategoryId" Type="Item" />
+      <Association Name="ItemCategoryType_ItemCategory" Member="ItemCategoryType" ThisKey="CategoryTypeId" OtherKey="Id" Type="ItemCategoryType" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemBrand" Member="ItemBrands">
+    <Type Name="ItemBrand">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BrandName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="ItemBrand_Item" Member="Items" ThisKey="Id" OtherKey="ItemBrandId" Type="Item" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Item" Member="Items">
+    <Type Name="Item">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ItemCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ItemBrandId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ItemName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="Item_Inventory" Member="InventoryLINQs" ThisKey="Id" OtherKey="ItemId" Type="InventoryLINQ" />
+      <Association Name="ItemBrand_Item" Member="ItemBrand" ThisKey="ItemBrandId" OtherKey="Id" Type="ItemBrand" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="ItemCategory_Item" Member="ItemCategory" ThisKey="ItemCategoryId" OtherKey="Id" Type="ItemCategory" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Inventory" Member="InventoryLINQs">
+    <Type Name="InventoryLINQ">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Stocks" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Expiration" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Serial" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="Item_Inventory" Member="Item" ThisKey="ItemId" OtherKey="Id" Type="Item" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+</Database>

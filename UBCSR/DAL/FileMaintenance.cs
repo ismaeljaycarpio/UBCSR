@@ -535,7 +535,8 @@ namespace UBCSR.DAL
             MembershipUser mu = Membership.GetUser(UserId);
             string userName = mu.UserName;
 
-            mu.ChangePassword(mu.ResetPassword(), "pass123");
+            //default pass is same as username
+            mu.ChangePassword(mu.ResetPassword(), userName);
         }
 
         public void ChangeRole(Guid UserId, string roleName)

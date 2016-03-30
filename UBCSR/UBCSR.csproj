@@ -219,6 +219,9 @@
       <LastGenOutput>CSRContext.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Inventory\Web.config" />
+    <Content Include="borrow\Web.config" />
+    <Content Include="FileMaintenance\Web.config" />
     <None Include="Properties\PublishProfiles\UBCSR.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\ai.0.21.5-build00175.js" />
@@ -452,9 +455,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CSRContext.dbml.layout">
+    <None Include="CSRContext.dbml.layout">
       <DependentUpon>CSRContext.dbml</DependentUpon>
-    </Content>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

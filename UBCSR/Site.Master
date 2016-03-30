@@ -128,16 +128,24 @@
                                         <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li>
+                                        <li class="dropdown">
                                             <a runat="server"
-                                                href="~/Account/ChangePassword.aspx">
+                                                href="#"
+                                                class="dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault() %></span>
                                                 <asp:LoginName ID="LoginName1" runat="server" />
-                                                <span class="glyphicon glyphicon-user"></span>
-                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault()%></span>
+                                                <span class="caret"></span>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
+                                            <ul class="dropdown-menu">
+                                                <li><a runat="server" href="~/Account/ChangePassword.aspx">Change Password</a></li>
+                                                <li>
+                                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log Out" />
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -161,16 +169,24 @@
                                         <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li>
+                                        <li class="dropdown">
                                             <a runat="server"
-                                                href="~/Account/ChangePassword.aspx">
+                                                href="#"
+                                                class="dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault() %></span>
                                                 <asp:LoginName ID="LoginName1" runat="server" />
-                                                <span class="glyphicon glyphicon-user"></span>
-                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault()%></span>
+                                                <span class="caret"></span>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
+                                            <ul class="dropdown-menu">
+                                                <li><a runat="server" href="~/Account/ChangePassword.aspx">Change Password</a></li>
+                                                <li>
+                                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log Out" />
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -182,16 +198,24 @@
                                         <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li>
+                                        <li class="dropdown">
                                             <a runat="server"
-                                                href="~/Account/ChangePassword.aspx">
+                                                href="#"
+                                                class="dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault() %></span>
                                                 <asp:LoginName ID="LoginName1" runat="server" />
-                                                <span class="glyphicon glyphicon-user"></span>
-                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault()%></span>
+                                                <span class="caret"></span>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
+                                            <ul class="dropdown-menu">
+                                                <li><a runat="server" href="~/Account/ChangePassword.aspx">Change Password</a></li>
+                                                <li>
+                                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log Out" />
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </ContentTemplate>
@@ -203,22 +227,28 @@
                                         <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li>
+                                        <li class="dropdown">
                                             <a runat="server"
-                                                href="~/Account/ChangePassword.aspx">
+                                                href="#"
+                                                class="dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault() %></span>
                                                 <asp:LoginName ID="LoginName1" runat="server" />
-                                                <span class="glyphicon glyphicon-user"></span>
-                                                <span class="badge"><%: System.Web.Security.Roles.GetRolesForUser().FirstOrDefault()%></span>
+                                                <span class="caret"></span>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log out" CausesValidation="false" />
+                                            <ul class="dropdown-menu">
+                                                <li><a runat="server" href="~/Account/ChangePassword.aspx">Change Password</a></li>
+                                                <li>
+                                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log Out" />
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </ContentTemplate>
                             </asp:RoleGroup>
-
-
                         </RoleGroups>
                     </asp:LoginView>
                 </div>

@@ -50,6 +50,12 @@
 
                                         <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
 
+                                        <asp:TemplateField HeaderText="Item">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblItem" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
                                         <asp:TemplateField HeaderText="Category">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblCategory" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
@@ -59,12 +65,6 @@
                                         <asp:TemplateField HeaderText="Brand">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblBrand" runat="server" Text='<%# Eval("BrandName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Item">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblItem" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 

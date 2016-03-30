@@ -42,13 +42,13 @@ namespace UBCSR.borrow
             else
             {
                 //admin
-
+                lblTitle.Text = "";
             }
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-
+            bindGridview();
         }
 
         protected void gvBorrow_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -58,7 +58,8 @@ namespace UBCSR.borrow
 
         protected void gvBorrow_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-
+            gvBorrow.PageIndex = e.NewPageIndex;
+            bindGridview();
         }
 
         protected void gvBorrow_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -75,7 +76,5 @@ namespace UBCSR.borrow
         {
 
         }
-
-        
     }
 }
