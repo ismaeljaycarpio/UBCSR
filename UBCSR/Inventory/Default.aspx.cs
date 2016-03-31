@@ -19,8 +19,8 @@ namespace UBCSR.Inventory
         {
             if (!Page.IsPostBack)
             {
-                bindData();
                 populateDropdowns();
+                bindData(); 
             }
         }
 
@@ -28,6 +28,8 @@ namespace UBCSR.Inventory
         {
             gvInventory.DataSource = tr.searchInventory(txtSearch.Text);
             gvInventory.DataBind();
+
+            txtSearch.Focus();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

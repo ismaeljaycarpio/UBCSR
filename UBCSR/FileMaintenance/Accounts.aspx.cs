@@ -224,8 +224,11 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text, "pass123");
-            System.Web.Security.Roles.AddUserToRole(newUser.UserName, ddlAddRole.SelectedItem.Text);
+            MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text, 
+                txtAddUserId.Text);
+
+            System.Web.Security.Roles.AddUserToRole(newUser.UserName, 
+                ddlAddRole.SelectedItem.Text);
 
             fm.addUser(Guid.Parse(newUser.ProviderUserKey.ToString()),
                 txtAddFirstName.Text,

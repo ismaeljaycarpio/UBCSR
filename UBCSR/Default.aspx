@@ -4,4 +4,29 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script src="jquery.bxslider/jquery.bxslider.js" type="text/javascript"></script>
+    <link href="jquery.bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet"/>
+
+    <div class="row">
+        <div class="col-md-10">
+            <ul class="bxslider">
+                <li>
+                    <img src="/images/pic1.jpg" /></li>
+                <li>
+                    <img src="/images/pic2.jpg" /></li>
+                <li>
+                    <img src="/images/pic3.jpg" /></li>
+                <li>
+                    <img src="/images/pic4.jpg" /></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function()
+        {
+            $('.bxslider').bxSlider();
+        });
+    </script>
 </asp:Content>

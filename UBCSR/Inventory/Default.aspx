@@ -250,7 +250,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button ID="btnEdit" runat="server" CssClass="btn btn-primary" Text="Edit" ValidationGroup="vgEdit" OnClick="btnEdit_Click" />
+                            <asp:Button ID="btnEdit" runat="server" CssClass="btn btn-primary" Text="Update" ValidationGroup="vgEdit" OnClick="btnEdit_Click" />
                             <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
                     </ContentTemplate>
@@ -336,7 +336,7 @@
                     <ContentTemplate>
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Delete Inventory</h4>
+                            <h4 class="modal-title">Delete Inventory Confirmation</h4>
                         </div>
                         <div class="modal-body">
                             Are you sure you want to delete this record ?
