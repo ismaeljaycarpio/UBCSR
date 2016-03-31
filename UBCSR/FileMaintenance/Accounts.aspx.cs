@@ -55,6 +55,8 @@ namespace UBCSR.FileMaintenance
         {
             gvAccount.DataSource = fm.searchUser(txtSearch.Text);
             gvAccount.DataBind();
+
+            txtSearch.Focus();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
