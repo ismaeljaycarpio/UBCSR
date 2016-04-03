@@ -204,6 +204,8 @@
     <Content Include="Inventory\Default.aspx" />
     <Content Include="jquery.bxslider\images\bx_loader.gif" />
     <Content Include="jquery.bxslider\images\controls.png" />
+    <Content Include="jquery.bxslider\images\sns.jpg" />
+    <Content Include="jquery.bxslider\images\ub_65.jpg" />
     <Content Include="jquery.bxslider\jquery.bxslider.css" />
     <Content Include="jquery.bxslider\jquery.bxslider.js" />
     <Content Include="jquery.bxslider\jquery.bxslider.min.js" />
