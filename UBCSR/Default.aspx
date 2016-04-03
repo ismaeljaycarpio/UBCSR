@@ -23,7 +23,10 @@
 
     <script>
         $(document).ready(function () {
-            $('.bxslider').bxSlider();
+            $('.bxslider').bxSlider({
+                adaptiveHeight: true,
+                slideWidth: 800
+            });
         });
     </script>
 </asp:Content>

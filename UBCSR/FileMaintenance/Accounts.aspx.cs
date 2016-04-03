@@ -13,6 +13,7 @@ namespace UBCSR.FileMaintenance
     {
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
+        CSRContextDataContext db = new CSRContextDataContext();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -167,6 +168,24 @@ namespace UBCSR.FileMaintenance
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
+            else if(e.CommandName.Equals("updateGroup"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                string userName = ((Label)gvAccount.Rows[index].FindControl("lblStudentId")).Text;
+                lblUpdateGroupId.Text = userName;
+
+                var q = (from a in db.AccountLINQs
+                         where a.StudentId == userName
+                         select a).FirstOrDefault();
+
+                ddlGroupNo.SelectedValue = q.GroupNo.ToString();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#updateGroupModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void lblStatus_Click(object sender, EventArgs e)
@@ -261,6 +280,14 @@ namespace UBCSR.FileMaintenance
             ddlEditRole.DataTextField = "RoleName";
             ddlEditRole.DataValueField = "RoleId";
             ddlEditRole.DataBind();
+
+            var q = (from g in db.GroupLINQs
+                     select g);
+
+            ddlGroupNo.DataSource = q.ToList();
+            ddlGroupNo.DataTextField = "Name";
+            ddlGroupNo.DataValueField = "Id";
+            ddlGroupNo.DataBind();
         }
 
         protected void gvAccount_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -288,6 +315,35 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#deleteModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+        }
+
+        protected void btnUpdateGroupNo_Click(object sender, EventArgs e)
+        {
+            var q = (from a in db.AccountLINQs
+                     where a.StudentId == lblUpdateGroupId.Text
+                     select a).FirstOrDefault();
+
+            q.GroupNo = Convert.ToInt32(ddlGroupNo.SelectedValue);
+            db.SubmitChanges();
+
+            bindData();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#updateGroupModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+        }
+
+        protected void ddlGroupNo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var q = (from g in db.GroupLINQs
+                     where g.Id == Convert.ToInt32(ddlGroupNo.SelectedValue)
+                     select g).FirstOrDefault();
+
+            lblYearFrom.Text = q.YearFrom;
+            lblYearTo.Text = q.YearTo;
+            lblSemester.Text = q.Sem;
         }
     }
 }

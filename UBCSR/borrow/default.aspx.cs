@@ -10,13 +10,12 @@ namespace UBCSR.borrow
 {
     public partial class _default : System.Web.UI.Page
     {
+        CSRContextDataContext db = new CSRContextDataContext();
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!Page.IsPostBack)
             {
                 bindGridview();
-
-                txtSearch.Focus();
             }
         }
 
@@ -29,6 +28,12 @@ namespace UBCSR.borrow
             else if(User.IsInRole("Instructor"))
             {
                 lblTitle.Text = "My Reserved List";
+                var q = from r in db.Reservations
+                        select r;
+
+                gvBorrow.DataSource = q.ToList();
+                gvBorrow.DataBind();
+
             }
             else if(User.IsInRole("Student Assistant"))
             {
@@ -43,6 +48,8 @@ namespace UBCSR.borrow
                 //admin
                 lblTitle.Text = "Admin - Borrowed List";
             }
+
+            txtSearch.Focus();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -73,7 +80,7 @@ namespace UBCSR.borrow
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("~/borrow/reserve.aspx");
         }
     }
 }

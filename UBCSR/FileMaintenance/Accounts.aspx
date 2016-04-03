@@ -59,6 +59,12 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
+                                        <asp:TemplateField HeaderText="Group No" SortExpression="GroupNo">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lblGroupNo" runat="server" Text='<%# Eval("GroupNo") %>' CommandName="updateGroup" CommandArgument='<%#((GridViewRow)Container).RowIndex  %>'></asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
                                         <asp:TemplateField HeaderText="Account Status" SortExpression="IsApproved">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lblStatus"
@@ -310,6 +316,63 @@
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="btnDelete" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Group Modal -->
+    <div id="updateGroupModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete Record</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="txtGroupNo">Group No</label>
+                                    <asp:DropDownList ID="ddlGroupNo" 
+                                        runat="server"
+                                        AutoPostBack="true"
+                                        OnSelectedIndexChanged="ddlGroupNo_SelectedIndexChanged" 
+                                        CssClass="form-control"></asp:DropDownList>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="Label1" runat="server" Font-Bold="true">Year From: </asp:Label>
+                                    <asp:Label ID="lblYearFrom" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="Label2" runat="server" Font-Bold="true">Year To: </asp:Label>
+                                    <asp:Label ID="lblYearTo" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="Label4" runat="server" Font-Bold="true">Semester: </asp:Label>
+                                    <asp:Label ID="lblSemester" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="lblUpdateGroupId" runat="server" Visible="false"></asp:Label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnUpdateGroupNo" runat="server" CssClass="btn btn-default" Text="Update Group" OnClick="btnUpdateGroupNo_Click" ValidationGroup="vgEditGroup" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="btnUpdateGroupNo" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
             </div>

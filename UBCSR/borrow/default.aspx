@@ -9,7 +9,8 @@
             <div class="col-md-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h5><asp:Label ID="lblTitle" runat="server"></asp:Label></h5>
+                        <h5>
+                            <asp:Label ID="lblTitle" runat="server"></asp:Label></h5>
                     </div>
 
                     <div class="panel-body">
@@ -61,33 +62,12 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <asp:BoundField DataField="FiledDate" HeaderText="Filed Date" SortExpression="FiledDate" />
-
-                                            <asp:TemplateField HeaderText="Duration" SortExpression="FromDate">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblFromDate" runat="server" Text='<%# Eval("FromDate") %>'></asp:Label>
-                                                    <asp:Label ID="Label1" runat="server" Text=" - "></asp:Label>
-                                                    <asp:Label ID="lblToDate" runat="server" Text='<%# Eval("ToDate") %>'></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-
-                                            <asp:TemplateField HeaderText="Department Head Approval" SortExpression="DepartmentHeadApproval">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblDepartmentHeadApproval" runat="server" Text='<%# Eval("DepartmentHeadApproval") %>'></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-
-                                            <asp:TemplateField HeaderText="HR Approval" SortExpression="HRApproval">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblHRApproval" runat="server" Text='<%# Eval("HRApproval") %>'></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-
-                                            <asp:TemplateField HeaderText="Status" SortExpression="Status">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblStatus" runat="server"></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="Subject" HeaderText="Date Requested" SortExpression="Subject" />
+                                            <asp:BoundField DataField="ExperimentNo" HeaderText="Experiment No" SortExpression="ExperimentNo" />
+                                            <asp:BoundField DataField="DateRequested" HeaderText="Date Requested" SortExpression="DateRequested" />
+                                            <asp:BoundField DataField="DateNeeded" HeaderText="Date Needed" SortExpression="DateNeeded" />
+                                            <asp:BoundField DataField="LabRoom" HeaderText="Lab Room" SortExpression="LabRoom" />
+                                            <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
 
                                             <asp:TemplateField>
                                                 <ItemTemplate>

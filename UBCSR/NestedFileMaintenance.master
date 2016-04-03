@@ -36,6 +36,7 @@
                             <li id="cat"><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
                             <li id="brands"><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                             <li id="items"><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
+                            <li id="groups"><a runat="server" href="~/FileMaintenance/Group.aspx">Group</a></li>
                             <li id="accounts"><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
                             <li class="nav-divider"></li>
                             <li id="roles"><a runat="server" href="~/FileMaintenance/Roles.aspx">Roles</a></li>

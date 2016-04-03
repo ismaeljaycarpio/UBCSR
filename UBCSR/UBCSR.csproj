@@ -177,6 +177,7 @@
       <DependentUpon>aspnet-UBCSR-20160203174442.mdf</DependentUpon>
     </Content>
     <Content Include="borrow\default.aspx" />
+    <Content Include="borrow\reserve.aspx" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -197,6 +198,7 @@
     <Content Include="FileMaintenance\Brands.aspx" />
     <Content Include="FileMaintenance\Categories.aspx" />
     <Content Include="FileMaintenance\CategoryType.aspx" />
+    <Content Include="FileMaintenance\Group.aspx" />
     <Content Include="FileMaintenance\Items.aspx" />
     <Content Include="FileMaintenance\Roles.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -349,6 +351,13 @@
     <Compile Include="borrow\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="borrow\reserve.aspx.cs">
+      <DependentUpon>reserve.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="borrow\reserve.aspx.designer.cs">
+      <DependentUpon>reserve.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CSRContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -392,6 +401,13 @@
     </Compile>
     <Compile Include="FileMaintenance\CategoryType.aspx.designer.cs">
       <DependentUpon>CategoryType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FileMaintenance\Group.aspx.cs">
+      <DependentUpon>Group.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FileMaintenance\Group.aspx.designer.cs">
+      <DependentUpon>Group.aspx</DependentUpon>
     </Compile>
     <Compile Include="FileMaintenance\Items.aspx.cs">
       <DependentUpon>Items.aspx</DependentUpon>
