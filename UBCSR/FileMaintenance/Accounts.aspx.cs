@@ -226,6 +226,8 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            //same username and pass for newly created accnts
+
             MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text, 
                 txtAddUserId.Text);
 

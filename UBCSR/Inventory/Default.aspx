@@ -83,7 +83,7 @@
 
                                         <asp:TemplateField HeaderText="Expiration" SortExpression="Expiration">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Eval("Expiration", "{0: dddd - d MMM yyyy}") %>'></asp:Label>
+                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Eval("Expiration", "{0: dddd, d MMM yyyy}") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
