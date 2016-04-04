@@ -52,7 +52,7 @@
                 <div class="panel-body">
                     <div role="form">
                         <div class="col-md-4">
-                            <label for="txtDateNeeded">Date Needed</label>
+                            <label for="txtDateNeeded">Date Needed From</label>
                             <asp:TextBox ID="txtDateNeeded"
                                 runat="server"
                                 CssClass="form-control"></asp:TextBox>
@@ -65,17 +65,17 @@
                                 ErrorMessage="Date Needed is required"></asp:RequiredFieldValidator>
                         </div>
                         <div class="col-md-4">
-                            <label for="txtTimeNeeded">Time Needed</label>
-                            <asp:TextBox ID="txtTimeNeeded"
+                            <label for="txtDateNeededTo">Date Needed To</label>
+                            <asp:TextBox ID="txtDateNeededTo"
                                 runat="server"
                                 CssClass="form-control"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
                                 runat="server"
                                 Display="Dynamic"
-                                ControlToValidate="txtTimeNeeded"
+                                ControlToValidate="txtDateNeededTo"
                                 CssClass="label label-danger"
                                 ValidationGroup="vgPrimaryAdd"
-                                ErrorMessage="Time Needed is required"></asp:RequiredFieldValidator>
+                                ErrorMessage="Date Needed to is required"></asp:RequiredFieldValidator>
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,20 @@
 
                                         <asp:TemplateField HeaderText="Quantity to Borrow">
                                             <ItemTemplate>
-                                                <asp:TextBox ID="txtQuantityToBorrow" runat="server" Enabled="false"></asp:TextBox>
+                                                <asp:TextBox ID="txtQuantityToBorrow"
+                                                    runat="server"
+                                                    CssClass="form-control"
+                                                    Width="50"
+                                                    Enabled="false"></asp:TextBox>
+                                                <asp:RangeValidator ID="RangeValidator1"
+                                                    runat="server"
+                                                    ForeColor="Red"
+                                                    ControlToValidate="txtQuantityToBorrow"
+                                                    Display="Dynamic"
+                                                    MinimumValue="1"
+                                                    MaximumValue='<%# Eval("Stocks") %>'
+                                                    Type="Integer"
+                                                    ErrorMessage="RangeValidator">*</asp:RangeValidator>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -153,6 +166,13 @@
                     $("input[type=text]", td).removeAttr("disabled");
                 }
             });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#<%= txtDateNeeded.ClientID%>').datetimepicker();
+            $('#<%= txtDateNeededTo.ClientID%>').datetimepicker();
         });
     </script>
 </asp:Content>

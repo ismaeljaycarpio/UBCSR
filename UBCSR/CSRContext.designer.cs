@@ -51,12 +51,12 @@ namespace UBCSR
     partial void InsertGroupLINQ(GroupLINQ instance);
     partial void UpdateGroupLINQ(GroupLINQ instance);
     partial void DeleteGroupLINQ(GroupLINQ instance);
-    partial void InsertReservation(Reservation instance);
-    partial void UpdateReservation(Reservation instance);
-    partial void DeleteReservation(Reservation instance);
     partial void InsertReservationItem(ReservationItem instance);
     partial void UpdateReservationItem(ReservationItem instance);
     partial void DeleteReservationItem(ReservationItem instance);
+    partial void InsertReservation(Reservation instance);
+    partial void UpdateReservation(Reservation instance);
+    partial void DeleteReservation(Reservation instance);
     #endregion
 		
 		public CSRContextDataContext() : 
@@ -145,19 +145,19 @@ namespace UBCSR
 			}
 		}
 		
-		public System.Data.Linq.Table<Reservation> Reservations
-		{
-			get
-			{
-				return this.GetTable<Reservation>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ReservationItem> ReservationItems
 		{
 			get
 			{
 				return this.GetTable<ReservationItem>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Reservation> Reservations
+		{
+			get
+			{
+				return this.GetTable<Reservation>();
 			}
 		}
 	}
@@ -1521,264 +1521,6 @@ namespace UBCSR
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservation")]
-	public partial class Reservation : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private System.Nullable<System.Guid> _UserId;
-		
-		private string _Subject;
-		
-		private string _ExperimentNo;
-		
-		private System.Nullable<System.DateTime> _DateRequested;
-		
-		private System.Nullable<System.DateTime> _DateNeeded;
-		
-		private string _LabRoom;
-		
-		private string _Status;
-		
-		private EntitySet<ReservationItem> _ReservationItems;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnUserIdChanging(System.Nullable<System.Guid> value);
-    partial void OnUserIdChanged();
-    partial void OnSubjectChanging(string value);
-    partial void OnSubjectChanged();
-    partial void OnExperimentNoChanging(string value);
-    partial void OnExperimentNoChanged();
-    partial void OnDateRequestedChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateRequestedChanged();
-    partial void OnDateNeededChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateNeededChanged();
-    partial void OnLabRoomChanging(string value);
-    partial void OnLabRoomChanged();
-    partial void OnStatusChanging(string value);
-    partial void OnStatusChanged();
-    #endregion
-		
-		public Reservation()
-		{
-			this._ReservationItems = new EntitySet<ReservationItem>(new Action<ReservationItem>(this.attach_ReservationItems), new Action<ReservationItem>(this.detach_ReservationItems));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subject", DbType="VarChar(50)")]
-		public string Subject
-		{
-			get
-			{
-				return this._Subject;
-			}
-			set
-			{
-				if ((this._Subject != value))
-				{
-					this.OnSubjectChanging(value);
-					this.SendPropertyChanging();
-					this._Subject = value;
-					this.SendPropertyChanged("Subject");
-					this.OnSubjectChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExperimentNo", DbType="VarChar(50)")]
-		public string ExperimentNo
-		{
-			get
-			{
-				return this._ExperimentNo;
-			}
-			set
-			{
-				if ((this._ExperimentNo != value))
-				{
-					this.OnExperimentNoChanging(value);
-					this.SendPropertyChanging();
-					this._ExperimentNo = value;
-					this.SendPropertyChanged("ExperimentNo");
-					this.OnExperimentNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateRequested", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DateRequested
-		{
-			get
-			{
-				return this._DateRequested;
-			}
-			set
-			{
-				if ((this._DateRequested != value))
-				{
-					this.OnDateRequestedChanging(value);
-					this.SendPropertyChanging();
-					this._DateRequested = value;
-					this.SendPropertyChanged("DateRequested");
-					this.OnDateRequestedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateNeeded", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DateNeeded
-		{
-			get
-			{
-				return this._DateNeeded;
-			}
-			set
-			{
-				if ((this._DateNeeded != value))
-				{
-					this.OnDateNeededChanging(value);
-					this.SendPropertyChanging();
-					this._DateNeeded = value;
-					this.SendPropertyChanged("DateNeeded");
-					this.OnDateNeededChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LabRoom", DbType="VarChar(50)")]
-		public string LabRoom
-		{
-			get
-			{
-				return this._LabRoom;
-			}
-			set
-			{
-				if ((this._LabRoom != value))
-				{
-					this.OnLabRoomChanging(value);
-					this.SendPropertyChanging();
-					this._LabRoom = value;
-					this.SendPropertyChanged("LabRoom");
-					this.OnLabRoomChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="VarChar(50)")]
-		public string Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_ReservationItem", Storage="_ReservationItems", ThisKey="Id", OtherKey="ReservationId")]
-		public EntitySet<ReservationItem> ReservationItems
-		{
-			get
-			{
-				return this._ReservationItems;
-			}
-			set
-			{
-				this._ReservationItems.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ReservationItems(ReservationItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Reservation = this;
-		}
-		
-		private void detach_ReservationItems(ReservationItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Reservation = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReservationItem")]
 	public partial class ReservationItem : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2016,6 +1758,312 @@ namespace UBCSR
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservation")]
+	public partial class Reservation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<System.Guid> _UserId;
+		
+		private string _Subject;
+		
+		private string _ExperimentNo;
+		
+		private System.Nullable<System.DateTime> _DateRequested;
+		
+		private System.Nullable<System.DateTime> _DateFrom;
+		
+		private string _LabRoom;
+		
+		private string _Status;
+		
+		private string _ApprovalStatus;
+		
+		private System.Nullable<System.DateTime> _DateTo;
+		
+		private EntitySet<ReservationItem> _ReservationItems;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserIdChanging(System.Nullable<System.Guid> value);
+    partial void OnUserIdChanged();
+    partial void OnSubjectChanging(string value);
+    partial void OnSubjectChanged();
+    partial void OnExperimentNoChanging(string value);
+    partial void OnExperimentNoChanged();
+    partial void OnDateRequestedChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateRequestedChanged();
+    partial void OnDateFromChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateFromChanged();
+    partial void OnLabRoomChanging(string value);
+    partial void OnLabRoomChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    partial void OnApprovalStatusChanging(string value);
+    partial void OnApprovalStatusChanged();
+    partial void OnDateToChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateToChanged();
+    #endregion
+		
+		public Reservation()
+		{
+			this._ReservationItems = new EntitySet<ReservationItem>(new Action<ReservationItem>(this.attach_ReservationItems), new Action<ReservationItem>(this.detach_ReservationItems));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subject", DbType="VarChar(50)")]
+		public string Subject
+		{
+			get
+			{
+				return this._Subject;
+			}
+			set
+			{
+				if ((this._Subject != value))
+				{
+					this.OnSubjectChanging(value);
+					this.SendPropertyChanging();
+					this._Subject = value;
+					this.SendPropertyChanged("Subject");
+					this.OnSubjectChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExperimentNo", DbType="VarChar(50)")]
+		public string ExperimentNo
+		{
+			get
+			{
+				return this._ExperimentNo;
+			}
+			set
+			{
+				if ((this._ExperimentNo != value))
+				{
+					this.OnExperimentNoChanging(value);
+					this.SendPropertyChanging();
+					this._ExperimentNo = value;
+					this.SendPropertyChanged("ExperimentNo");
+					this.OnExperimentNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateRequested", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateRequested
+		{
+			get
+			{
+				return this._DateRequested;
+			}
+			set
+			{
+				if ((this._DateRequested != value))
+				{
+					this.OnDateRequestedChanging(value);
+					this.SendPropertyChanging();
+					this._DateRequested = value;
+					this.SendPropertyChanged("DateRequested");
+					this.OnDateRequestedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateFrom", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateFrom
+		{
+			get
+			{
+				return this._DateFrom;
+			}
+			set
+			{
+				if ((this._DateFrom != value))
+				{
+					this.OnDateFromChanging(value);
+					this.SendPropertyChanging();
+					this._DateFrom = value;
+					this.SendPropertyChanged("DateFrom");
+					this.OnDateFromChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LabRoom", DbType="VarChar(50)")]
+		public string LabRoom
+		{
+			get
+			{
+				return this._LabRoom;
+			}
+			set
+			{
+				if ((this._LabRoom != value))
+				{
+					this.OnLabRoomChanging(value);
+					this.SendPropertyChanging();
+					this._LabRoom = value;
+					this.SendPropertyChanged("LabRoom");
+					this.OnLabRoomChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="VarChar(50)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalStatus", DbType="VarChar(50)")]
+		public string ApprovalStatus
+		{
+			get
+			{
+				return this._ApprovalStatus;
+			}
+			set
+			{
+				if ((this._ApprovalStatus != value))
+				{
+					this.OnApprovalStatusChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovalStatus = value;
+					this.SendPropertyChanged("ApprovalStatus");
+					this.OnApprovalStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateTo", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateTo
+		{
+			get
+			{
+				return this._DateTo;
+			}
+			set
+			{
+				if ((this._DateTo != value))
+				{
+					this.OnDateToChanging(value);
+					this.SendPropertyChanging();
+					this._DateTo = value;
+					this.SendPropertyChanged("DateTo");
+					this.OnDateToChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_ReservationItem", Storage="_ReservationItems", ThisKey="Id", OtherKey="ReservationId")]
+		public EntitySet<ReservationItem> ReservationItems
+		{
+			get
+			{
+				return this._ReservationItems;
+			}
+			set
+			{
+				this._ReservationItems.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ReservationItems(ReservationItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Reservation = this;
+		}
+		
+		private void detach_ReservationItems(ReservationItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Reservation = null;
 		}
 	}
 }

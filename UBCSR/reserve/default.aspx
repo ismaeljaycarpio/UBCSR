@@ -62,11 +62,13 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <asp:BoundField DataField="Subject" HeaderText="Date Requested" SortExpression="Subject" />
+                                            <asp:BoundField DataField="Subject" HeaderText="Subject" SortExpression="Subject" />
                                             <asp:BoundField DataField="ExperimentNo" HeaderText="Experiment No" SortExpression="ExperimentNo" />
                                             <asp:BoundField DataField="DateRequested" HeaderText="Date Requested" SortExpression="DateRequested" />
-                                            <asp:BoundField DataField="DateNeeded" HeaderText="Date Needed" SortExpression="DateNeeded" />
+                                            <asp:BoundField DataField="DateFrom" HeaderText="Date Needed From" SortExpression="DateFrom" />
+                                            <asp:BoundField DataField="DateTo" HeaderText="Date Needed To" SortExpression="DateTo" />
                                             <asp:BoundField DataField="LabRoom" HeaderText="Lab Room" SortExpression="LabRoom" />
+                                            <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval" SortExpression="ApprovalStatus" />
                                             <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
 
                                             <asp:TemplateField>
@@ -94,5 +96,35 @@
             </div>
         </div>
     </asp:Panel>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete Confirmation</h4>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this record ?
+                            <asp:HiddenField ID="hfDeleteId" runat="server" />
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="btnDelete_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="btnDelete" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
     <asp:HiddenField ID="hfUserId" runat="server" />
 </asp:Content>

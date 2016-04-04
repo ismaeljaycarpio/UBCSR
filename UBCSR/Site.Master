@@ -11,6 +11,7 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <asp:PlaceHolder runat="server">
@@ -19,6 +20,7 @@
         <script src="<%: ResolveUrl("~/Scripts/bootstrap.js") %>"></script>
         <script src="<%: ResolveUrl("~/Scripts/moment.js") %>"></script>
         <script src="<%: ResolveUrl("~/Scripts/bootstrap-datepicker.js") %>"></script>
+        <script src="<%: ResolveUrl("~/Scripts/bootstrap-datetimepicker.js") %>"></script>
     </asp:PlaceHolder>
 
     <meta name="viewport" content="width=device-width" />
@@ -85,7 +87,7 @@
                                             </ul>
                                         </li>
                                         <li><a runat="server" href="~/Inventory/Default.aspx">Inventory</a></li>
-                                        <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -111,7 +113,7 @@
                                 </ContentTemplate>
                             </asp:RoleGroup>
 
-                            <asp:RoleGroup Roles="CSR">
+                            <asp:RoleGroup Roles="CSR Head">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
                                         <li class="dropdown"><a runat="server" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File Maintenance<span class="caret"></span></a>
@@ -126,7 +128,7 @@
                                             </ul>
                                         </li>
                                         <li><a runat="server" href="~/Inventory/Default.aspx">Inventory</a></li>
-                                        <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -167,7 +169,7 @@
                                             </ul>
                                         </li>
                                         <li><a runat="server" href="~/Inventory/Default.aspx">Inventory</a></li>
-                                        <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -196,7 +198,7 @@
                             <asp:RoleGroup Roles="Instructor">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
-                                        <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -225,7 +227,7 @@
                             <asp:RoleGroup Roles="Student">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
-                                        <li><a runat="server" href="~/borrow/default.aspx">Borrow</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">

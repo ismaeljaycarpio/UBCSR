@@ -34,6 +34,7 @@ namespace UBCSR.borrow
             gvInv.DataSource = q.ToList();
             gvInv.DataBind();
         }
+
         protected void btnSave_Click(object sender, EventArgs e)
         {
             Page.Validate();
@@ -42,8 +43,10 @@ namespace UBCSR.borrow
             r.Subject = txtSubject.Text;
             r.ExperimentNo = txtExpNo.Text;
             r.DateRequested = DateTime.Now;
-            r.DateNeeded = Convert.ToDateTime(txtDateNeeded.Text);
+            r.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
+            r.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
             r.LabRoom = txtLabRoom.Text;
+            r.ApprovalStatus = "Pending";
 
             db.Reservations.InsertOnSubmit(r);
             db.SubmitChanges();
@@ -71,12 +74,12 @@ namespace UBCSR.borrow
                 }
             }
 
-            Response.Redirect("~/borrow/default.aspx");
+            Response.Redirect("~/reserve/default.aspx");
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("~/reserve/default.aspx");
         }
 
         protected void gvInv_RowCommand(object sender, GridViewCommandEventArgs e)

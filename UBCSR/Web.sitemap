@@ -12,6 +12,10 @@
         <siteMapNode url="~/FileMaintenance/Roles.aspx" title="Roles"></siteMapNode>
       </siteMapNode>
       <siteMapNode title="Inventory" url="~/Inventory/Default.aspx"></siteMapNode>
-      <siteMapNode title="Borrow" url="~/borrow/default.aspx"></siteMapNode>
+      
+      <siteMapNode title="Reservation" url="~/reserve/default.aspx">
+        <siteMapNode title="Make Reservation" url="~/reserve/reserve.aspx"></siteMapNode>
+        <siteMapNode title="Edit Reservation" url="~/reserve/editreserve.aspx"></siteMapNode>
+      </siteMapNode>
     </siteMapNode>
 </siteMap>
