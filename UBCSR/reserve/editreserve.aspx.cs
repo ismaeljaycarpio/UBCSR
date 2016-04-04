@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -43,6 +44,7 @@ namespace UBCSR.reserve
                         hfResId.Value = r.Id.ToString();
 
                         bindGridview();
+                        bindBorrowers();
 
                         //approval to CSR Head
                         if(!User.IsInRole("CSR Head") && !User.IsInRole("Admin"))
@@ -144,6 +146,26 @@ namespace UBCSR.reserve
             gvInv.DataBind();
         }
 
+        protected void bindBorrowers()
+        {
+            var q = from b in db.Borrows
+                    join g in db.GroupLINQs
+                    on b.GroupId equals g.Id
+                    join acc in db.AccountLINQs
+                    on g.LeaderUserId equals acc.UserId
+                    where b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])
+                    select new
+                    {
+                        Id = b.Id,
+                        GroupName = g.Name,
+                        GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
+                        Status = b.Status
+                    };
+            gvBorrowers.DataSource = q.ToList();
+            gvBorrowers.DataBind();
+
+        }
+
         protected void btnApprove_Click(object sender, EventArgs e)
         {
             int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
@@ -185,6 +207,42 @@ namespace UBCSR.reserve
         protected void btnBorrow_Click(object sender, EventArgs e)
         {
             //hook to reservation
+            var q = (from b in db.Borrows
+                     join g in db.GroupLINQs
+                     on b.GroupId equals g.Id
+                     where (g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
+                     (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                     select new
+                     {
+                         Id = b.Id
+                     }).ToList();
+
+            var group = (from g in db.GroupLINQs
+                        where g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
+                        select g).FirstOrDefault();
+
+            if(q.Count < 1)
+            {
+                Borrow b = new Borrow();
+                b.GroupId = group.Id;
+                b.ReservationId = Convert.ToInt32(Request.QueryString["resId"]);
+                b.Status = "Joined";
+
+                db.Borrows.InsertOnSubmit(b);
+                db.SubmitChanges();
+
+                Response.Redirect("~/reserve/default.aspx");
+            }
+            else
+            {
+                //show alert
+                pnlDoublejoin.Visible = true;
+            }
+
+        }
+
+        protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
 
         }
     }

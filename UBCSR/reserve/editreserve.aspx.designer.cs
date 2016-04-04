@@ -166,6 +166,33 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.Button btnCancel;
         
         /// <summary>
+        /// pnlDoublejoin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlDoublejoin;
+        
+        /// <summary>
+        /// upBorrowers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upBorrowers;
+        
+        /// <summary>
+        /// gvBorrowers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvBorrowers;
+        
+        /// <summary>
         /// hfResId control.
         /// </summary>
         /// <remarks>

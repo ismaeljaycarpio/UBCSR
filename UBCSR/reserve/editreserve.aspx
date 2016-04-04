@@ -143,6 +143,44 @@
                         <asp:Button ID="btnBorrow" runat="server" Text="Borrow (by group)" OnClick="btnBorrow_Click" CssClass="btn btn-success" CausesValidation="false" Visible="false" />
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" CssClass="btn btn-default" />
                     </div>
+                    <div class="panel-body">
+                        <asp:Panel ID="pnlDoublejoin" CssClass="alert alert-info" runat="server" Visible="false">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Notice!</strong> Your group already joined
+                        </asp:Panel>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <asp:UpdatePanel ID="upBorrowers" runat="server">
+                                <ContentTemplate>
+                                    <asp:GridView ID="gvBorrowers"
+                                        runat="server"
+                                        CssClass="table table-striped table-hover dataTable"
+                                        GridLines="None"
+                                        AutoGenerateColumns="false"
+                                        EmptyDataText="No Record(s) found"
+                                        ShowHeaderWhenEmpty="true"
+                                        DataKeyNames="Id"
+                                        OnRowCommand="gvBorrowers_RowCommand">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
+                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
+                                            <asp:BoundField DataField="Status" HeaderText="Status" />
+                                        </Columns>
+                                        <PagerStyle CssClass="pagination-ys" />
+                                    </asp:GridView>
+                                </ContentTemplate>
+                                <Triggers>
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

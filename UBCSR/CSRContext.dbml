@@ -98,7 +98,7 @@
   </Table>
   <Table Name="dbo.Borrow" Member="Borrows">
     <Type Name="Borrow">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ReservationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
