@@ -433,18 +433,20 @@ namespace UBCSR.DAL
         #region Account
         public DataTable searchUser(string searchKeyWord)
         {
-            strSql = "SELECT Account.StudentId, Memberships.UserId, Memberships.IsApproved, " +
+            strSql = "SELECT Users.UserName, Memberships.UserId, Memberships.IsApproved, " +
                 "Roles.RoleName, [Group].Name AS [GroupNo], " +
                 "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
                 "FROM Memberships " +
+                "LEFT JOIN Users " +
+                "ON Memberships.UserId = Users.UserId " + 
                 "LEFT JOIN UsersInRoles " +
-                "ON Memberships.UserId = UsersInRoles.UserId " +
+                "ON Users.UserId = UsersInRoles.UserId " +
                 "LEFT JOIN Roles " +
                 "ON Roles.RoleId = UsersInRoles.RoleId " +
                 "LEFT JOIN Account " +
                 "ON Memberships.UserId = Account.UserId " +
                 "LEFT JOIN [Group] " +
-                "ON [Group].Id = Account.GroupNo " + 
+                "ON [Group].Id = Account.GroupId " + 
                 "WHERE " +
                 "(Account.FirstName LIKE '%' + @searchKeyWord + '%' OR " +
                 "Account.MiddleName LIKE '%' + @searchKeyWord + '%' OR " +
@@ -564,7 +566,7 @@ namespace UBCSR.DAL
 
         public void addUser(Guid UserId, string firstName, string middleName, string lastName, string studentId)
         {
-            strSql = "INSERT INTO Account VALUES(@UserId,@FirstName,@MiddleName,@LastName,@StudentId)";
+            strSql = "INSERT INTO Account VALUES(@UserId,@FirstName,@MiddleName,@LastName,@StudentId,@GroupId)";
 
             conn = new SqlConnection();
             conn.ConnectionString = CONN_STRING;
@@ -577,6 +579,7 @@ namespace UBCSR.DAL
                 comm.Parameters.AddWithValue("@MiddleName", middleName);
                 comm.Parameters.AddWithValue("@LastName", lastName);
                 comm.Parameters.AddWithValue("@StudentId", studentId);
+                comm.Parameters.AddWithValue("@GroupId", "0");
                 comm.ExecuteNonQuery();
                 conn.Close();
             }

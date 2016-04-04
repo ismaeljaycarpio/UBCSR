@@ -40,7 +40,6 @@
                                     DataKeyNames="Id"
                                     EmptyDataText="No Record(s) found"
                                     OnPageIndexChanging="gvGroups_PageIndexChanging"
-                                    OnRowDeleting="gvGroups_RowDeleting"
                                     OnRowCommand="gvGroups_RowCommand">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Row Id" Visible="false">
@@ -54,6 +53,12 @@
                                         <asp:TemplateField HeaderText="Group Name">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblName" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Group Leader">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblGroupLeader" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -97,7 +102,6 @@
     <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="upAdd" runat="server">
@@ -118,6 +122,18 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Group Name is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlGroupLeader">Group Leader</label>
+                                    <asp:DropDownList ID="ddlGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlGroupLeader"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
@@ -195,6 +211,18 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="gvEdit"
                                         ErrorMessage="Group Name is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlEditGroupLeader">Group Leader</label>
+                                    <asp:DropDownList ID="ddlEditGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlEditGroupLeader"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">

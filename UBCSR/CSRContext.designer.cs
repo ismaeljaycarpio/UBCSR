@@ -45,18 +45,18 @@ namespace UBCSR
     partial void InsertInventoryLINQ(InventoryLINQ instance);
     partial void UpdateInventoryLINQ(InventoryLINQ instance);
     partial void DeleteInventoryLINQ(InventoryLINQ instance);
-    partial void InsertAccountLINQ(AccountLINQ instance);
-    partial void UpdateAccountLINQ(AccountLINQ instance);
-    partial void DeleteAccountLINQ(AccountLINQ instance);
-    partial void InsertGroupLINQ(GroupLINQ instance);
-    partial void UpdateGroupLINQ(GroupLINQ instance);
-    partial void DeleteGroupLINQ(GroupLINQ instance);
     partial void InsertReservationItem(ReservationItem instance);
     partial void UpdateReservationItem(ReservationItem instance);
     partial void DeleteReservationItem(ReservationItem instance);
     partial void InsertReservation(Reservation instance);
     partial void UpdateReservation(Reservation instance);
     partial void DeleteReservation(Reservation instance);
+    partial void InsertGroupLINQ(GroupLINQ instance);
+    partial void UpdateGroupLINQ(GroupLINQ instance);
+    partial void DeleteGroupLINQ(GroupLINQ instance);
+    partial void InsertAccountLINQ(AccountLINQ instance);
+    partial void UpdateAccountLINQ(AccountLINQ instance);
+    partial void DeleteAccountLINQ(AccountLINQ instance);
     #endregion
 		
 		public CSRContextDataContext() : 
@@ -129,22 +129,6 @@ namespace UBCSR
 			}
 		}
 		
-		public System.Data.Linq.Table<AccountLINQ> AccountLINQs
-		{
-			get
-			{
-				return this.GetTable<AccountLINQ>();
-			}
-		}
-		
-		public System.Data.Linq.Table<GroupLINQ> GroupLINQs
-		{
-			get
-			{
-				return this.GetTable<GroupLINQ>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ReservationItem> ReservationItems
 		{
 			get
@@ -158,6 +142,22 @@ namespace UBCSR
 			get
 			{
 				return this.GetTable<Reservation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<GroupLINQ> GroupLINQs
+		{
+			get
+			{
+				return this.GetTable<GroupLINQ>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AccountLINQ> AccountLINQs
+		{
+			get
+			{
+				return this.GetTable<AccountLINQ>();
 			}
 		}
 	}
@@ -1088,439 +1088,6 @@ namespace UBCSR
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Account")]
-	public partial class AccountLINQ : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private System.Nullable<System.Guid> _UserId;
-		
-		private string _LastName;
-		
-		private string _MiddleName;
-		
-		private string _FirstName;
-		
-		private string _StudentId;
-		
-		private System.Nullable<int> _GroupNo;
-		
-		private EntityRef<GroupLINQ> _Group;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnUserIdChanging(System.Nullable<System.Guid> value);
-    partial void OnUserIdChanged();
-    partial void OnLastNameChanging(string value);
-    partial void OnLastNameChanged();
-    partial void OnMiddleNameChanging(string value);
-    partial void OnMiddleNameChanged();
-    partial void OnFirstNameChanging(string value);
-    partial void OnFirstNameChanged();
-    partial void OnStudentIdChanging(string value);
-    partial void OnStudentIdChanged();
-    partial void OnGroupNoChanging(System.Nullable<int> value);
-    partial void OnGroupNoChanged();
-    #endregion
-		
-		public AccountLINQ()
-		{
-			this._Group = default(EntityRef<GroupLINQ>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(MAX)")]
-		public string LastName
-		{
-			get
-			{
-				return this._LastName;
-			}
-			set
-			{
-				if ((this._LastName != value))
-				{
-					this.OnLastNameChanging(value);
-					this.SendPropertyChanging();
-					this._LastName = value;
-					this.SendPropertyChanged("LastName");
-					this.OnLastNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MiddleName", DbType="VarChar(MAX)")]
-		public string MiddleName
-		{
-			get
-			{
-				return this._MiddleName;
-			}
-			set
-			{
-				if ((this._MiddleName != value))
-				{
-					this.OnMiddleNameChanging(value);
-					this.SendPropertyChanging();
-					this._MiddleName = value;
-					this.SendPropertyChanged("MiddleName");
-					this.OnMiddleNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(MAX)")]
-		public string FirstName
-		{
-			get
-			{
-				return this._FirstName;
-			}
-			set
-			{
-				if ((this._FirstName != value))
-				{
-					this.OnFirstNameChanging(value);
-					this.SendPropertyChanging();
-					this._FirstName = value;
-					this.SendPropertyChanged("FirstName");
-					this.OnFirstNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StudentId", DbType="VarChar(MAX)")]
-		public string StudentId
-		{
-			get
-			{
-				return this._StudentId;
-			}
-			set
-			{
-				if ((this._StudentId != value))
-				{
-					this.OnStudentIdChanging(value);
-					this.SendPropertyChanging();
-					this._StudentId = value;
-					this.SendPropertyChanged("StudentId");
-					this.OnStudentIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupNo", DbType="Int")]
-		public System.Nullable<int> GroupNo
-		{
-			get
-			{
-				return this._GroupNo;
-			}
-			set
-			{
-				if ((this._GroupNo != value))
-				{
-					if (this._Group.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnGroupNoChanging(value);
-					this.SendPropertyChanging();
-					this._GroupNo = value;
-					this.SendPropertyChanged("GroupNo");
-					this.OnGroupNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_AccountLINQ", Storage="_Group", ThisKey="GroupNo", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
-		public GroupLINQ GroupLINQ
-		{
-			get
-			{
-				return this._Group.Entity;
-			}
-			set
-			{
-				GroupLINQ previousValue = this._Group.Entity;
-				if (((previousValue != value) 
-							|| (this._Group.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Group.Entity = null;
-						previousValue.AccountLINQs.Remove(this);
-					}
-					this._Group.Entity = value;
-					if ((value != null))
-					{
-						value.AccountLINQs.Add(this);
-						this._GroupNo = value.Id;
-					}
-					else
-					{
-						this._GroupNo = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("GroupLINQ");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[Group]")]
-	public partial class GroupLINQ : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private string _YearFrom;
-		
-		private string _YearTo;
-		
-		private string _Sem;
-		
-		private EntitySet<AccountLINQ> _AccountLINQs;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnYearFromChanging(string value);
-    partial void OnYearFromChanged();
-    partial void OnYearToChanging(string value);
-    partial void OnYearToChanged();
-    partial void OnSemChanging(string value);
-    partial void OnSemChanged();
-    #endregion
-		
-		public GroupLINQ()
-		{
-			this._AccountLINQs = new EntitySet<AccountLINQ>(new Action<AccountLINQ>(this.attach_AccountLINQs), new Action<AccountLINQ>(this.detach_AccountLINQs));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearFrom", DbType="VarChar(50)")]
-		public string YearFrom
-		{
-			get
-			{
-				return this._YearFrom;
-			}
-			set
-			{
-				if ((this._YearFrom != value))
-				{
-					this.OnYearFromChanging(value);
-					this.SendPropertyChanging();
-					this._YearFrom = value;
-					this.SendPropertyChanged("YearFrom");
-					this.OnYearFromChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearTo", DbType="VarChar(50)")]
-		public string YearTo
-		{
-			get
-			{
-				return this._YearTo;
-			}
-			set
-			{
-				if ((this._YearTo != value))
-				{
-					this.OnYearToChanging(value);
-					this.SendPropertyChanging();
-					this._YearTo = value;
-					this.SendPropertyChanged("YearTo");
-					this.OnYearToChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sem", DbType="VarChar(50)")]
-		public string Sem
-		{
-			get
-			{
-				return this._Sem;
-			}
-			set
-			{
-				if ((this._Sem != value))
-				{
-					this.OnSemChanging(value);
-					this.SendPropertyChanging();
-					this._Sem = value;
-					this.SendPropertyChanged("Sem");
-					this.OnSemChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_AccountLINQ", Storage="_AccountLINQs", ThisKey="Id", OtherKey="GroupNo")]
-		public EntitySet<AccountLINQ> AccountLINQs
-		{
-			get
-			{
-				return this._AccountLINQs;
-			}
-			set
-			{
-				this._AccountLINQs.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_AccountLINQs(AccountLINQ entity)
-		{
-			this.SendPropertyChanging();
-			entity.GroupLINQ = this;
-		}
-		
-		private void detach_AccountLINQs(AccountLINQ entity)
-		{
-			this.SendPropertyChanging();
-			entity.GroupLINQ = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReservationItem")]
 	public partial class ReservationItem : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2064,6 +1631,394 @@ namespace UBCSR
 		{
 			this.SendPropertyChanging();
 			entity.Reservation = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[Group]")]
+	public partial class GroupLINQ : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _YearFrom;
+		
+		private string _YearTo;
+		
+		private string _Sem;
+		
+		private System.Nullable<System.Guid> _LeaderUserId;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnYearFromChanging(string value);
+    partial void OnYearFromChanged();
+    partial void OnYearToChanging(string value);
+    partial void OnYearToChanged();
+    partial void OnSemChanging(string value);
+    partial void OnSemChanged();
+    partial void OnLeaderUserIdChanging(System.Nullable<System.Guid> value);
+    partial void OnLeaderUserIdChanged();
+    #endregion
+		
+		public GroupLINQ()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearFrom", DbType="VarChar(50)")]
+		public string YearFrom
+		{
+			get
+			{
+				return this._YearFrom;
+			}
+			set
+			{
+				if ((this._YearFrom != value))
+				{
+					this.OnYearFromChanging(value);
+					this.SendPropertyChanging();
+					this._YearFrom = value;
+					this.SendPropertyChanged("YearFrom");
+					this.OnYearFromChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearTo", DbType="VarChar(50)")]
+		public string YearTo
+		{
+			get
+			{
+				return this._YearTo;
+			}
+			set
+			{
+				if ((this._YearTo != value))
+				{
+					this.OnYearToChanging(value);
+					this.SendPropertyChanging();
+					this._YearTo = value;
+					this.SendPropertyChanged("YearTo");
+					this.OnYearToChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sem", DbType="VarChar(50)")]
+		public string Sem
+		{
+			get
+			{
+				return this._Sem;
+			}
+			set
+			{
+				if ((this._Sem != value))
+				{
+					this.OnSemChanging(value);
+					this.SendPropertyChanging();
+					this._Sem = value;
+					this.SendPropertyChanged("Sem");
+					this.OnSemChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LeaderUserId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> LeaderUserId
+		{
+			get
+			{
+				return this._LeaderUserId;
+			}
+			set
+			{
+				if ((this._LeaderUserId != value))
+				{
+					this.OnLeaderUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._LeaderUserId = value;
+					this.SendPropertyChanged("LeaderUserId");
+					this.OnLeaderUserIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Account")]
+	public partial class AccountLINQ : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<System.Guid> _UserId;
+		
+		private string _LastName;
+		
+		private string _MiddleName;
+		
+		private string _FirstName;
+		
+		private string _StudentId;
+		
+		private System.Nullable<int> _GroupId;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserIdChanging(System.Nullable<System.Guid> value);
+    partial void OnUserIdChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnMiddleNameChanging(string value);
+    partial void OnMiddleNameChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnStudentIdChanging(string value);
+    partial void OnStudentIdChanged();
+    partial void OnGroupIdChanging(System.Nullable<int> value);
+    partial void OnGroupIdChanged();
+    #endregion
+		
+		public AccountLINQ()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(MAX)")]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this.OnLastNameChanging(value);
+					this.SendPropertyChanging();
+					this._LastName = value;
+					this.SendPropertyChanged("LastName");
+					this.OnLastNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MiddleName", DbType="VarChar(MAX)")]
+		public string MiddleName
+		{
+			get
+			{
+				return this._MiddleName;
+			}
+			set
+			{
+				if ((this._MiddleName != value))
+				{
+					this.OnMiddleNameChanging(value);
+					this.SendPropertyChanging();
+					this._MiddleName = value;
+					this.SendPropertyChanged("MiddleName");
+					this.OnMiddleNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(MAX)")]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this.OnFirstNameChanging(value);
+					this.SendPropertyChanging();
+					this._FirstName = value;
+					this.SendPropertyChanged("FirstName");
+					this.OnFirstNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StudentId", DbType="VarChar(MAX)")]
+		public string StudentId
+		{
+			get
+			{
+				return this._StudentId;
+			}
+			set
+			{
+				if ((this._StudentId != value))
+				{
+					this.OnStudentIdChanging(value);
+					this.SendPropertyChanging();
+					this._StudentId = value;
+					this.SendPropertyChanged("StudentId");
+					this.OnStudentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupId", DbType="Int")]
+		public System.Nullable<int> GroupId
+		{
+			get
+			{
+				return this._GroupId;
+			}
+			set
+			{
+				if ((this._GroupId != value))
+				{
+					this.OnGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._GroupId = value;
+					this.SendPropertyChanged("GroupId");
+					this.OnGroupIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

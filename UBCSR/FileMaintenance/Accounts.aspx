@@ -49,7 +49,7 @@
 
                                         <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("StudentId") %>'></asp:Label>
+                                                <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("UserName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 

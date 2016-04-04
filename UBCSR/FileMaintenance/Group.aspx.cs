@@ -14,6 +14,7 @@ namespace UBCSR.FileMaintenance
         {
             if(!Page.IsPostBack)
             {
+                bindDropdonw();
                 bindGridview();
             }
         }
@@ -21,16 +22,60 @@ namespace UBCSR.FileMaintenance
         protected void bindGridview()
         {
             var q = (from g in db.GroupLINQs
+                     join a in db.AccountLINQs
+                     on g.LeaderUserId equals a.UserId
                      where g.Name.Contains(txtSearch.Text.Trim()) ||
                      g.YearFrom.Contains(txtSearch.Text.Trim()) ||
                      g.YearTo.Contains(txtSearch.Text.Trim()) ||
                      g.Sem.Contains(txtSearch.Text.Trim())
-                     select g).ToList();
+                     select new
+                     {
+                         Id = g.Id,
+                         Name = g.Name,
+                         FullName = a.LastName + " ," + a.FirstName + " " + a.MiddleName,
+                         YearFrom = g.YearFrom,
+                         YearTo = g.YearTo,
+                         Sem = g.Sem
+                     }).ToList();
 
             gvGroups.DataSource = q;
             gvGroups.DataBind();
 
             txtSearch.Focus();
+        }
+
+        protected void bindDropdonw()
+        {
+            //doesnt belong to any group yet
+            var q = (from a in db.AccountLINQs
+                     where a.GroupId == 0
+                     select new{
+                         Id = a.UserId,
+                         FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
+                     }).ToList();
+            
+            ddlGroupLeader.DataSource = q;
+            ddlGroupLeader.DataTextField = "FullName";
+            ddlGroupLeader.DataValueField = "Id";
+            ddlGroupLeader.DataBind();         
+        }
+
+        protected void bindEditDropdown(Guid myUserId)
+        {
+            //doesnt belong to any group yet
+            var q = (from a in db.AccountLINQs
+                     where a.GroupId == 0 ||
+                     a.UserId == myUserId
+                     select new
+                     {
+                         Id = a.UserId,
+                         FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
+                     }).ToList();
+
+            ddlEditGroupLeader.DataSource = q;
+            ddlEditGroupLeader.DataTextField = "FullName";
+            ddlEditGroupLeader.DataValueField = "Id";
+            ddlEditGroupLeader.DataBind();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -42,11 +87,6 @@ namespace UBCSR.FileMaintenance
         {
             gvGroups.PageIndex = e.NewPageIndex;
             bindGridview();
-        }
-
-        protected void gvGroups_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-
         }
 
         protected void gvGroups_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -63,6 +103,12 @@ namespace UBCSR.FileMaintenance
                 txtEditYearFrom.Text = q.YearFrom;
                 txtEditYearTo.Text = q.YearTo;
                 ddlEditSemester.SelectedItem.Text = q.Sem;
+
+                //load accnts
+                Guid myUserid = Guid.Parse(q.LeaderUserId.ToString());
+                bindEditDropdown(myUserid);
+
+                ddlEditGroupLeader.SelectedValue = q.LeaderUserId.ToString();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -121,6 +167,7 @@ namespace UBCSR.FileMaintenance
             q.YearFrom = txtEditYearFrom.Text;
             q.YearTo = txtEditYearTo.Text;
             q.Sem = ddlEditSemester.SelectedItem.Text;
+            q.LeaderUserId = Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString());
 
             db.SubmitChanges();
 
@@ -140,9 +187,18 @@ namespace UBCSR.FileMaintenance
             g.YearFrom = txtAddYearFrom.Text;
             g.YearTo = txtAddYearTo.Text;
             g.Sem = ddlAddSemester.SelectedItem.Text;
+            g.LeaderUserId = Guid.Parse(ddlGroupLeader.SelectedValue.ToString());
 
             db.GroupLINQs.InsertOnSubmit(g);
 
+            db.SubmitChanges();
+
+            //update Account table also
+            var q = (from a in db.AccountLINQs
+                     where a.UserId == Guid.Parse(ddlGroupLeader.SelectedValue.ToString())
+                     select a).FirstOrDefault();
+
+            q.GroupId = g.Id;
             db.SubmitChanges();
 
             bindGridview();

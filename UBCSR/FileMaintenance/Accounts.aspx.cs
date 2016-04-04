@@ -140,8 +140,7 @@ namespace UBCSR.FileMaintenance
             if (e.CommandName.Equals("editRecord"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
+                
                 dt = fm.SelectUserAccounts((Guid)(gvAccount.DataKeys[index].Value));
                 lblRowId.Text = dt.Rows[0]["UserId"].ToString();
                 txtEditFirstName.Text = dt.Rows[0]["FirstName"].ToString();
@@ -150,6 +149,10 @@ namespace UBCSR.FileMaintenance
                 txtEditUserId.Text = dt.Rows[0]["StudentId"].ToString();
                 ddlEditRole.SelectedValue = dt.Rows[0]["RoleId"].ToString();
 
+                //[load groups]
+
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
                 sb.Append("$('#updateModal').modal('show');");
                 sb.Append(@"</script>");
@@ -178,7 +181,7 @@ namespace UBCSR.FileMaintenance
                          where a.StudentId == userName
                          select a).FirstOrDefault();
 
-                ddlGroupNo.SelectedValue = q.GroupNo.ToString();
+                ddlGroupNo.SelectedValue = q.GroupId.ToString();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -246,7 +249,6 @@ namespace UBCSR.FileMaintenance
         protected void btnSave_Click(object sender, EventArgs e)
         {
             //same username and pass for newly created accnts
-
             MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text, 
                 txtAddUserId.Text);
 
@@ -266,7 +268,6 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#addModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
-
         }
 
         protected void populateDropdowns()
@@ -323,7 +324,7 @@ namespace UBCSR.FileMaintenance
                      where a.StudentId == lblUpdateGroupId.Text
                      select a).FirstOrDefault();
 
-            q.GroupNo = Convert.ToInt32(ddlGroupNo.SelectedValue);
+            q.GroupId = Convert.ToInt32(ddlGroupNo.SelectedValue);
             db.SubmitChanges();
 
             bindData();
