@@ -14,7 +14,6 @@ namespace UBCSR.FileMaintenance
         {
             if(!Page.IsPostBack)
             {
-                bindDropdonw();
                 bindGridview();
             }
         }
@@ -131,6 +130,8 @@ namespace UBCSR.FileMaintenance
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
+            bindDropdonw();
+
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#addModal').modal('show');");
@@ -167,8 +168,31 @@ namespace UBCSR.FileMaintenance
             q.YearFrom = txtEditYearFrom.Text;
             q.YearTo = txtEditYearTo.Text;
             q.Sem = ddlEditSemester.SelectedItem.Text;
+
+            Guid previousLeaderId = Guid.Parse(q.LeaderUserId.ToString());
+
             q.LeaderUserId = Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString());
 
+            db.SubmitChanges();
+
+            //chk if new leadership
+            if(q.LeaderUserId != previousLeaderId)
+            {
+                //reset previous leader to groupid = 0
+                var a = (from ac in db.AccountLINQs
+                         where ac.UserId == previousLeaderId
+                         select ac).FirstOrDefault();
+
+                a.GroupId = 0;
+                db.SubmitChanges();
+            }
+
+            //update Account table also
+            var acc = (from a in db.AccountLINQs
+                     where a.UserId == Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString())
+                     select a).FirstOrDefault();
+
+            acc.GroupId = q.Id;
             db.SubmitChanges();
 
             bindGridview();
