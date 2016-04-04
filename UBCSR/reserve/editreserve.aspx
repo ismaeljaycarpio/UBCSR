@@ -140,6 +140,7 @@
                         <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CssClass="btn btn-primary" CausesValidation="true" ValidationGroup="vgPrimaryAdd" />
                         <asp:Button ID="btnApprove" runat="server" Text="Approve" OnClick="btnApprove_Click" CssClass="btn btn-success" CausesValidation="false" />
                         <asp:Button ID="btnDisapprove" runat="server" Text="Disapprove" OnClick="btnDisapprove_Click" CssClass="btn btn-danger" CausesValidation="false" />
+                        <asp:Button ID="btnBorrow" runat="server" Text="Borrow (by group)" OnClick="btnBorrow_Click" CssClass="btn btn-success" CausesValidation="false" Visible="false" />
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" CssClass="btn btn-default" />
                     </div>
                 </div>

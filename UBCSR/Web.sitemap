@@ -18,5 +18,9 @@
         <siteMapNode title="Make Reservation" url="~/reserve/reserve.aspx"></siteMapNode>
         <siteMapNode title="Edit Reservation" url="~/reserve/editreserve.aspx"></siteMapNode>
       </siteMapNode>
+
+      <siteMapNode title="Group Management" url="~/reserve/groupmember.aspx">
+      </siteMapNode>
+      
     </siteMapNode>
 </siteMap>

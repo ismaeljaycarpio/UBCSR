@@ -148,6 +148,15 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.Button btnDisapprove;
         
         /// <summary>
+        /// btnBorrow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBorrow;
+        
+        /// <summary>
         /// btnCancel control.
         /// </summary>
         /// <remarks>

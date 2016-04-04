@@ -50,6 +50,14 @@ namespace UBCSR.reserve
                             btnApprove.Visible = false;
                             btnDisapprove.Visible = false;
                         }
+
+                        //chk if student
+                        if(User.IsInRole("Student"))
+                        {
+                            disableFields();
+                            btnSave.Text = "Ok";
+                            btnBorrow.Visible = true;
+                        }
                     }
                 }
             }
@@ -58,39 +66,47 @@ namespace UBCSR.reserve
         protected void btnSave_Click(object sender, EventArgs e)
         {
             Page.Validate();
-            var q = (from r in db.Reservations
-                     where r.Id == Convert.ToInt32(hfResId.Value)
-                     select r).FirstOrDefault();
-
-            q.Subject = txtSubject.Text;
-            q.ExperimentNo = txtExpNo.Text;
-            q.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
-            q.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
-            q.LabRoom = txtLabRoom.Text;
-
-            db.SubmitChanges();
-
-            int resId = q.Id;
-
-            foreach (GridViewRow row in gvInv.Rows)
+            
+            if(btnSave.Text != "Ok")
             {
-                //chk if checkbox is checked
-                if (((CheckBox)row.FindControl("chkRow")).Checked == true)
+                var q = (from r in db.Reservations
+                         where r.Id == Convert.ToInt32(hfResId.Value)
+                         select r).FirstOrDefault();
+
+                q.Subject = txtSubject.Text;
+                q.ExperimentNo = txtExpNo.Text;
+                q.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
+                q.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
+                q.LabRoom = txtLabRoom.Text;
+
+                db.SubmitChanges();
+
+                int resId = q.Id;
+
+                foreach (GridViewRow row in gvInv.Rows)
                 {
-                    string quantity = "";
-                    int riId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-
-                    if ((quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty)
+                    //chk if checkbox is checked
+                    if (((CheckBox)row.FindControl("chkRow")).Checked == true)
                     {
-                        var r = (from ri in db.ReservationItems
-                                 where ri.Id == riId
-                                 select ri).FirstOrDefault();
+                        string quantity = "";
+                        int riId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
 
-                        r.Quantity = Convert.ToInt32(quantity);
+                        if ((quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty)
+                        {
+                            var r = (from ri in db.ReservationItems
+                                     where ri.Id == riId
+                                     select ri).FirstOrDefault();
 
-                        db.SubmitChanges();
+                            r.Quantity = Convert.ToInt32(quantity);
+
+                            db.SubmitChanges();
+                        }
                     }
                 }
+            }
+            else
+            {
+                Response.Redirect("~/reserve/default.aspx");
             }
 
             Response.Redirect("~/reserve/default.aspx");
@@ -154,6 +170,22 @@ namespace UBCSR.reserve
             db.SubmitChanges();
 
             Response.Redirect("~/reserve/default.aspx");
+        }
+
+        protected void disableFields()
+        {
+            txtDateNeeded.Enabled = false;
+            txtDateNeededTo.Enabled = false;
+            txtExpNo.Enabled = false;
+            txtLabRoom.Enabled = false;
+            txtSubject.Enabled = false;
+            gvInv.Enabled = false;
+        }
+
+        protected void btnBorrow_Click(object sender, EventArgs e)
+        {
+            //hook to reservation
+
         }
     }
 }

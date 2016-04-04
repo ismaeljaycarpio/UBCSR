@@ -23,7 +23,19 @@ namespace UBCSR.borrow
         {
             if(User.IsInRole("Student"))
             {
-                lblTitle.Text = "My Borrowed List";
+                lblTitle.Text = "Reserved List by your Instructor - Only Group Leaders can view the list";
+                var q = from r in db.Reservations
+                        where r.ApprovalStatus == "Approved"
+                        select r;
+
+                gvBorrow.DataSource = q.ToList();
+                gvBorrow.DataBind();
+
+                //hide delete button
+                gvBorrow.Columns[10].Visible = false;
+                gvBorrow.Columns[9].Visible = false;
+                btnOpenModal.Visible = false;
+
             }
             else if(User.IsInRole("Instructor"))
             {
