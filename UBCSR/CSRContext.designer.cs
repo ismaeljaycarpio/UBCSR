@@ -2203,6 +2203,10 @@ namespace UBCSR
 		
 		private System.Nullable<System.DateTime> _JoinedDate;
 		
+		private System.Nullable<int> _Missing;
+		
+		private System.Nullable<int> _Breakage;
+		
 		private EntityRef<GroupLINQ> _GroupLINQ;
 		
 		private EntityRef<Reservation> _Reservation;
@@ -2223,6 +2227,10 @@ namespace UBCSR
     partial void OnRemarksChanged();
     partial void OnJoinedDateChanging(System.Nullable<System.DateTime> value);
     partial void OnJoinedDateChanged();
+    partial void OnMissingChanging(System.Nullable<int> value);
+    partial void OnMissingChanged();
+    partial void OnBreakageChanging(System.Nullable<int> value);
+    partial void OnBreakageChanged();
     #endregion
 		
 		public Borrow()
@@ -2356,6 +2364,46 @@ namespace UBCSR
 					this._JoinedDate = value;
 					this.SendPropertyChanged("JoinedDate");
 					this.OnJoinedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Missing", DbType="Int")]
+		public System.Nullable<int> Missing
+		{
+			get
+			{
+				return this._Missing;
+			}
+			set
+			{
+				if ((this._Missing != value))
+				{
+					this.OnMissingChanging(value);
+					this.SendPropertyChanging();
+					this._Missing = value;
+					this.SendPropertyChanged("Missing");
+					this.OnMissingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Breakage", DbType="Int")]
+		public System.Nullable<int> Breakage
+		{
+			get
+			{
+				return this._Breakage;
+			}
+			set
+			{
+				if ((this._Breakage != value))
+				{
+					this.OnBreakageChanging(value);
+					this.SendPropertyChanging();
+					this._Breakage = value;
+					this.SendPropertyChanged("Breakage");
+					this.OnBreakageChanged();
 				}
 			}
 		}

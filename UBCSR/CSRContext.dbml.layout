@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.125, 14.75" name="CSRContext">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.125, 15.125" name="CSRContext">
   <DataContextMoniker Name="/CSRContextDataContext" />
   <nestedChildShapes>
     <classShape Id="a73a01c9-9878-45c4-b2f6-515353905aab" absoluteBounds="0.5, 0.5, 2, 1.1939925130208333">
@@ -53,7 +53,7 @@
         <elementListCompartment Id="de2af428-cd61-49d5-bc1e-39bd78767512" absoluteBounds="3.64, 5.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.625 : 4.32859537760417); (1.625 : 6.20274983723958); (3.625 : 6.20274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.625 : 4.32859537760417); (1.625 : 6.20274983723958); (3.625 : 6.20274983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/CSRContextDataContext/Item/Item_InventoryLINQ" />
       <nodes>
         <classShapeMoniker Id="be6d2338-89e0-4ad3-b127-8465f06ea658" />
@@ -66,7 +66,7 @@
         <elementListCompartment Id="6fec9af3-d405-436e-8d63-973534ba74e0" absoluteBounds="3.1399999999999997, 9.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.375 : 7.28049967447917); (4.375 : 8.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.375 : 7.28049967447917); (4.375 : 8.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/CSRContextDataContext/InventoryLINQ/InventoryLINQ_ReservationItem" />
       <nodes>
         <classShapeMoniker Id="e916a0d4-abb3-4078-b117-c019cb05ceec" />
@@ -91,31 +91,31 @@
         <elementListCompartment Id="47fe8b0b-ef55-4301-8064-1e5ebc3af74c" absoluteBounds="0.51500000000000012, 8.96, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 9.63544840494792); (3.125 : 9.63544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 9.63544840494792); (3.125 : 9.63544840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/CSRContextDataContext/Reservation/Reservation_ReservationItem" />
       <nodes>
         <classShapeMoniker Id="93b71af8-e3c9-4128-b771-37fa635d88e7" />
         <classShapeMoniker Id="01648d6f-2a20-476b-82d6-a375cb3b64b3" />
       </nodes>
     </associationConnector>
-    <classShape Id="f25ee42e-a69c-49a3-8b39-996a098c2f8f" absoluteBounds="4.125, 12.5, 2, 1.9631982421875">
+    <classShape Id="e5a6b948-d363-4db8-aeab-565747827879" absoluteBounds="3.25, 12.5, 2, 2.3478011067708335">
       <DataClassMoniker Name="/CSRContextDataContext/Borrow" />
       <nestedChildShapes>
-        <elementListCompartment Id="66f3a49e-75d5-4c81-9274-552c39e2c8d4" absoluteBounds="4.14, 12.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="7023b243-6526-4a15-a9fa-115588586bf1" absoluteBounds="3.265, 12.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.21875 : 4.8381982421875); (8.21875 : 13.4815991210937); (6.125 : 13.4815991210937)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.21875 : 4.8381982421875); (8.21875 : 13.6739005533854); (5.25 : 13.6739005533854)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/CSRContextDataContext/GroupLINQ/GroupLINQ_Borrow" />
       <nodes>
         <classShapeMoniker Id="c38646cd-daac-4001-983b-dbfe7e390c66" />
-        <classShapeMoniker Id="f25ee42e-a69c-49a3-8b39-996a098c2f8f" />
+        <classShapeMoniker Id="e5a6b948-d363-4db8-aeab-565747827879" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.5 : 11.2925032552083); (5.65625 : 11.2925032552083); (5.65625 : 12.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 11.2925032552083); (5.21875 : 11.2925032552083); (5.21875 : 12.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/CSRContextDataContext/Reservation/Reservation_Borrow" />
       <nodes>
         <classShapeMoniker Id="93b71af8-e3c9-4128-b771-37fa635d88e7" />
-        <classShapeMoniker Id="f25ee42e-a69c-49a3-8b39-996a098c2f8f" />
+        <classShapeMoniker Id="e5a6b948-d363-4db8-aeab-565747827879" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

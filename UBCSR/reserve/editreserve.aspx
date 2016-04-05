@@ -254,20 +254,44 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
-                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
-                                            <asp:BoundField DataField="Status" HeaderText="Status" />
+                                            <asp:BoundField DataField="Name" HeaderText="Item" />
+                                            <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
+                                            <asp:BoundField DataField="Quantity" HeaderText="Borrowed Quantity" />
 
-                                            <asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Missing">
                                                 <ItemTemplate>
-                                                    <asp:Button ID="btnShowReturn"
+                                                    <asp:TextBox ID="txtMissing"
                                                         runat="server"
-                                                        Text="Return"
-                                                        CommandName="showReturn"
-                                                        CssClass="btn btn-info"
-                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
+                                                        CssClass="form-control"
+                                                        Text='<%# Eval("Missing") %>'></asp:TextBox>
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1"
+                                                        runat="server"
+                                                        ControlToValidate="txtMissing"
+                                                        Display="Dynamic"
+                                                        ForeColor="Red"
+                                                        ValidationGroup="vgConfirmReturn"
+                                                        ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
+                                                        ErrorMessage="">*</asp:RegularExpressionValidator>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Breakage">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="txtBreakage"
+                                                        runat="server"
+                                                        CssClass="form-control"
+                                                        Text='<%# Eval("Breakage") %>'></asp:TextBox>
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1"
+                                                        runat="server"
+                                                        ControlToValidate="txtBreakage"
+                                                        Display="Dynamic"
+                                                        ForeColor="Red"
+                                                        ValidationGroup="vgConfirmReturn"
+                                                        ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
+                                                        ErrorMessage="">*</asp:RegularExpressionValidator>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
@@ -279,6 +303,8 @@
                                 runat="server"
                                 CssClass="btn btn-primary"
                                 Text="Save"
+                                CausesValidation="true"
+                                ValidationGroup="vgConfirmReturn"
                                 OnClick="btnConfirmReturn_Click" />
                             <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>

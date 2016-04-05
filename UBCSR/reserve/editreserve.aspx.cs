@@ -292,15 +292,41 @@ namespace UBCSR.reserve
                             Id = b.Id,
                             GroupName = g.Name,
                             GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-                            Status = b.Status
+                            Status = b.Status,
+                            GroupId = g.Id
                         }).FirstOrDefault();
+
 
                 lblRowId.Text = q.Id.ToString();
                 txtGroupName.Text = q.GroupName;
                 txtGroupLeader.Text = q.GroupLeader;
 
                 //load related items and chk if it has breakage/missing
+                var items = from i in db.Items
+                        join inv in db.InventoryLINQs
+                        on i.Id equals inv.ItemId
+                        join ri in db.ReservationItems
+                        on inv.Id equals ri.InventoryId
+                        join r in db.Reservations
+                        on ri.ReservationId equals r.Id
+                        join b in db.Borrows
+                        on r.Id equals b.ReservationId
+                        join g in db.GroupLINQs
+                        on b.GroupId equals g.Id
+                        where (r.Id == Convert.ToInt32(hfResId.Value)) &&
+                        (b.GroupId == q.GroupId)
+                        select new
+                        {
+                            Id = ri.Id,
+                            Name = i.ItemName,
+                            Stocks = inv.Stocks,
+                            Quantity = ri.Quantity,
+                            Missing = b.Missing,
+                            Breakage = b.Breakage
+                        };
 
+                gvBreakage.DataSource = items.ToList();
+                gvBreakage.DataBind();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
