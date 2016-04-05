@@ -72,20 +72,12 @@ namespace UBCSR.reserve
                             disableFields();
                             btnSave.Text = "Ok";
                             btnBorrow.Visible = true;
+
+                            //hide borrow/return button
+                            gvBorrowers.Columns[4].Visible = false;
+                            gvBorrowers.Columns[5].Visible = false;
                         }
 
-                        if(User.IsInRole("Student Assistant"))
-                        {                            
-                            //chk if reservation is released
-                            if(r.IsReleased == true)
-                            {
-                                btnRelease.Visible = false;
-                            }
-                            else
-                            {
-                                btnRelease.Visible = true;
-                            }
-                        }
 
                         //cant edit released reservations
                         if(r.IsReleased == true)
@@ -305,24 +297,19 @@ namespace UBCSR.reserve
                 var items = from i in db.Items
                         join inv in db.InventoryLINQs
                         on i.Id equals inv.ItemId
-                        join ri in db.ReservationItems
-                        on inv.Id equals ri.InventoryId
-                        join r in db.Reservations
-                        on ri.ReservationId equals r.Id
+                        join bi in db.BorrowItems
+                        on inv.Id equals bi.InventoryId
                         join b in db.Borrows
-                        on r.Id equals b.ReservationId
-                        join g in db.GroupLINQs
-                        on b.GroupId equals g.Id
-                        where (r.Id == Convert.ToInt32(hfResId.Value)) &&
-                        (b.GroupId == q.GroupId)
+                        on bi.BorrowId equals b.Id
+                        where bi.BorrowId == q.Id
                         select new
                         {
-                            Id = ri.Id,
+                            Id = bi.Id,
                             Name = i.ItemName,
                             Stocks = inv.Stocks,
-                            Quantity = ri.Quantity,
-                            Missing = b.Missing,
-                            Breakage = b.Breakage
+                            BorrowedQuantity = bi.BorrowedQuantity,
+                            Breakage = bi.Breakage,
+                            Remarks = bi.Remarks
                         };
 
                 gvBreakage.DataSource = items.ToList();
@@ -333,6 +320,66 @@ namespace UBCSR.reserve
                 sb.Append("$('#showReturnModal').modal('show');");
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
+            else if(e.CommandName.Equals("showBorrow"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int borId = (int)gvBorrowers.DataKeys[index].Value;
+
+                //load group info
+                var q = (from b in db.Borrows
+                         join g in db.GroupLINQs
+                         on b.GroupId equals g.Id
+                         join acc in db.AccountLINQs
+                         on g.LeaderUserId equals acc.UserId
+                         where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                         (b.Id == borId)
+                         select new
+                         {
+                             Id = b.Id,
+                             GroupName = g.Name,
+                             GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
+                             Status = b.Status,
+                             GroupId = g.Id
+                         }).FirstOrDefault();
+
+
+                lblBorrowId.Text = q.Id.ToString();
+                txtGroupNameBorrow.Text = q.GroupName;
+                txtGroupLeaderBorrow.Text = q.GroupLeader;
+
+                //load related items and chk if it has breakage/missing
+                var items = from i in db.Items
+                            join inv in db.InventoryLINQs
+                            on i.Id equals inv.ItemId
+                            join ri in db.ReservationItems
+                            on inv.Id equals ri.InventoryId
+                            join r in db.Reservations
+                            on ri.ReservationId equals r.Id
+                            join b in db.Borrows
+                            on r.Id equals b.ReservationId
+                            join g in db.GroupLINQs
+                            on b.GroupId equals g.Id
+                            where (r.Id == Convert.ToInt32(hfResId.Value)) &&
+                            (b.GroupId == q.GroupId)
+                            select new
+                            {
+                                Id = ri.InventoryId,
+                                Name = i.ItemName,
+                                Stocks = inv.Stocks,
+                                Quantity = ri.Quantity
+                            };
+
+                gvBorrow.DataSource = items.ToList();
+                gvBorrow.DataBind();
+
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#showBorrowModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+
             }
         }
 
@@ -376,11 +423,57 @@ namespace UBCSR.reserve
 
         protected void btnConfirmReturn_Click(object sender, EventArgs e)
         {
+
+
             bindBorrowers();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#showReturnModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+        }
+
+        protected void btnConfirmBorrow_Click(object sender, EventArgs e)
+        {
+            //clear
+            var clearList = (from bi in db.BorrowItems
+                             where bi.BorrowId == Convert.ToInt32(lblBorrowId.Text)
+                             select bi).ToList();
+            db.BorrowItems.DeleteAllOnSubmit(clearList);
+            db.SubmitChanges();
+
+            //add to borrowitem
+            foreach(GridViewRow row in gvBorrow.Rows)
+            {
+                if(row.RowType == DataControlRowType.DataRow)
+                {
+                    int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                    int borrowedQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtQuantity")).Text);
+
+                    BorrowItem bi = new BorrowItem();
+                    bi.BorrowId = Convert.ToInt32(lblBorrowId.Text);
+                    bi.InventoryId = inventoryId;
+                    bi.BorrowedQuantity = borrowedQuantity;
+                    bi.Breakage = 0;
+
+                    db.BorrowItems.InsertOnSubmit(bi);
+                    db.SubmitChanges();
+
+                    //deduct in Inv
+                    var q = (from i in db.InventoryLINQs
+                             where i.Id == bi.InventoryId
+                             select i).FirstOrDefault();
+                    q.Stocks = (q.Stocks - borrowedQuantity);
+                    db.SubmitChanges();
+                }
+            }
+
+            bindGridview();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#showBorrowModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }

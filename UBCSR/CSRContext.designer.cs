@@ -57,6 +57,9 @@ namespace UBCSR
     partial void InsertReservation(Reservation instance);
     partial void UpdateReservation(Reservation instance);
     partial void DeleteReservation(Reservation instance);
+    partial void InsertBorrowItem(BorrowItem instance);
+    partial void UpdateBorrowItem(BorrowItem instance);
+    partial void DeleteBorrowItem(BorrowItem instance);
     partial void InsertBorrow(Borrow instance);
     partial void UpdateBorrow(Borrow instance);
     partial void DeleteBorrow(Borrow instance);
@@ -161,6 +164,14 @@ namespace UBCSR
 			get
 			{
 				return this.GetTable<Reservation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BorrowItem> BorrowItems
+		{
+			get
+			{
+				return this.GetTable<BorrowItem>();
 			}
 		}
 		
@@ -2185,6 +2196,229 @@ namespace UBCSR
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BorrowItem")]
+	public partial class BorrowItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _BorrowId;
+		
+		private System.Nullable<int> _InventoryId;
+		
+		private System.Nullable<int> _BorrowedQuantity;
+		
+		private System.Nullable<int> _Breakage;
+		
+		private string _Remarks;
+		
+		private EntityRef<Borrow> _Borrow;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnBorrowIdChanging(System.Nullable<int> value);
+    partial void OnBorrowIdChanged();
+    partial void OnInventoryIdChanging(System.Nullable<int> value);
+    partial void OnInventoryIdChanged();
+    partial void OnBorrowedQuantityChanging(System.Nullable<int> value);
+    partial void OnBorrowedQuantityChanged();
+    partial void OnBreakageChanging(System.Nullable<int> value);
+    partial void OnBreakageChanged();
+    partial void OnRemarksChanging(string value);
+    partial void OnRemarksChanged();
+    #endregion
+		
+		public BorrowItem()
+		{
+			this._Borrow = default(EntityRef<Borrow>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BorrowId", DbType="Int")]
+		public System.Nullable<int> BorrowId
+		{
+			get
+			{
+				return this._BorrowId;
+			}
+			set
+			{
+				if ((this._BorrowId != value))
+				{
+					if (this._Borrow.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnBorrowIdChanging(value);
+					this.SendPropertyChanging();
+					this._BorrowId = value;
+					this.SendPropertyChanged("BorrowId");
+					this.OnBorrowIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InventoryId", DbType="Int")]
+		public System.Nullable<int> InventoryId
+		{
+			get
+			{
+				return this._InventoryId;
+			}
+			set
+			{
+				if ((this._InventoryId != value))
+				{
+					this.OnInventoryIdChanging(value);
+					this.SendPropertyChanging();
+					this._InventoryId = value;
+					this.SendPropertyChanged("InventoryId");
+					this.OnInventoryIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BorrowedQuantity", DbType="Int")]
+		public System.Nullable<int> BorrowedQuantity
+		{
+			get
+			{
+				return this._BorrowedQuantity;
+			}
+			set
+			{
+				if ((this._BorrowedQuantity != value))
+				{
+					this.OnBorrowedQuantityChanging(value);
+					this.SendPropertyChanging();
+					this._BorrowedQuantity = value;
+					this.SendPropertyChanged("BorrowedQuantity");
+					this.OnBorrowedQuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Breakage", DbType="Int")]
+		public System.Nullable<int> Breakage
+		{
+			get
+			{
+				return this._Breakage;
+			}
+			set
+			{
+				if ((this._Breakage != value))
+				{
+					this.OnBreakageChanging(value);
+					this.SendPropertyChanging();
+					this._Breakage = value;
+					this.SendPropertyChanged("Breakage");
+					this.OnBreakageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="VarChar(MAX)")]
+		public string Remarks
+		{
+			get
+			{
+				return this._Remarks;
+			}
+			set
+			{
+				if ((this._Remarks != value))
+				{
+					this.OnRemarksChanging(value);
+					this.SendPropertyChanging();
+					this._Remarks = value;
+					this.SendPropertyChanged("Remarks");
+					this.OnRemarksChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Borrow_BorrowItem", Storage="_Borrow", ThisKey="BorrowId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		public Borrow Borrow
+		{
+			get
+			{
+				return this._Borrow.Entity;
+			}
+			set
+			{
+				Borrow previousValue = this._Borrow.Entity;
+				if (((previousValue != value) 
+							|| (this._Borrow.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Borrow.Entity = null;
+						previousValue.BorrowItems.Remove(this);
+					}
+					this._Borrow.Entity = value;
+					if ((value != null))
+					{
+						value.BorrowItems.Add(this);
+						this._BorrowId = value.Id;
+					}
+					else
+					{
+						this._BorrowId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Borrow");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Borrow")]
 	public partial class Borrow : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2203,9 +2437,7 @@ namespace UBCSR
 		
 		private System.Nullable<System.DateTime> _JoinedDate;
 		
-		private System.Nullable<int> _Missing;
-		
-		private System.Nullable<int> _Breakage;
+		private EntitySet<BorrowItem> _BorrowItems;
 		
 		private EntityRef<GroupLINQ> _GroupLINQ;
 		
@@ -2227,14 +2459,11 @@ namespace UBCSR
     partial void OnRemarksChanged();
     partial void OnJoinedDateChanging(System.Nullable<System.DateTime> value);
     partial void OnJoinedDateChanged();
-    partial void OnMissingChanging(System.Nullable<int> value);
-    partial void OnMissingChanged();
-    partial void OnBreakageChanging(System.Nullable<int> value);
-    partial void OnBreakageChanged();
     #endregion
 		
 		public Borrow()
 		{
+			this._BorrowItems = new EntitySet<BorrowItem>(new Action<BorrowItem>(this.attach_BorrowItems), new Action<BorrowItem>(this.detach_BorrowItems));
 			this._GroupLINQ = default(EntityRef<GroupLINQ>);
 			this._Reservation = default(EntityRef<Reservation>);
 			OnCreated();
@@ -2368,43 +2597,16 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Missing", DbType="Int")]
-		public System.Nullable<int> Missing
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Borrow_BorrowItem", Storage="_BorrowItems", ThisKey="Id", OtherKey="BorrowId")]
+		public EntitySet<BorrowItem> BorrowItems
 		{
 			get
 			{
-				return this._Missing;
+				return this._BorrowItems;
 			}
 			set
 			{
-				if ((this._Missing != value))
-				{
-					this.OnMissingChanging(value);
-					this.SendPropertyChanging();
-					this._Missing = value;
-					this.SendPropertyChanged("Missing");
-					this.OnMissingChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Breakage", DbType="Int")]
-		public System.Nullable<int> Breakage
-		{
-			get
-			{
-				return this._Breakage;
-			}
-			set
-			{
-				if ((this._Breakage != value))
-				{
-					this.OnBreakageChanging(value);
-					this.SendPropertyChanging();
-					this._Breakage = value;
-					this.SendPropertyChanged("Breakage");
-					this.OnBreakageChanged();
-				}
+				this._BorrowItems.Assign(value);
 			}
 		}
 		
@@ -2494,6 +2696,18 @@ namespace UBCSR
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_BorrowItems(BorrowItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Borrow = this;
+		}
+		
+		private void detach_BorrowItems(BorrowItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Borrow = null;
 		}
 	}
 }

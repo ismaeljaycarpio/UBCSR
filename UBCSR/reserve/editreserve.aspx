@@ -147,16 +147,16 @@
                         <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CssClass="btn btn-primary" CausesValidation="true" ValidationGroup="vgPrimaryAdd" />
                         <asp:Button ID="btnApprove" runat="server" Text="Approve" OnClick="btnApprove_Click" CssClass="btn btn-success" CausesValidation="false" />
                         <asp:Button ID="btnDisapprove" runat="server" Text="Disapprove" OnClick="btnDisapprove_Click" CssClass="btn btn-danger" CausesValidation="false" />
-                        <asp:Button ID="btnBorrow" runat="server" Text="Borrow (by group)" OnClick="btnBorrow_Click" CssClass="btn btn-success" CausesValidation="false" Visible="false" />
+                        <asp:Button ID="btnBorrow" runat="server" Text="Tag my Group" OnClick="btnBorrow_Click" CssClass="btn btn-success" CausesValidation="false" Visible="false" />
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" CssClass="btn btn-default" />
                     </div>
                     <asp:Panel ID="pnlDoublejoin" CssClass="alert alert-info" runat="server" Visible="false">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Notice!</strong> Your group already joined
+                        <strong>Notice!</strong> Your group is already <strong>tagged !</strong>
                     </asp:Panel>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <h4>Groups that borrowed: </h4>
+                            <h4>Groups that are tagged: </h4>
                             <asp:UpdatePanel ID="upBorrowers" runat="server">
                                 <ContentTemplate>
                                     <asp:GridView ID="gvBorrowers"
@@ -181,6 +181,17 @@
 
                                             <asp:TemplateField>
                                                 <ItemTemplate>
+                                                    <asp:Button ID="btnShowBorrow"
+                                                        runat="server"
+                                                        Text="Borrow"
+                                                        CommandName="showBorrow"
+                                                        CssClass="btn btn-info"
+                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
                                                     <asp:Button ID="btnShowReturn"
                                                         runat="server"
                                                         Text="Return"
@@ -193,12 +204,6 @@
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
-                                    <asp:Button ID="btnRelease"
-                                        runat="server"
-                                        CssClass="btn btn-success"
-                                        Text="Release Items to Groups"
-                                        Visible="false"
-                                        OnClick="btnRelease_Click" />
                                 </ContentTemplate>
                                 <Triggers>
                                 </Triggers>
@@ -210,10 +215,111 @@
         </div>
     </div>
 
+
+
+    <!-- Borrow Modal -->
+    <div id="showBorrowModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <!-- Return Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Borrow Items by Group</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <asp:Label ID="lblBorrowId" runat="server" Visible="false"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtGroupNameBorrow">Group Name: </label>
+                                    <asp:TextBox ID="txtGroupNameBorrow" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtGroupLeaderBorrow">Group Leader: </label>
+                                    <asp:TextBox ID="txtGroupLeaderBorrow" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gvBorrow"></label>
+                                    <div class="table table-responsive">
+                                        <asp:GridView ID="gvBorrow"
+                                            runat="server"
+                                            CssClass="table table-striped table-hover dataTable"
+                                            GridLines="None"
+                                            AutoGenerateColumns="false"
+                                            EmptyDataText="No Record(s) found"
+                                            ShowHeaderWhenEmpty="true"
+                                            DataKeyNames="Id">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Row Id">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:BoundField DataField="Name" HeaderText="Item" />
+                                                <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
+                                                <asp:BoundField DataField="Quantity" HeaderText="Reserved Quantity" />
+
+                                                <asp:TemplateField HeaderText="Quantity to borrow">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtQuantity"
+                                                            runat="server"
+                                                            CssClass="form-control"></asp:TextBox>
+                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" 
+                                                            runat="server" 
+                                                            ControlToValidate="txtQuantity"
+                                                            Display="Dynamic"
+                                                            ForeColor="Red"
+                                                            ValidationGroup="vgConfirmBorrow"
+                                                            ErrorMessage="">*</asp:RequiredFieldValidator>
+                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+                                                            runat="server"
+                                                            ControlToValidate="txtQuantity"
+                                                            Display="Dynamic"
+                                                            ForeColor="Red"
+                                                            ValidationGroup="vgConfirmBorrow"
+                                                            ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
+                                                            ErrorMessage="">*</asp:RegularExpressionValidator>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <PagerStyle CssClass="pagination-ys" />
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnConfirmBorrow"
+                                runat="server"
+                                CssClass="btn btn-primary"
+                                Text="Save"
+                                CausesValidation="true"
+                                ValidationGroup="vgConfirmBorrow"
+                                OnClick="btnConfirmBorrow_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gvBreakage" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="btnConfirmReturn" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Return Modal -->
     <div id="showReturnModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-            <!-- Update Modal content-->
+            <!-- Return Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="upEdit" runat="server">
                     <ContentTemplate>
@@ -239,62 +345,57 @@
 
                                 <div class="form-group">
                                     <label for="gvBreakage"></label>
-                                    <asp:GridView ID="gvBreakage"
-                                        runat="server"
-                                        CssClass="table table-striped table-hover dataTable"
-                                        GridLines="None"
-                                        AutoGenerateColumns="false"
-                                        EmptyDataText="No Record(s) found"
-                                        ShowHeaderWhenEmpty="true"
-                                        DataKeyNames="Id">
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="Row Id" Visible="false">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                    <div class="table table-responsive">
+                                        <asp:GridView ID="gvBreakage"
+                                            runat="server"
+                                            CssClass="table table-striped table-hover dataTable"
+                                            GridLines="None"
+                                            AutoGenerateColumns="false"
+                                            EmptyDataText="No Record(s) found"
+                                            ShowHeaderWhenEmpty="true"
+                                            DataKeyNames="Id">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
 
-                                            <asp:BoundField DataField="Name" HeaderText="Item" />
-                                            <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
-                                            <asp:BoundField DataField="Quantity" HeaderText="Borrowed Quantity" />
+                                                <asp:BoundField DataField="Name" HeaderText="Item" />
+                                                <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
+                                                <asp:BoundField DataField="BorrowedQuantity" HeaderText="Borrowed Quantity" />
 
-                                            <asp:TemplateField HeaderText="Missing">
-                                                <ItemTemplate>
-                                                    <asp:TextBox ID="txtMissing"
-                                                        runat="server"
-                                                        CssClass="form-control"
-                                                        Text='<%# Eval("Missing") %>'></asp:TextBox>
-                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1"
-                                                        runat="server"
-                                                        ControlToValidate="txtMissing"
-                                                        Display="Dynamic"
-                                                        ForeColor="Red"
-                                                        ValidationGroup="vgConfirmReturn"
-                                                        ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
-                                                        ErrorMessage="">*</asp:RegularExpressionValidator>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Breakage">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtBreakage"
+                                                            runat="server"
+                                                            CssClass="form-control"
+                                                            Text='<%# Eval("Breakage") %>'></asp:TextBox>
+                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+                                                            runat="server"
+                                                            ControlToValidate="txtBreakage"
+                                                            Display="Dynamic"
+                                                            ForeColor="Red"
+                                                            ValidationGroup="vgConfirmReturn"
+                                                            ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
+                                                            ErrorMessage="">*</asp:RegularExpressionValidator>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
 
-                                            <asp:TemplateField HeaderText="Breakage">
-                                                <ItemTemplate>
-                                                    <asp:TextBox ID="txtBreakage"
-                                                        runat="server"
-                                                        CssClass="form-control"
-                                                        Text='<%# Eval("Breakage") %>'></asp:TextBox>
-                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1"
-                                                        runat="server"
-                                                        ControlToValidate="txtBreakage"
-                                                        Display="Dynamic"
-                                                        ForeColor="Red"
-                                                        ValidationGroup="vgConfirmReturn"
-                                                        ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
-                                                        ErrorMessage="">*</asp:RegularExpressionValidator>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Remarks">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtRemarks"
+                                                            runat="server"
+                                                            CssClass="form-control"
+                                                            Text='<%# Eval("Remarks") %>'
+                                                            TextMode="MultiLine"></asp:TextBox>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
 
-                                        </Columns>
-                                        <PagerStyle CssClass="pagination-ys" />
-                                    </asp:GridView>
+                                            </Columns>
+                                            <PagerStyle CssClass="pagination-ys" />
+                                        </asp:GridView>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -100,6 +100,17 @@
       <Association Name="Reservation_Borrow" Member="Borrows" ThisKey="Id" OtherKey="ReservationId" Type="Borrow" />
     </Type>
   </Table>
+  <Table Name="dbo.BorrowItem" Member="BorrowItems">
+    <Type Name="BorrowItem">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BorrowId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InventoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BorrowedQuantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Breakage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="Borrow_BorrowItem" Member="Borrow" ThisKey="BorrowId" OtherKey="Id" Type="Borrow" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
   <Table Name="dbo.Borrow" Member="Borrows">
     <Type Name="Borrow">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -108,8 +119,7 @@
       <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="JoinedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Missing" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Breakage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Borrow_BorrowItem" Member="BorrowItems" ThisKey="Id" OtherKey="BorrowId" Type="BorrowItem" />
       <Association Name="GroupLINQ_Borrow" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Reservation_Borrow" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>

@@ -58,7 +58,7 @@
 
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:LinkButton ID="lbEdit" runat="server" Text="Edit" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex %>'></asp:LinkButton>
+                                                    <asp:LinkButton ID="lbEdit" runat="server" Text="View" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex %>'></asp:LinkButton>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
