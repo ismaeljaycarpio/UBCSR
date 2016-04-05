@@ -69,7 +69,18 @@
                                             <asp:BoundField DataField="DateTo" HeaderText="Date Needed To" SortExpression="DateTo" />
                                             <asp:BoundField DataField="LabRoom" HeaderText="Lab Room" SortExpression="LabRoom" />
                                             <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval" SortExpression="ApprovalStatus" />
-                                            <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
+
+                                            <asp:TemplateField HeaderText="Released">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblReleased" runat="server" Text='<%# Boolean.Parse(Eval("IsReleased").ToString()) ? "Yes" : "No" %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Returned">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblReturned" runat="server" Text='<%# Boolean.Parse(Eval("IsReturned").ToString()) ? "Yes" : "No" %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
 
                                             <asp:TemplateField>
                                                 <ItemTemplate>

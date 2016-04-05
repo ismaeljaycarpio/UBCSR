@@ -43,6 +43,19 @@ namespace UBCSR.reserve
                         txtLabRoom.Text = r.LabRoom;
                         hfResId.Value = r.Id.ToString();
 
+                        if(r.IsReleased == true)
+                        {
+                            txtIsReleased.Text = "Released";
+                            txtIsReleased.ForeColor = System.Drawing.Color.DarkOrange;
+                            txtIsReleased.Font.Bold = true;
+                        }
+                        else if(r.IsReturned == true)
+                        {
+                            txtIsReleased.Text = "Returned";
+                            txtIsReleased.ForeColor = System.Drawing.Color.DarkGreen;
+                            txtIsReleased.Font.Bold = true;
+                        }
+
                         bindGridview();
                         bindBorrowers();
 
@@ -59,6 +72,25 @@ namespace UBCSR.reserve
                             disableFields();
                             btnSave.Text = "Ok";
                             btnBorrow.Visible = true;
+                        }
+
+                        if(User.IsInRole("Student Assistant"))
+                        {                            
+                            //chk if reservation is released
+                            if(r.IsReleased == true)
+                            {
+                                btnRelease.Visible = false;
+                            }
+                            else
+                            {
+                                btnRelease.Visible = true;
+                            }
+                        }
+
+                        //cant edit released reservations
+                        if(r.IsReleased == true)
+                        {
+                            disableFields();
                         }
                     }
                 }
@@ -163,7 +195,6 @@ namespace UBCSR.reserve
                     };
             gvBorrowers.DataSource = q.ToList();
             gvBorrowers.DataBind();
-
         }
 
         protected void btnApprove_Click(object sender, EventArgs e)
@@ -227,6 +258,7 @@ namespace UBCSR.reserve
                 b.GroupId = group.Id;
                 b.ReservationId = Convert.ToInt32(Request.QueryString["resId"]);
                 b.Status = "Joined";
+                b.JoinedDate = DateTime.Now;
 
                 db.Borrows.InsertOnSubmit(b);
                 db.SubmitChanges();
@@ -238,12 +270,93 @@ namespace UBCSR.reserve
                 //show alert
                 pnlDoublejoin.Visible = true;
             }
-
         }
 
         protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName.Equals("showReturn"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int borId = (int)gvBorrowers.DataKeys[index].Value;
 
+                //load group info
+                var q = (from b in db.Borrows
+                        join g in db.GroupLINQs
+                        on b.GroupId equals g.Id
+                        join acc in db.AccountLINQs
+                        on g.LeaderUserId equals acc.UserId
+                        where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                        (b.Id == borId)
+                        select new
+                        {
+                            Id = b.Id,
+                            GroupName = g.Name,
+                            GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
+                            Status = b.Status
+                        }).FirstOrDefault();
+
+                lblRowId.Text = q.Id.ToString();
+                txtGroupName.Text = q.GroupName;
+                txtGroupLeader.Text = q.GroupLeader;
+
+                //load related items and chk if it has breakage/missing
+
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#showReturnModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
+        }
+
+        protected void btnRelease_Click(object sender, EventArgs e)
+        {
+            int resId = Convert.ToInt32(Request.QueryString["resId"]);
+
+            //set released status - reservation
+            foreach(GridViewRow row in gvBorrowers.Rows)
+            {
+                if(row.RowType == DataControlRowType.DataRow)
+                {
+                    var q = (from r in db.Reservations
+                             where r.Id == resId
+                             select r).FirstOrDefault();
+
+                    q.IsReleased = true;
+                    q.ReleasedDate = DateTime.Now;
+                    db.SubmitChanges();
+                }
+            }
+
+            //deduct borrowed quantity to inv
+            var resItems = (from ri in db.ReservationItems
+                     where ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"])
+                     select ri).ToList();
+
+                               
+            foreach(var item in resItems)
+            {
+                var updateStocks = (from inv in db.InventoryLINQs
+                                    where inv.Id == item.InventoryId
+                                    select inv).FirstOrDefault();
+
+                updateStocks.Stocks = (updateStocks.Stocks - item.Quantity);
+                db.SubmitChanges();
+            }
+
+            Response.Redirect("~/reserve/default.aspx");
+        }
+
+        protected void btnConfirmReturn_Click(object sender, EventArgs e)
+        {
+            bindBorrowers();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#showReturnModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
     }
 }

@@ -47,6 +47,9 @@ namespace UBCSR.borrow
             r.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
             r.LabRoom = txtLabRoom.Text;
             r.ApprovalStatus = "Pending";
+            r.IsReleased = false;
+            r.IsReturned = false;
+
 
             db.Reservations.InsertOnSubmit(r);
             db.SubmitChanges();

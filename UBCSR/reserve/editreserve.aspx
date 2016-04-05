@@ -48,7 +48,6 @@
                     </div>
                 </div>
 
-
                 <div class="panel-body">
                     <div role="form">
                         <div class="col-md-4">
@@ -77,8 +76,16 @@
                                 ValidationGroup="vgPrimaryAdd"
                                 ErrorMessage="Date Needed to is required"></asp:RequiredFieldValidator>
                         </div>
+                        <div class="col-md-4">
+                            <label for="txtIsReleased">Status</label>
+                            <asp:TextBox ID="txtIsReleased"
+                                runat="server"
+                                Enabled="false"
+                                CssClass="form-control"></asp:TextBox>
+                        </div>
                     </div>
                 </div>
+
                 <div class="panel-body">
                     <div class="table-responsive">
                         <asp:UpdatePanel ID="upInv" runat="server">
@@ -143,14 +150,13 @@
                         <asp:Button ID="btnBorrow" runat="server" Text="Borrow (by group)" OnClick="btnBorrow_Click" CssClass="btn btn-success" CausesValidation="false" Visible="false" />
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" CssClass="btn btn-default" />
                     </div>
-                    <div class="panel-body">
-                        <asp:Panel ID="pnlDoublejoin" CssClass="alert alert-info" runat="server" Visible="false">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Notice!</strong> Your group already joined
-                        </asp:Panel>
-                    </div>
+                    <asp:Panel ID="pnlDoublejoin" CssClass="alert alert-info" runat="server" Visible="false">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Notice!</strong> Your group already joined
+                    </asp:Panel>
                     <div class="panel-body">
                         <div class="table-responsive">
+                            <h4>Groups that borrowed: </h4>
                             <asp:UpdatePanel ID="upBorrowers" runat="server">
                                 <ContentTemplate>
                                     <asp:GridView ID="gvBorrowers"
@@ -172,9 +178,27 @@
                                             <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
                                             <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
                                             <asp:BoundField DataField="Status" HeaderText="Status" />
+
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Button ID="btnShowReturn"
+                                                        runat="server"
+                                                        Text="Return"
+                                                        CommandName="showReturn"
+                                                        CssClass="btn btn-info"
+                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
+                                    <asp:Button ID="btnRelease"
+                                        runat="server"
+                                        CssClass="btn btn-success"
+                                        Text="Release Items to Groups"
+                                        Visible="false"
+                                        OnClick="btnRelease_Click" />
                                 </ContentTemplate>
                                 <Triggers>
                                 </Triggers>
@@ -182,6 +206,88 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return Modal -->
+    <div id="showReturnModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <!-- Update Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="upEdit" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Return Items by Group</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <asp:Label ID="lblRowId" runat="server" Visible="false"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtGroupName">Group Name: </label>
+                                    <asp:TextBox ID="txtGroupName" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtGroupLeader">Group Leader: </label>
+                                    <asp:TextBox ID="txtGroupLeader" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gvBreakage"></label>
+                                    <asp:GridView ID="gvBreakage"
+                                        runat="server"
+                                        CssClass="table table-striped table-hover dataTable"
+                                        GridLines="None"
+                                        AutoGenerateColumns="false"
+                                        EmptyDataText="No Record(s) found"
+                                        ShowHeaderWhenEmpty="true"
+                                        DataKeyNames="Id">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
+                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
+                                            <asp:BoundField DataField="Status" HeaderText="Status" />
+
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Button ID="btnShowReturn"
+                                                        runat="server"
+                                                        Text="Return"
+                                                        CommandName="showReturn"
+                                                        CssClass="btn btn-info"
+                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <PagerStyle CssClass="pagination-ys" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnConfirmReturn"
+                                runat="server"
+                                CssClass="btn btn-primary"
+                                Text="Save"
+                                OnClick="btnConfirmReturn_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gvBreakage" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="btnConfirmReturn" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
             </div>
         </div>
     </div>

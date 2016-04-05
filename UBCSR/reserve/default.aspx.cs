@@ -32,8 +32,7 @@ namespace UBCSR.borrow
                 gvBorrow.DataBind();
 
                 //hide delete button
-                gvBorrow.Columns[10].Visible = false;
-                gvBorrow.Columns[9].Visible = false;
+                gvBorrow.Columns[11].Visible = false;
                 btnOpenModal.Visible = false;
             }
             else if(User.IsInRole("Instructor"))

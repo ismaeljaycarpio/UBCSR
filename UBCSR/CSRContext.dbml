@@ -58,22 +58,6 @@
       <Association Name="Reservation_ReservationItem" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
-  <Table Name="dbo.Reservation" Member="Reservations">
-    <Type Name="Reservation">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="Subject" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ExperimentNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="DateRequested" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="DateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="LabRoom" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ApprovalStatus" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="DateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="Reservation_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="ReservationId" Type="ReservationItem" />
-      <Association Name="Reservation_Borrow" Member="Borrows" ThisKey="Id" OtherKey="ReservationId" Type="Borrow" />
-    </Type>
-  </Table>
   <Table Name="dbo.[Group]" Member="GroupLINQs">
     <Type Name="GroupLINQ">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -96,12 +80,34 @@
       <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Reservation" Member="Reservations">
+    <Type Name="Reservation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Subject" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ExperimentNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DateRequested" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LabRoom" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ApprovalStatus" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsReleased" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsReturned" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ReleasedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReturnedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Reservation_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="ReservationId" Type="ReservationItem" />
+      <Association Name="Reservation_Borrow" Member="Borrows" ThisKey="Id" OtherKey="ReservationId" Type="Borrow" />
+    </Type>
+  </Table>
   <Table Name="dbo.Borrow" Member="Borrows">
     <Type Name="Borrow">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ReservationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="JoinedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="GroupLINQ_Borrow" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Reservation_Borrow" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
