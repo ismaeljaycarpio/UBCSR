@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <div class="col-sm-10">
+                            <div class="col-sm-12">
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         <asp:Button ID="btnSearch"
@@ -21,6 +21,9 @@
                                             OnClick="btnSearch_Click" />
                                     </span>
                                     <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                    <div class="pull-right">
+                                        <asp:Button ID="btnExport" runat="server" Text="Export to Excel" CssClass="btn btn-default" OnClick="btnExport_Click" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

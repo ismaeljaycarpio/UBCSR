@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using OfficeOpenXml;
+using System.IO;
 
 namespace UBCSR.FileMaintenance
 {
@@ -146,6 +148,36 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#deleteModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+        }
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            var products = fm.searchItem(txtSearch.Text);
+            ExcelPackage excel = new ExcelPackage();
+            var workSheet = excel.Workbook.Worksheets.Add("Items");
+            var totalCols = products.Columns.Count;
+            var totalRows = products.Rows.Count;
+
+            for (var col = 1; col <= totalCols; col++)
+            {
+                workSheet.Cells[1, col].Value = products.Columns[col - 1].ColumnName;
+            }
+            for (var row = 1; row <= totalRows; row++)
+            {
+                for (var col = 0; col < totalCols; col++)
+                {
+                    workSheet.Cells[row + 1, col + 1].Value = products.Rows[row - 1][col];
+                }
+            }
+            using (var memoryStream = new MemoryStream())
+            {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=items.xlsx");
+                excel.SaveAs(memoryStream);
+                memoryStream.WriteTo(Response.OutputStream);
+                Response.Flush();
+                Response.End();
+            }
         }
     }
 }

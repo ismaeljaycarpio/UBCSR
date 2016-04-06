@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <div class="col-sm-10">
+                            <div class="col-sm-12">
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         <asp:Button ID="btnSearch"
@@ -20,6 +20,12 @@
                                             OnClick="btnSearch_Click" />
                                     </span>
                                     <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                    <div class="pull-right">
+                                        <asp:Button ID="btnExport" 
+                                            runat="server" 
+                                            Text="Export to Excel" 
+                                            CssClass="btn btn-default" OnClick="btnExport_Click" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -338,11 +344,12 @@
                             <div class="form">
                                 <div class="form-group">
                                     <label for="txtGroupNo">Group No</label>
-                                    <asp:DropDownList ID="ddlGroupNo" 
+                                    <asp:DropDownList ID="ddlGroupNo"
                                         runat="server"
                                         AutoPostBack="true"
-                                        OnSelectedIndexChanged="ddlGroupNo_SelectedIndexChanged" 
-                                        CssClass="form-control"></asp:DropDownList>
+                                        OnSelectedIndexChanged="ddlGroupNo_SelectedIndexChanged"
+                                        CssClass="form-control">
+                                    </asp:DropDownList>
                                 </div>
 
                                 <div class="form-group">

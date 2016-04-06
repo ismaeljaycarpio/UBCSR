@@ -423,9 +423,34 @@ namespace UBCSR.reserve
 
         protected void btnConfirmReturn_Click(object sender, EventArgs e)
         {
+            //update here:
+            foreach(GridViewRow row in gvBreakage.Rows)
+            {
+                if(row.RowType == DataControlRowType.DataRow)
+                {
+                    int biId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                    int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                    string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
 
+                    var q = (from bi in db.BorrowItems
+                             where bi.Id == biId
+                             select bi).FirstOrDefault();
 
-            bindBorrowers();
+                    q.Breakage = breakageQuantity;
+                    q.Remarks = remarks;
+
+                    db.SubmitChanges();
+
+                    //return quantity to inv stocks
+                    var qu = (from i in db.InventoryLINQs
+                             where i.Id == q.InventoryId
+                             select i).FirstOrDefault();
+                    qu.Stocks = (qu.Stocks + q.BorrowedQuantity);
+                    db.SubmitChanges();
+                }
+            }
+
+            bindGridview();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");

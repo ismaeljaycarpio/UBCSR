@@ -67,6 +67,60 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.GridView gvTeam;
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// lblGroupId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblGroupId;
+        
+        /// <summary>
+        /// txtGroupName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGroupName;
+        
+        /// <summary>
+        /// txtGroupLeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGroupLeader;
+        
+        /// <summary>
+        /// gvMembers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvMembers;
+        
+        /// <summary>
+        /// btnAddGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddGroup;
+        
+        /// <summary>
         /// UpdatePanel2 control.
         /// </summary>
         /// <remarks>

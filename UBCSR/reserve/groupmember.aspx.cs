@@ -42,7 +42,43 @@ namespace UBCSR.reserve
             int index = Convert.ToInt32(e.CommandArgument);
             if (e.CommandName.Equals("editRecord"))
             {
+                string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
+                hfDeleteId.Value = rowId;
 
+                var query = (from acc in db.AccountLINQs
+                            join g in db.GroupLINQs
+                            on acc.GroupId equals g.Id
+                            where
+                            (g.Id == Convert.ToInt32(rowId))
+                            select new
+                            {
+                                GroupId = g.Id,
+                                GroupName = g.Name,
+                                FullName = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName
+                            }).FirstOrDefault();
+
+                lblGroupId.Text = query.GroupId.ToString();
+                txtGroupName.Text = query.GroupName;
+                txtGroupLeader.Text = query.FullName;
+
+                //load accnts to grid
+                var q = from acc in db.AccountLINQs
+                        where (acc.GroupId == 0) &&
+                        (acc.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString()))
+                        select new
+                        {
+                            UserId = acc.UserId,
+                            FullName = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName
+                        };
+
+                gvMembers.DataSource = q.ToList();
+                gvMembers.DataBind();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#updateModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
             else if (e.CommandName.Equals("deleteRecord"))
             {
@@ -60,6 +96,37 @@ namespace UBCSR.reserve
         protected void btnDelete_Click(object sender, EventArgs e)
         {
 
+        }
+
+        protected void btnAddGroup_Click(object sender, EventArgs e)
+        {
+            foreach(GridViewRow row in gvMembers.Rows)
+            {
+                if(row.RowType == DataControlRowType.DataRow)
+                {
+                    //chk if checked
+                    if (((CheckBox)row.FindControl("chkRow")).Checked == true)
+                    {
+                        string rowId = ((Label)row.FindControl("lblRowId")).Text;
+                        Guid userId = Guid.Parse(rowId);
+
+                        var user = (from a in db.AccountLINQs
+                                    where a.UserId == userId
+                                    select a).FirstOrDefault();
+
+                        user.GroupId = Convert.ToInt32(lblGroupId.Text);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+
+            bindGridview();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#updateModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.Security;
+using OfficeOpenXml;
+using System.IO;
 
 namespace UBCSR.FileMaintenance
 {
@@ -171,7 +173,8 @@ namespace UBCSR.FileMaintenance
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
-            else if(e.CommandName.Equals("updateGroup"))
+                //dont implement
+            else if(e.CommandName.Equals("updateGroups"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 string userName = ((Label)gvAccount.Rows[index].FindControl("lblStudentId")).Text;
@@ -345,6 +348,36 @@ namespace UBCSR.FileMaintenance
             lblYearFrom.Text = q.YearFrom;
             lblYearTo.Text = q.YearTo;
             lblSemester.Text = q.Sem;
+        }
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            var products = fm.searchUser(txtSearch.Text);
+            ExcelPackage excel = new ExcelPackage();
+            var workSheet = excel.Workbook.Worksheets.Add("Accounts");
+            var totalCols = products.Columns.Count;
+            var totalRows = products.Rows.Count;
+
+            for (var col = 1; col <= totalCols; col++)
+            {
+                workSheet.Cells[1, col].Value = products.Columns[col - 1].ColumnName;
+            }
+            for (var row = 1; row <= totalRows; row++)
+            {
+                for (var col = 0; col < totalCols; col++)
+                {
+                    workSheet.Cells[row + 1, col + 1].Value = products.Rows[row - 1][col];
+                }
+            }
+            using (var memoryStream = new MemoryStream())
+            {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=Accounts.xlsx");
+                excel.SaveAs(memoryStream);
+                memoryStream.WriteTo(Response.OutputStream);
+                Response.Flush();
+                Response.End();
+            }
         }
     }
 }
