@@ -5,12 +5,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
+using OfficeOpenXml;
+using System.IO;
 
 namespace UBCSR.borrow
 {
     public partial class _default : System.Web.UI.Page
     {
         CSRContextDataContext db = new CSRContextDataContext();
+        DAL.Report rep = new DAL.Report();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!Page.IsPostBack)
@@ -31,21 +35,49 @@ namespace UBCSR.borrow
             {
                 lblTitle.Text = "Reserved List by your Instructor - Only Group Leaders can view the list";
                 var q = from r in db.Reservations
-                        where r.ApprovalStatus == "Approved"
-                        select r;
+                        join acc in db.AccountLINQs
+                        on r.UserId equals acc.UserId
+                        where
+                        r.ApprovalStatus == "Approved"
+                        select new
+                        {
+                            Id = r.Id,
+                            Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
+                            Subject = r.Subject,
+                            ExperimentNo = r.ExperimentNo,
+                            DateRequested = r.DateRequested,
+                            DateFrom = r.DateFrom,
+                            LabRoom = r.LabRoom,
+                            ApprovalStatus = r.ApprovalStatus,
+                            DateTo = r.DateTo
+                        };
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
 
                 //hide delete button
-                gvBorrow.Columns[11].Visible = false;
+                gvBorrow.Columns[10].Visible = false;
 
             }
             else if(User.IsInRole("Instructor"))
             {
-                lblTitle.Text = "My Reserved List";
+                lblTitle.Text = "Instructor - My Reserved List";
                 var q = from r in db.Reservations
-                        select r;
+                        join acc in db.AccountLINQs
+                        on r.UserId equals acc.UserId
+                        where r.UserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
+                        select new
+                        {
+                            Id = r.Id,
+                            Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
+                            Subject = r.Subject,
+                            ExperimentNo = r.ExperimentNo,
+                            DateRequested = r.DateRequested,
+                            DateFrom = r.DateFrom,
+                            LabRoom = r.LabRoom,
+                            ApprovalStatus = r.ApprovalStatus,
+                            DateTo = r.DateTo
+                        };
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
@@ -54,19 +86,50 @@ namespace UBCSR.borrow
             {
                 lblTitle.Text = "Approved List";
                 var q = from r in db.Reservations
-                        where r.ApprovalStatus == "Approved"
-                        select r;
+                        join acc in db.AccountLINQs
+                        on r.UserId equals acc.UserId
+                        where
+                        (r.ApprovalStatus == "Approved") &&
+                        (r.IsReturned == false)
+                        select new
+                        {
+                            Id = r.Id,
+                            Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
+                            Subject = r.Subject,
+                            ExperimentNo = r.ExperimentNo,
+                            DateRequested = r.DateRequested,
+                            DateFrom = r.DateFrom,
+                            LabRoom = r.LabRoom,
+                            ApprovalStatus = r.ApprovalStatus,
+                            DateTo = r.DateTo
+                        };
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
+
+                //hide delete button
+                gvBorrow.Columns[10].Visible = false;
             }
             else if(User.IsInRole("CSR Head"))
             {
-                lblTitle.Text = "Approval List";
+                lblTitle.Text = "Pending and Disapproved Reservation List";
                 var q = from r in db.Reservations
-                        where (r.ApprovalStatus == "Pending" ||
-                        r.ApprovalStatus == "Disapproved")
-                        select r;
+                        join acc in db.AccountLINQs
+                        on r.UserId equals acc.UserId
+                        where
+                        (r.ApprovalStatus == "Pending" || r.ApprovalStatus == "Disapproved")
+                        select new
+                        {
+                            Id = r.Id,
+                            Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
+                            Subject = r.Subject,
+                            ExperimentNo = r.ExperimentNo,
+                            DateRequested = r.DateRequested,
+                            DateFrom = r.DateFrom,
+                            LabRoom = r.LabRoom,
+                            ApprovalStatus = r.ApprovalStatus,
+                            DateTo = r.DateTo
+                        };
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
@@ -76,7 +139,20 @@ namespace UBCSR.borrow
                 //admin
                 lblTitle.Text = "Admin - Reserved List";
                 var q = from r in db.Reservations
-                        select r;
+                        join acc in db.AccountLINQs
+                        on r.UserId equals acc.UserId
+                        select new
+                        {
+                            Id = r.Id,
+                            Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
+                            Subject = r.Subject,
+                            ExperimentNo = r.ExperimentNo,
+                            DateRequested = r.DateRequested,
+                            DateFrom = r.DateFrom,
+                            LabRoom = r.LabRoom,
+                            ApprovalStatus = r.ApprovalStatus,
+                            DateTo = r.DateTo
+                        };
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
@@ -148,6 +224,36 @@ namespace UBCSR.borrow
         protected void btnCreateReservation_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/reserve/reserve.aspx");
+        }
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            var products = rep.searchReservation();
+            ExcelPackage excel = new ExcelPackage();
+            var workSheet = excel.Workbook.Worksheets.Add("Reservations");
+            var totalCols = products.Columns.Count;
+            var totalRows = products.Rows.Count;
+
+            for (var col = 1; col <= totalCols; col++)
+            {
+                workSheet.Cells[1, col].Value = products.Columns[col - 1].ColumnName;
+            }
+            for (var row = 1; row <= totalRows; row++)
+            {
+                for (var col = 0; col < totalCols; col++)
+                {
+                    workSheet.Cells[row + 1, col + 1].Value = products.Rows[row - 1][col];
+                }
+            }
+            using (var memoryStream = new MemoryStream())
+            {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=Reservations.xlsx");
+                excel.SaveAs(memoryStream);
+                memoryStream.WriteTo(Response.OutputStream);
+                Response.Flush();
+                Response.End();
+            }
         }
     }
 }

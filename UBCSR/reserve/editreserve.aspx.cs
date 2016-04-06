@@ -44,46 +44,37 @@ namespace UBCSR.reserve
                         
                         hfResId.Value = r.Id.ToString();
 
-                        if(r.IsReleased == true)
-                        {
-                            txtIsReleased.Text = "Released";
-                            txtIsReleased.ForeColor = System.Drawing.Color.DarkOrange;
-                            txtIsReleased.Font.Bold = true;
-                        }
-                        else if(r.IsReturned == true)
-                        {
-                            txtIsReleased.Text = "Returned";
-                            txtIsReleased.ForeColor = System.Drawing.Color.DarkGreen;
-                            txtIsReleased.Font.Bold = true;
-                        }
-
                         bindGridview();
                         bindBorrowers();
 
                         //approval to CSR Head
-                        if(!User.IsInRole("CSR Head") && !User.IsInRole("Admin"))
+                        if(!User.IsInRole("CSR Head") && 
+                            !User.IsInRole("Admin"))
                         {
                             btnApprove.Visible = false;
                             btnDisapprove.Visible = false;
                         }
 
-                        //chk if student
+                        //can edit -> admin,csr head,student assistant,instructor
                         if(User.IsInRole("Student"))
                         {
                             disableFields();
                             btnSave.Text = "Ok";
-                            btnBorrow.Visible = true;
+                            btnTagGroup.Visible = true;
 
                             //hide borrow/return button
                             gvBorrowers.Columns[4].Visible = false;
                             gvBorrowers.Columns[5].Visible = false;
                         }
-
-
-                        //cant edit released reservations
-                        if(r.IsReleased == true)
+                        else
                         {
-                            disableFields();
+                            if(!User.IsInRole("Admin") && 
+                                !User.IsInRole("Student Assistant"))
+                            {
+                                //hide borrow/return button
+                                gvBorrowers.Columns[4].Visible = false;
+                                gvBorrowers.Columns[5].Visible = false;
+                            }
                         }
                     }
                 }
@@ -225,43 +216,6 @@ namespace UBCSR.reserve
             txtLabRoom.Enabled = false;
             txtSubject.Enabled = false;
             gvInv.Enabled = false;
-        }
-
-        protected void btnBorrow_Click(object sender, EventArgs e)
-        {
-            //hook to reservation
-            var q = (from b in db.Borrows
-                     join g in db.GroupLINQs
-                     on b.GroupId equals g.Id
-                     where (g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
-                     (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
-                     select new
-                     {
-                         Id = b.Id
-                     }).ToList();
-
-            var group = (from g in db.GroupLINQs
-                        where g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
-                        select g).FirstOrDefault();
-
-            if(q.Count < 1)
-            {
-                Borrow b = new Borrow();
-                b.GroupId = group.Id;
-                b.ReservationId = Convert.ToInt32(Request.QueryString["resId"]);
-                b.Status = "Joined";
-                b.JoinedDate = DateTime.Now;
-
-                db.Borrows.InsertOnSubmit(b);
-                db.SubmitChanges();
-
-                Response.Redirect("~/reserve/default.aspx");
-            }
-            else
-            {
-                //show alert
-                pnlDoublejoin.Visible = true;
-            }
         }
 
         protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -501,6 +455,43 @@ namespace UBCSR.reserve
             sb.Append("$('#showBorrowModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+        }
+
+        protected void btnTagGroup_Click(object sender, EventArgs e)
+        {
+            //hook to reservation
+            var q = (from b in db.Borrows
+                     join g in db.GroupLINQs
+                     on b.GroupId equals g.Id
+                     where (g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
+                     (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                     select new
+                     {
+                         Id = b.Id
+                     }).ToList();
+
+            var group = (from g in db.GroupLINQs
+                         where g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
+                         select g).FirstOrDefault();
+
+            if (q.Count < 1)
+            {
+                Borrow b = new Borrow();
+                b.GroupId = group.Id;
+                b.ReservationId = Convert.ToInt32(Request.QueryString["resId"]);
+                b.Status = "Joined";
+                b.JoinedDate = DateTime.Now;
+
+                db.Borrows.InsertOnSubmit(b);
+                db.SubmitChanges();
+
+                Response.Redirect("~/reserve/default.aspx");
+            }
+            else
+            {
+                //show alert
+                pnlDoublejoin.Visible = true;
+            }
         }
     }
 }

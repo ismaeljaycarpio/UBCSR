@@ -50,6 +50,14 @@
             });
         </script>
 
+        <script>
+            $(document).ready(function () {
+                var url = this.location.pathname;
+                var filename = url.substring(url.lastIndexOf('/') + 1);
+                $('a[href="' + filename + '"]').parent().addClass('active');
+            });
+        </script>
+
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">

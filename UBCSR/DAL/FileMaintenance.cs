@@ -566,7 +566,7 @@ namespace UBCSR.DAL
 
         public void addUser(Guid UserId, string firstName, string middleName, string lastName, string studentId)
         {
-            strSql = "INSERT INTO Account VALUES(@UserId,@FirstName,@MiddleName,@LastName,@StudentId,@GroupId)";
+            strSql = "INSERT INTO Account VALUES(@UserId,@LastName,@MiddleName,@FirstName,@StudentId,@GroupId)";
 
             conn = new SqlConnection();
             conn.ConnectionString = CONN_STRING;

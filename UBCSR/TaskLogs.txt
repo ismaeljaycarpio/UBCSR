@@ -1,13 +1,30 @@
 ﻿
-
 ===========================================================================
 ======================= Apr 06 2016 =======================================
 ===========================================================================
-- fix core
-- Group Management
-	 - who can assign team lead?
+adminaccount>file maintenance>accounts
+	- when editting accounts...values for first name and lastname exchanged - **DONE**
+	- for approving reservation meron sana yung name nung instructor na nag request para nman may identity kung sino yung nag request - **DONE**
+	- remove borrow button under reserve>reservelist...reservation form is for teacher only - **DONE** 
 
-- Borrowing/Returning Module
+teacher account:
+	-shouldn't be able to view/delete/edit other teachers reservation - **DONE**
+	-reserve>viewing reservation...remove borrowing and returning transaction - **DONE**
+
+student assistant account:
+	-remove borrow button under reserve>approvelist...reservation form is for teacher only - **DONE**
+	-borrow transaction should be cleared and gone when all items are returned in good condition. - **NOT YET DONE**
+	nakaka return parin kc nang item kahit na return na. kaya continuous parin yung update nang stocks each time u click on return
+	-breakage quantity still effect quantity stock when returning an item...each time mag lalagay ka nang value sa breakage ibabawas yun sa total item na ni return mo - **NOT YET DONE**
+example: 
+quantityRemaining	borrowedQuantity 	Breakage = quantityRemaining
+*100			18			18		100
+*100			18			16		102
+100			18			0		118
+	*hindi ma cleclear yung transaction until maibalik lahat
+	
+student account"leader":
+	-should see list of members added into his/her group
 
 
 ===========================================================================

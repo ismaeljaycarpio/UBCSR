@@ -16,7 +16,7 @@
                     <div class="panel-body">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-sm-10">
+                                <div class="col-md-12">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <asp:Button ID="btnSearch"
@@ -26,6 +26,13 @@
                                                 OnClick="btnSearch_Click" />
                                         </span>
                                         <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                        <div class="pull-right">
+                                            <asp:Button ID="btnExport"
+                                                runat="server"
+                                                Text="Export to Excel"
+                                                CssClass="btn btn-default" 
+                                                OnClick="btnExport_Click" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -62,6 +69,7 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
+                                            <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                                             <asp:BoundField DataField="Subject" HeaderText="Subject" SortExpression="Subject" />
                                             <asp:BoundField DataField="ExperimentNo" HeaderText="Experiment No" SortExpression="ExperimentNo" />
                                             <asp:BoundField DataField="DateRequested" HeaderText="Date Requested" SortExpression="DateRequested" />
@@ -70,7 +78,7 @@
                                             <asp:BoundField DataField="LabRoom" HeaderText="Lab Room" SortExpression="LabRoom" />
                                             <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval" SortExpression="ApprovalStatus" />
 
-                                            <asp:TemplateField HeaderText="Released">
+                                            <%--<asp:TemplateField HeaderText="Released">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblReleased" runat="server" Text='<%# Boolean.Parse(Eval("IsReleased").ToString()) ? "Yes" : "No" %>'></asp:Label>
                                                 </ItemTemplate>
@@ -80,7 +88,7 @@
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblReturned" runat="server" Text='<%# Boolean.Parse(Eval("IsReturned").ToString()) ? "Yes" : "No" %>'></asp:Label>
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
+                                            </asp:TemplateField>--%>
 
                                             <asp:TemplateField>
                                                 <ItemTemplate>
