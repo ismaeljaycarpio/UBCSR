@@ -91,11 +91,12 @@
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
-                                    <asp:Button ID="btnOpenModal"
+                                    <asp:Button ID="btnCreateReservation"
                                         runat="server"
                                         CssClass="btn btn-default btn-sm"
-                                        Text="Borrow"
-                                        OnClick="btnOpenModal_Click"
+                                        Text="Create Reservation"
+                                        Visible="false"
+                                        OnClick="btnCreateReservation_Click"
                                         CausesValidation="false" />
                                 </ContentTemplate>
                                 <Triggers>

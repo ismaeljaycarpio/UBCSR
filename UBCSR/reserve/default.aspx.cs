@@ -16,6 +16,12 @@ namespace UBCSR.borrow
             if(!Page.IsPostBack)
             {
                 bindGridview();
+
+                //only instr can create reservation
+                if (User.IsInRole("Instructor") || User.IsInRole("Admin"))
+                {
+                    btnCreateReservation.Visible = true;
+                }
             }
         }
 
@@ -33,7 +39,7 @@ namespace UBCSR.borrow
 
                 //hide delete button
                 gvBorrow.Columns[11].Visible = false;
-                btnOpenModal.Visible = false;
+
             }
             else if(User.IsInRole("Instructor"))
             {
@@ -121,11 +127,6 @@ namespace UBCSR.borrow
 
         }
 
-        protected void btnOpenModal_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("~/reserve/reserve.aspx");
-        }
-
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             var q = (from r in db.Reservations
@@ -142,6 +143,11 @@ namespace UBCSR.borrow
             sb.Append("$('#deleteModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+        }
+
+        protected void btnCreateReservation_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/reserve/reserve.aspx");
         }
     }
 }

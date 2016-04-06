@@ -45,7 +45,7 @@ namespace UBCSR.FileMaintenance
 
         protected void bindDropdonw()
         {
-            //doesnt belong to any group yet
+            //get users who dont have a group
             var q = (from a in db.AccountLINQs
                      where a.GroupId == 0
                      select new{
@@ -61,7 +61,6 @@ namespace UBCSR.FileMaintenance
 
         protected void bindEditDropdown(Guid myUserId)
         {
-            //doesnt belong to any group yet
             var q = (from a in db.AccountLINQs
                      where a.GroupId == 0 ||
                      a.UserId == myUserId

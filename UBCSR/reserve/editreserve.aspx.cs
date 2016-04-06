@@ -41,6 +41,7 @@ namespace UBCSR.reserve
                         txtDateNeeded.Text = r.DateFrom.ToString();
                         txtDateNeededTo.Text = r.DateTo.ToString();
                         txtLabRoom.Text = r.LabRoom;
+                        
                         hfResId.Value = r.Id.ToString();
 
                         if(r.IsReleased == true)
@@ -129,13 +130,12 @@ namespace UBCSR.reserve
                         }
                     }
                 }
+                Response.Redirect("~/reserve/default.aspx");
             }
             else
             {
                 Response.Redirect("~/reserve/default.aspx");
             }
-
-            Response.Redirect("~/reserve/default.aspx");
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -322,7 +322,7 @@ namespace UBCSR.reserve
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
             else if(e.CommandName.Equals("showBorrow"))
-            {
+           { 
                 int index = Convert.ToInt32(e.CommandArgument);
                 int borId = (int)gvBorrowers.DataKeys[index].Value;
 

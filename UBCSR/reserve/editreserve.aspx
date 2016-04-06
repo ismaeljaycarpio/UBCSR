@@ -115,7 +115,7 @@
                                         <asp:BoundField DataField="Name" HeaderText="Item" />
                                         <asp:BoundField DataField="Stocks" HeaderText="Remaining Quantity" />
 
-                                        <asp:TemplateField HeaderText="Quantity to Borrow">
+                                        <asp:TemplateField HeaderText="Reserved Quantity">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtQuantityToBorrow"
                                                     runat="server"

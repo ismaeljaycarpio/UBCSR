@@ -87,7 +87,7 @@
                                             </ul>
                                         </li>
                                         <li><a runat="server" href="~/Inventory/Default.aspx">Inventory</a></li>
-                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -128,7 +128,7 @@
                                             </ul>
                                         </li>
                                         <li><a runat="server" href="~/Inventory/Default.aspx">Inventory</a></li>
-                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -169,7 +169,7 @@
                                             </ul>
                                         </li>
                                         <li><a runat="server" href="~/Inventory/Default.aspx">Inventory</a></li>
-                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -198,7 +198,7 @@
                             <asp:RoleGroup Roles="Instructor">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
-                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
@@ -228,7 +228,7 @@
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
                                         <li><a runat="server" href="~/reserve/groupmember.aspx">Group Management</a></li>
-                                        <li><a runat="server" href="~/reserve/default.aspx">Reserve</a></li>                                        
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>                                        
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">

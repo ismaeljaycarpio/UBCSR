@@ -24,6 +24,7 @@ namespace UBCSR.borrow
             var q = from i in db.Items
                     join inv in db.InventoryLINQs
                     on i.Id equals inv.ItemId
+                    where inv.Stocks > 0
                     select new
                     {
                         Id = inv.Id,
@@ -56,6 +57,7 @@ namespace UBCSR.borrow
 
             int reserveId = r.Id;
             
+            //reserve selected items
             foreach(GridViewRow row in gvInv.Rows)
             {
                 //chk if checkbox is checked

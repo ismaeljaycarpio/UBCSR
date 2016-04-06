@@ -67,13 +67,13 @@ namespace UBCSR.borrow {
         protected global::System.Web.UI.WebControls.GridView gvBorrow;
         
         /// <summary>
-        /// btnOpenModal control.
+        /// btnCreateReservation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOpenModal;
+        protected global::System.Web.UI.WebControls.Button btnCreateReservation;
         
         /// <summary>
         /// UpdatePanel2 control.
