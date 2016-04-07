@@ -112,22 +112,22 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.TextBox txtIsReleased;
         
         /// <summary>
-        /// upInv control.
+        /// upReserveItems control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upInv;
+        protected global::System.Web.UI.UpdatePanel upReserveItems;
         
         /// <summary>
-        /// gvInv control.
+        /// gvReservaItems control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvInv;
+        protected global::System.Web.UI.WebControls.GridView gvReservaItems;
         
         /// <summary>
         /// btnSave control.

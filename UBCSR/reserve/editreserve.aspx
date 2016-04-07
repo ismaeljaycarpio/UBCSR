@@ -88,17 +88,16 @@
 
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <asp:UpdatePanel ID="upInv" runat="server">
+                        <asp:UpdatePanel ID="upReserveItems" runat="server">
                             <ContentTemplate>
-                                <asp:GridView ID="gvInv"
+                                <asp:GridView ID="gvReservaItems"
                                     runat="server"
                                     CssClass="table table-striped table-hover dataTable"
                                     GridLines="None"
                                     AutoGenerateColumns="false"
                                     EmptyDataText="No Record(s) found"
                                     ShowHeaderWhenEmpty="true"
-                                    DataKeyNames="Id"
-                                    OnRowCommand="gvInv_RowCommand">
+                                    DataKeyNames="Id">
                                     <Columns>
                                         <asp:TemplateField>
                                             <ItemTemplate>
@@ -106,9 +105,15 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                        <asp:TemplateField HeaderText="Reservation Item Id" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Inventory Id" Visible="false">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblInventoryId" runat="server" Text='<%# Eval("InventoryId") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -134,7 +139,6 @@
                                                     ErrorMessage="RangeValidator">*</asp:RangeValidator>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
                                     </Columns>
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
@@ -169,7 +173,7 @@
                                         DataKeyNames="Id"
                                         OnRowCommand="gvBorrowers_RowCommand">
                                         <Columns>
-                                            <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                            <asp:TemplateField HeaderText="Group Id" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                                                 </ItemTemplate>
@@ -256,23 +260,30 @@
                                             ShowHeaderWhenEmpty="true"
                                             DataKeyNames="Id">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Row Id">
+                                                <asp:TemplateField HeaderText="BorrowItem Id" Visible="false">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
-                                                <asp:BoundField DataField="Name" HeaderText="Item" />
+                                                <asp:TemplateField HeaderText="Inventory Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblInventoryId" runat="server" Text='<%# Eval("InventoryId") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:BoundField DataField="ItemName" HeaderText="Item" />
                                                 <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
-                                                <asp:BoundField DataField="Quantity" HeaderText="Reserved Quantity" />
+                                                <%--<asp:BoundField DataField="ReservedQuantity" HeaderText="Reserved Quantity" />--%>
 
                                                 <asp:TemplateField HeaderText="Quantity to borrow">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtQuantity"
                                                             runat="server"
+                                                            Text='<%# Eval("BorrowQuantity") %>'
                                                             CssClass="form-control"></asp:TextBox>
-                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" 
-                                                            runat="server" 
+                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
+                                                            runat="server"
                                                             ControlToValidate="txtQuantity"
                                                             Display="Dynamic"
                                                             ForeColor="Red"
@@ -314,7 +325,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Return Modal -->
     <div id="showReturnModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
