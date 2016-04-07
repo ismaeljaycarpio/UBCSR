@@ -6,7 +6,10 @@
 - File Maintenance - Group Management - fix
 	- RULE: Only Admin, Instructor, CSR Head, Student Assistant - can create/edit group or group's leader
 
+- Group Members Management - by Student - **DONE**
 
+- will work on returning item
+- Reports
 
 ===========================================================================
 ======================= Apr 06 2016 =======================================

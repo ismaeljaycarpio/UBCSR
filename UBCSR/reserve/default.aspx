@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Borrow List" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="UBCSR.borrow._default" %>
+﻿<%@ Page Title="Reservation List" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="UBCSR.borrow._default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -14,9 +14,10 @@
                     </div>
 
                     <div class="panel-body">
+
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-md-12">
+                                <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <asp:Button ID="btnSearch"
@@ -25,16 +26,21 @@
                                                 Text="Go"
                                                 OnClick="btnSearch_Click" />
                                         </span>
-                                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                        <asp:TextBox ID="txtSearch"
+                                            runat="server"
+                                            CssClass="form-control"
+                                            placeholder="Search..."></asp:TextBox>
                                         <div class="pull-right">
                                             <asp:Button ID="btnExport"
                                                 runat="server"
                                                 Text="Export to Excel"
-                                                CssClass="btn btn-default" 
+                                                CssClass="btn btn-default"
                                                 OnClick="btnExport_Click" />
                                         </div>
+
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 

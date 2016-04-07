@@ -10,7 +10,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h5>
-                            <asp:Label ID="lblTitle" runat="server">My Group (as a Group Lead)</asp:Label></h5>
+                            <asp:Label ID="lblTitle" runat="server">My Group (as a Group Leader)</asp:Label></h5>
                     </div>
 
                     <div class="panel-body">
@@ -50,7 +50,8 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Add Members" CommandName="addMembers" />
+                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit Members" CommandName="editMembers" />
 
                                             <asp:TemplateField HeaderText="Group Name">
                                                 <ItemTemplate>
@@ -71,7 +72,6 @@
                                                     <asp:Label ID="lblSemester" runat="server" Text='<%# Eval("Sem") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
@@ -86,8 +86,8 @@
         </div>
     </asp:Panel>
 
-    <!-- Borrow Modal -->
-    <div id="updateModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+    <!-- Add Members Modal -->
+    <div id="addMembersModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <!-- Return Modal content-->
             <div class="modal-content">
@@ -133,7 +133,7 @@
 
                                                 <asp:TemplateField HeaderText="Row Id" Visible="false">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("UserId") %>'></asp:Label>
+                                                        <asp:Label ID="lblGroupId" runat="server" Text='<%# Eval("UserId") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
@@ -151,7 +151,7 @@
                                 CssClass="btn btn-primary"
                                 Text="Save"
                                 CausesValidation="true"
-                                ValidationGroup="vgConfirmBorrow"
+                                ValidationGroup="vgAddGroup"
                                 OnClick="btnAddGroup_Click" />
                             <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
@@ -159,6 +159,85 @@
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="gvMembers" EventName="RowCommand" />
                         <asp:AsyncPostBackTrigger ControlID="btnAddGroup" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Members Modal -->
+    <div id="editMembersModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <!-- Return Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Group Members</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <asp:Label ID="lblEditGroupId" runat="server" Visible="false"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtGroupName">Group Name: </label>
+                                    <asp:TextBox ID="txtEditGroupName" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtGroupLeader">Group Leader: </label>
+                                    <asp:TextBox ID="txtEditGroupLeader" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gvEditMembers"></label>
+                                    <div class="table table-responsive">
+                                        <asp:GridView ID="gvEditMembers"
+                                            runat="server"
+                                            CssClass="table table-striped table-hover dataTable"
+                                            GridLines="None"
+                                            AutoGenerateColumns="false"
+                                            EmptyDataText="No Record(s) found"
+                                            ShowHeaderWhenEmpty="true"
+                                            DataKeyNames="UserId">
+                                            <Columns>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkRow" runat="server" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblEditGroupId" runat="server" Text='<%# Eval("UserId") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:BoundField DataField="FullName" HeaderText="Name" />
+                                            </Columns>
+                                            <PagerStyle CssClass="pagination-ys" />
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnEditGroup"
+                                runat="server"
+                                CssClass="btn btn-primary"
+                                Text="Save"
+                                CausesValidation="true"
+                                ValidationGroup="gvEditGroup"
+                                OnClick="btnEditGroup_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gvEditMembers" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="btnEditGroup" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
             </div>
