@@ -74,16 +74,6 @@ namespace UBCSR.Inventory
             }
         }
 
-        protected void gvInventory_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-
-        }
-
-        protected void gvInventory_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
-        {
-
-        }
-
         public SortDirection direction
         {
             get
@@ -174,7 +164,14 @@ namespace UBCSR.Inventory
                 lblRowId.Text = dt.Rows[0]["Id"].ToString();
                 ddlEditItem.SelectedValue = dt.Rows[0]["ItemId"].ToString();
                 txtEditStocks.Text = dt.Rows[0]["Stocks"].ToString();
-                txtEditExpiration.Text = Convert.ToDateTime(dt.Rows[0]["Expiration"].ToString()).ToShortDateString();
+
+                //chk if it has expiration date
+                string expDate;
+                if((expDate = dt.Rows[0]["Expiration"].ToString()) != String.Empty)
+                {
+                    txtEditExpiration.Text = Convert.ToDateTime(expDate).ToShortDateString();
+                }
+                
                 txtEditSerial.Text = dt.Rows[0]["Serial"].ToString();
                 txtEditRemarks.Text = dt.Rows[0]["Remarks"].ToString();
 

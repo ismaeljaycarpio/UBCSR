@@ -10,33 +10,36 @@
                     <h5>Inventory</h5>
                 </div>
                 <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <asp:Button ID="btnSearch"
-                                            runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="Go"
-                                            OnClick="btnSearch_Click" />
-                                    </span>
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
-                                    <div class="pull-right">
-                                        <asp:Button ID="btnExport" 
-                                            runat="server" 
-                                            Text="Export to Excel" 
-                                            CssClass="btn btn-default" 
-                                            OnClick="btnExport_Click" />
+                    <asp:UpdatePanel ID="upInv" runat="server">
+                        <ContentTemplate>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <asp:Button ID="btnSearch"
+                                                    runat="server"
+                                                    CssClass="btn btn-primary"
+                                                    Text="Go"
+                                                    CausesValidation="false"
+                                                    OnClick="btnSearch_Click" />
+                                            </span>
+                                            <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
+                                            <div class="pull-right">
+                                                <asp:Button ID="btnExport"
+                                                    runat="server"
+                                                    CausesValidation="false"
+                                                    Text="Export to Excel"
+                                                    CssClass="btn btn-default"
+                                                    OnClick="btnExport_Click" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="table-responsive">
-                        <asp:UpdatePanel ID="upInv" runat="server">
-                            <ContentTemplate>
+                            <div class="table-responsive">
+
                                 <asp:GridView ID="gvInventory"
                                     runat="server"
                                     class="table table-striped table-hover dataTable"
@@ -51,11 +54,9 @@
                                     EmptyDataText="No Record(s) found"
                                     OnSorting="gvInventory_Sorting"
                                     OnPageIndexChanging="gvInventory_PageIndexChanging"
-                                    OnRowDataBound="gvInventory_RowDataBound"
-                                    OnRowCommand="gvInventory_RowCommand"
-                                    OnSelectedIndexChanging="gvInventory_SelectedIndexChanging">
+                                    OnRowCommand="gvInventory_RowCommand">
                                     <Columns>
-                                        <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                        <asp:TemplateField HeaderText="Id" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                                             </ItemTemplate>
@@ -118,14 +119,11 @@
                                     Text="Add Item to Inventory"
                                     OnClick="btnOpenModal_Click"
                                     CausesValidation="false" />
-
-
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="gvInventory" />
-                            </Triggers>
-                        </asp:UpdatePanel>
-                    </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="gvInventory" />
+                        </Triggers>
+                    </asp:UpdatePanel>
                 </div>
             </div>
         </div>
@@ -170,7 +168,11 @@
 
                                 <div class="form-group">
                                     <label for="txtAddExpiration">Expiration Date</label>
-                                    <asp:TextBox ID="txtAddExpiration" runat="server" CssClass="form-control" data-provide="datepicker"></asp:TextBox>
+                                    <asp:TextBox ID="txtAddExpiration" 
+                                        runat="server" 
+                                        CssClass="form-control"
+                                        placeholder="Expiration Date" 
+                                        data-provide="datepicker"></asp:TextBox>
                                 </div>
 
                                 <div class="form-group">
@@ -241,7 +243,11 @@
 
                                 <div class="form-group">
                                     <label for="txtEditExpiration">Expiration Date</label>
-                                    <asp:TextBox ID="txtEditExpiration" runat="server" CssClass="form-control" data-provide="datepicker"></asp:TextBox>
+                                    <asp:TextBox ID="txtEditExpiration" 
+                                        runat="server" 
+                                        CssClass="form-control" 
+                                        placeholder="Expiration Date"
+                                        data-provide="datepicker"></asp:TextBox>
                                 </div>
 
                                 <div class="form-group">
@@ -314,7 +320,16 @@
                                         ControlToValidate="txtUpdateStocks"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgUpdate"
+                                        ForeColor="Red"
                                         ErrorMessage="Stocks is required"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+                                        runat="server"
+                                        ControlToValidate="txtUpdateStocks"
+                                        Display="Dynamic"
+                                        ForeColor="Red"
+                                        ValidationGroup="vgUpdate"
+                                        ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
+                                        ErrorMessage="">*</asp:RegularExpressionValidator>
                                 </div>
 
                             </div>

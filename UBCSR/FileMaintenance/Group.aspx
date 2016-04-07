@@ -62,7 +62,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Year">
+                                        <asp:TemplateField HeaderText="School Year">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblYearFrom" runat="server" Text='<%# Eval("YearFrom") %>'></asp:Label>
                                                 -

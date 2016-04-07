@@ -2,7 +2,10 @@
 ===========================================================================
 ======================= Apr 07 2016 =======================================
 ===========================================================================
-- when tagging a group to reservation - create borrow
+- when tagging a group to reservation - create borrow - **DONE**
+- File Maintenance - Group Management - fix
+	- RULE: Only Admin, Instructor, CSR Head, Student Assistant - can create/edit group or group's leader
+
 
 
 ===========================================================================

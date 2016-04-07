@@ -47,8 +47,19 @@ namespace UBCSR.FileMaintenance
         {
             //get users who dont have a group
             var q = (from a in db.AccountLINQs
-                     where a.GroupId == 0
-                     select new{
+                     join m in db.MembershipLINQs
+                     on a.UserId equals m.UserId
+                     join u in db.Users
+                     on m.UserId equals u.UserId
+                     join usr in db.UsersInRoles
+                     on u.UserId equals usr.UserId
+                     join r in db.Roles
+                     on usr.RoleId equals r.RoleId
+                     where 
+                     (r.RoleName == "Student") &&
+                     (a.GroupId == 0)
+                     select new
+                     {
                          Id = a.UserId,
                          FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
                      }).ToList();
@@ -62,8 +73,18 @@ namespace UBCSR.FileMaintenance
         protected void bindEditDropdown(Guid myUserId)
         {
             var q = (from a in db.AccountLINQs
-                     where a.GroupId == 0 ||
-                     a.UserId == myUserId
+                     join m in db.MembershipLINQs
+                     on a.UserId equals m.UserId
+                     join u in db.Users
+                     on m.UserId equals u.UserId
+                     join usr in db.UsersInRoles
+                     on u.UserId equals usr.UserId
+                     join r in db.Roles
+                     on usr.RoleId equals r.RoleId
+                     where 
+                     (a.GroupId == 0 ||
+                     a.UserId == myUserId) &&
+                     r.RoleName == "Student"
                      select new
                      {
                          Id = a.UserId,
