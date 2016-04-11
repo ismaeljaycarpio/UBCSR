@@ -51,7 +51,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
 
                                         <asp:TemplateField HeaderText="Item">
                                             <ItemTemplate>
@@ -77,12 +77,14 @@
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
                                 <!-- Trigger the modal with a button -->
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add Item"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
+                                <div class="pull-right">
+                                    <asp:Button ID="btnOpenModal"
+                                        runat="server"
+                                        CssClass="btn btn-info btn-sm"
+                                        Text="Add Item"
+                                        OnClick="btnOpenModal_Click"
+                                        CausesValidation="false" />
+                                </div>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="gvItem" />
@@ -116,6 +118,7 @@
                                         Display="Dynamic"
                                         ControlToValidate="ddlAddCategory"
                                         CssClass="label label-danger"
+                                        InitialValue="0"
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
@@ -129,6 +132,7 @@
                                         ControlToValidate="ddlAddBrand"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
+                                        InitialValue="0"
                                         ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
                                 </div>
 
@@ -187,6 +191,7 @@
                                         ControlToValidate="ddlEditCategory"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"
+                                        InitialValue="0"
                                         ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
 
@@ -199,6 +204,7 @@
                                         ControlToValidate="ddlEditBrand"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"
+                                        InitialValue="0"
                                         ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
                                 </div>
 

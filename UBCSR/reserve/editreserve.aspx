@@ -14,7 +14,7 @@
                     <div role="form">
                         <div class="col-md-4">
                             <label for="txtSubject">Subject</label>
-                            <asp:TextBox ID="txtSubject" runat="server" CssClass="form-control"></asp:TextBox>
+                            <asp:TextBox ID="txtSubject" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                 runat="server"
                                 Display="Dynamic"
@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="txtExpNo">Experiment No</label>
-                            <asp:TextBox ID="txtExpNo" runat="server" CssClass="form-control"></asp:TextBox>
+                            <asp:TextBox ID="txtExpNo" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
                                 runat="server"
                                 Display="Dynamic"
@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="txtLabRoom">Lab Room</label>
-                            <asp:TextBox ID="txtLabRoom" runat="server" CssClass="form-control"></asp:TextBox>
+                            <asp:TextBox ID="txtLabRoom" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
                                 runat="server"
                                 Display="Dynamic"
@@ -54,6 +54,7 @@
                             <label for="txtDateNeeded">Date Needed From</label>
                             <asp:TextBox ID="txtDateNeeded"
                                 runat="server"
+                                Enabled="false"
                                 CssClass="form-control"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator6"
                                 runat="server"
@@ -67,6 +68,7 @@
                             <label for="txtDateNeededTo">Date Needed To</label>
                             <asp:TextBox ID="txtDateNeededTo"
                                 runat="server"
+                                Enabled="false"
                                 CssClass="form-control"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
                                 runat="server"
@@ -94,6 +96,7 @@
                                     runat="server"
                                     CssClass="table table-striped table-hover dataTable"
                                     GridLines="None"
+                                    Enabled="false"
                                     AutoGenerateColumns="false"
                                     EmptyDataText="No Record(s) found"
                                     ShowHeaderWhenEmpty="true"
@@ -148,11 +151,21 @@
                         </asp:UpdatePanel>
                     </div>
                     <div class="panel-footer">
-                        <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CssClass="btn btn-primary" CausesValidation="true" ValidationGroup="vgPrimaryAdd" />
-                        <asp:Button ID="btnApprove" runat="server" Text="Approve" OnClick="btnApprove_Click" CssClass="btn btn-success" CausesValidation="false" />
-                        <asp:Button ID="btnDisapprove" runat="server" Text="Disapprove" OnClick="btnDisapprove_Click" CssClass="btn btn-danger" CausesValidation="false" />
-                        <asp:Button ID="btnTagGroup" runat="server" Text="Tag my Group" OnClick="btnTagGroup_Click" CssClass="btn btn-success" CausesValidation="false" Visible="false" />
-                        <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" CssClass="btn btn-default" />
+                        <asp:Button ID="btnSave" runat="server"
+                            Text="Save" OnClick="btnSave_Click" Visible="false"
+                            CssClass="btn btn-primary" CausesValidation="true" ValidationGroup="vgPrimaryAdd" />
+                        <asp:Button ID="btnApprove" runat="server"
+                            Text="Approve" OnClick="btnApprove_Click" Visible="false"
+                            CssClass="btn btn-success" CausesValidation="false" />
+                        <asp:Button ID="btnDisapprove" runat="server" Visible="false"
+                            Text="Disapprove" OnClick="btnDisapprove_Click"
+                            CssClass="btn btn-danger" CausesValidation="false" />
+                        <asp:Button ID="btnTagGroup" runat="server"
+                            Text="Tag my Group" OnClick="btnTagGroup_Click"
+                            CssClass="btn btn-success" CausesValidation="false" Visible="false" />
+                        <asp:Button ID="btnCancel" runat="server"
+                            Text="Close" OnClick="btnCancel_Click"
+                            CssClass="btn btn-default" />
                     </div>
                     <asp:Panel ID="pnlDoublejoin" CssClass="alert alert-info" runat="server" Visible="false">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -187,7 +200,7 @@
                                                 <ItemTemplate>
                                                     <asp:Button ID="btnShowBorrow"
                                                         runat="server"
-                                                        Text="Borrow"
+                                                        Text="Release"
                                                         CommandName="showBorrow"
                                                         CssClass="btn btn-info"
                                                         CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
@@ -200,7 +213,7 @@
                                                         runat="server"
                                                         Text="Return"
                                                         CommandName="showReturn"
-                                                        CssClass="btn btn-info"
+                                                        CssClass="btn btn-success"
                                                         CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -423,6 +436,48 @@
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="gvBreakage" EventName="RowCommand" />
                         <asp:AsyncPostBackTrigger ControlID="btnConfirmReturn" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disapprove Confirmation Modal-->
+    <div id="disapproveModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <!-- Return Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Disapprove Confirm</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="txtDisapproveRemarks">Remarks: </label>
+                                    <asp:TextBox ID="txtDisapproveRemarks" 
+                                        runat="server"
+                                        TextMode="MultiLine"
+                                        Height="200"
+                                        CssClass="form-control"></asp:TextBox>
+                                </div>                             
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnConfirmDisapprove"
+                                runat="server"
+                                CssClass="btn btn-danger"
+                                Text="Save"
+                                CausesValidation="true"
+                                ValidationGroup="vgConfirmDisapprove"
+                                OnClick="btnConfirmDisapprove_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="btnDisapprove" EventName="Click" />
                     </Triggers>
                 </asp:UpdatePanel>
             </div>

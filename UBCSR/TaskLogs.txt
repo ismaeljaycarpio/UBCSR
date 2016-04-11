@@ -1,4 +1,42 @@
-﻿
+﻿===========================================================================
+======================= Apr 11 2016 =======================================
+===========================================================================
+teacher account>reservation
+	*reserved quantity should not be greater than remaining quantity stocks bago ma submit. - **DONE**
+
+head of csr account>reservation
+	*remove save button, reservation form should not be editted since yun yung nireserve nung teacher. - **DONE**
+	*stocks should be updated each time they accept requests (available stocks-requested stocks). **Should deduct stock when Borrowing**
+	*each time CSRHEAD disapprove requests there should be a remarks/reason to be send to inform the teacher. - **DONE**
+
+student account>reservation
+	*remove ok button since "ok" and "cancel"button function is the same base on the program. **DONE**
+	*tag my group is not working on student account who is not a leader but a member of a group.
+	this is for emergency so if ever the leader is absent they can still borrow an item. - **DONE**
+
+admin account>file maintenance
+	*remove "category type" ok na daw yung category para deretyo nalang daw. **DONE**
+	*remove "roles" roles are fixed. since walang account management wala daw way para ma set function nang new role . - **DONE**
+	*for deleting category filemaintenance...system should not allow the user to delete this category pag may item under that category
+	naka link kasi for example dinelete "microscope" sa category... items also under "microscope" is deleted. wag daw iaallow yung ganon - **DONE**
+	*edit button should be a "linked button also"..apply to all. **DONE**
+	*allbuttons should be align right. - **DONE**
+    *dropdown box default text "select one". - **DONE**
+	*validation for adding information atleast 2 characters.
+
+student assistant account:
+	*reservation>approved list>"approval entity status" should be remove since its just showing list of approved requests. **DONE**
+	*rename borrow button into "release". **DONE**
+	*return button should be separate. **DONE**
+	*each time they click borrow>save... pupunta na sya sa borrow list and under borrow list andun yung return button.
+	 
+
+	
+	
+
+
+
+
 ===========================================================================
 ======================= Apr 07 2016 =======================================
 ===========================================================================

@@ -115,23 +115,27 @@ namespace UBCSR.FileMaintenance
         {
             ddlAddCategory.DataSource = fm.searchCategory("");
             ddlAddCategory.DataTextField = "CategoryName";
-            ddlAddCategory.DataValueField = "Id";
+            ddlAddCategory.DataValueField = "Id";            
             ddlAddCategory.DataBind();
+            ddlAddCategory.Items.Insert(0, new ListItem("Select One", "0"));
 
             ddlAddBrand.DataSource = fm.searchBrand("");
             ddlAddBrand.DataTextField = "BrandName";
-            ddlAddBrand.DataValueField = "Id";
+            ddlAddBrand.DataValueField = "Id";          
             ddlAddBrand.DataBind();
+            ddlAddBrand.Items.Insert(0, new ListItem("Select One", "0"));
 
             ddlEditCategory.DataSource = fm.searchCategory("");
             ddlEditCategory.DataTextField = "CategoryName";
             ddlEditCategory.DataValueField = "Id";
             ddlEditCategory.DataBind();
+            ddlEditCategory.Items.Insert(0, new ListItem("Select One", "0"));
 
             ddlEditBrand.DataSource = fm.searchBrand("");
             ddlEditBrand.DataTextField = "BrandName";
             ddlEditBrand.DataValueField = "Id";
             ddlEditBrand.DataBind();
+            ddlEditBrand.Items.Insert(0, new ListItem("Select One", "0"));
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

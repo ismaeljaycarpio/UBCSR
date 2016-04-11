@@ -122,11 +122,13 @@ namespace UBCSR.Inventory
             ddlAddItem.DataTextField = "ItemName";
             ddlAddItem.DataValueField = "Id";
             ddlAddItem.DataBind();
+            ddlAddItem.Items.Insert(0, new ListItem("Select One", "0"));
 
             ddlEditItem.DataSource = fm.searchItem("");
             ddlEditItem.DataTextField = "ItemName";
             ddlEditItem.DataValueField = "Id";
             ddlEditItem.DataBind();
+            ddlEditItem.Items.Insert(0, new ListItem("Select One", "0"));
 
             ddlUpdateItem.DataSource = fm.searchItem("");
             ddlUpdateItem.DataTextField = "ItemName";

@@ -33,31 +33,49 @@ namespace UBCSR.borrow
         {
             if(User.IsInRole("Student"))
             {
-                lblTitle.Text = "Reserved List by your Instructor - Only Group Leaders can view the list";
-                var q = from r in db.Reservations
-                        join acc in db.AccountLINQs
-                        on r.UserId equals acc.UserId
-                        where
-                        r.ApprovalStatus == "Approved"
-                        select new
-                        {
-                            Id = r.Id,
-                            Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
-                            Subject = r.Subject,
-                            ExperimentNo = r.ExperimentNo,
-                            DateRequested = r.DateRequested,
-                            DateFrom = r.DateFrom,
-                            LabRoom = r.LabRoom,
-                            ApprovalStatus = r.ApprovalStatus,
-                            DateTo = r.DateTo
-                        };
+                lblTitle.Text = "Reserved List by your Instructor - Only Users that belongs to a group can view the list";
 
-                gvBorrow.DataSource = q.ToList();
-                gvBorrow.DataBind();
+                //chk if user belongs to a group
+                Guid myUserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
+                var user = (from a in db.AccountLINQs
+                            where a.UserId == myUserId
+                            select a).FirstOrDefault();
 
-                //hide delete button
-                gvBorrow.Columns[10].Visible = false;
+                if(user.GroupId != 0)
+                {
+                    lblTitle.Text = "Reserved List by your Instructor - Only Group Leaders can view the list";
+                    var q = from r in db.Reservations
+                            join acc in db.AccountLINQs
+                            on r.UserId equals acc.UserId
+                            where
+                            r.ApprovalStatus == "Approved"
+                            select new
+                            {
+                                Id = r.Id,
+                                Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
+                                Subject = r.Subject,
+                                ExperimentNo = r.ExperimentNo,
+                                DateRequested = r.DateRequested,
+                                DateFrom = r.DateFrom,
+                                LabRoom = r.LabRoom,
+                                ApprovalStatus = r.ApprovalStatus,
+                                DateTo = r.DateTo,
+                                DisapproveRemarks = r.DisapproveRemarks
+                            };
 
+                    gvBorrow.DataSource = q.ToList();
+                    gvBorrow.DataBind();
+
+                    //hide delete button
+                    gvBorrow.Columns[9].Visible = false;
+                    gvBorrow.Columns[10].Visible = false;
+                    gvBorrow.Columns[11].Visible = false;
+                }
+                else
+                {
+                    gvBorrow.DataSource = null;
+                    gvBorrow.DataBind();
+                }
             }
             else if(User.IsInRole("Instructor"))
             {
@@ -76,7 +94,8 @@ namespace UBCSR.borrow
                             DateFrom = r.DateFrom,
                             LabRoom = r.LabRoom,
                             ApprovalStatus = r.ApprovalStatus,
-                            DateTo = r.DateTo
+                            DateTo = r.DateTo,
+                            DisapproveRemarks = r.DisapproveRemarks
                         };
 
                 gvBorrow.DataSource = q.ToList();
@@ -101,14 +120,17 @@ namespace UBCSR.borrow
                             DateFrom = r.DateFrom,
                             LabRoom = r.LabRoom,
                             ApprovalStatus = r.ApprovalStatus,
-                            DateTo = r.DateTo
+                            DateTo = r.DateTo,
+                            DisapproveRemarks = r.DisapproveRemarks
                         };
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
 
                 //hide delete button
+                gvBorrow.Columns[9].Visible = false;
                 gvBorrow.Columns[10].Visible = false;
+                gvBorrow.Columns[11].Visible = false;
             }
             else if(User.IsInRole("CSR Head"))
             {
@@ -128,7 +150,8 @@ namespace UBCSR.borrow
                             DateFrom = r.DateFrom,
                             LabRoom = r.LabRoom,
                             ApprovalStatus = r.ApprovalStatus,
-                            DateTo = r.DateTo
+                            DateTo = r.DateTo,
+                            DisapproveRemarks = r.DisapproveRemarks
                         };
 
                 gvBorrow.DataSource = q.ToList();
@@ -151,7 +174,8 @@ namespace UBCSR.borrow
                             DateFrom = r.DateFrom,
                             LabRoom = r.LabRoom,
                             ApprovalStatus = r.ApprovalStatus,
-                            DateTo = r.DateTo
+                            DateTo = r.DateTo,
+                            DisapproveRemarks = r.DisapproveRemarks
                         };
 
                 gvBorrow.DataSource = q.ToList();

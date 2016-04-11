@@ -48,7 +48,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
 
                                         <asp:TemplateField HeaderText="Group Name">
                                             <ItemTemplate>
@@ -82,12 +82,14 @@
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
                                 <!-- Trigger the modal with a button -->
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add Group"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
+                                <div class="pull-right">
+                                    <asp:Button ID="btnOpenModal"
+                                        runat="server"
+                                        CssClass="btn btn-info btn-sm"
+                                        Text="Add Group"
+                                        OnClick="btnOpenModal_Click"
+                                        CausesValidation="false" />
+                                </div>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="gvGroups" />
@@ -132,6 +134,7 @@
                                         Display="Dynamic"
                                         ControlToValidate="ddlGroupLeader"
                                         CssClass="label label-danger"
+                                        InitialValue="0"
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
                                 </div>
@@ -219,6 +222,7 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator8"
                                         runat="server"
                                         Display="Dynamic"
+                                        InitialValue="0"
                                         ControlToValidate="ddlEditGroupLeader"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"

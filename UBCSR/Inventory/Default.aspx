@@ -113,12 +113,14 @@
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
 
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add Item to Inventory"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
+                                <div class="pull-right">
+                                    <asp:Button ID="btnOpenModal"
+                                        runat="server"
+                                        CssClass="btn btn-info btn-sm"
+                                        Text="Add Item to Inventory"
+                                        OnClick="btnOpenModal_Click"
+                                        CausesValidation="false" />
+                                </div>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="gvInventory" />
@@ -151,6 +153,7 @@
                                         ControlToValidate="ddlAddItem"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
+                                        InitialValue="0"
                                         ErrorMessage="Item is required"></asp:RequiredFieldValidator>
                                 </div>
 
@@ -168,10 +171,10 @@
 
                                 <div class="form-group">
                                     <label for="txtAddExpiration">Expiration Date</label>
-                                    <asp:TextBox ID="txtAddExpiration" 
-                                        runat="server" 
+                                    <asp:TextBox ID="txtAddExpiration"
+                                        runat="server"
                                         CssClass="form-control"
-                                        placeholder="Expiration Date" 
+                                        placeholder="Expiration Date"
                                         data-provide="datepicker"></asp:TextBox>
                                 </div>
 
@@ -226,6 +229,7 @@
                                         ControlToValidate="ddlEditItem"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"
+                                        InitialValue="0"
                                         ErrorMessage="Item is required"></asp:RequiredFieldValidator>
                                 </div>
 
@@ -243,9 +247,9 @@
 
                                 <div class="form-group">
                                     <label for="txtEditExpiration">Expiration Date</label>
-                                    <asp:TextBox ID="txtEditExpiration" 
-                                        runat="server" 
-                                        CssClass="form-control" 
+                                    <asp:TextBox ID="txtEditExpiration"
+                                        runat="server"
+                                        CssClass="form-control"
                                         placeholder="Expiration Date"
                                         data-provide="datepicker"></asp:TextBox>
                                 </div>
@@ -303,6 +307,7 @@
                                         ControlToValidate="ddlUpdateItem"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgUpdate"
+                                        InitialValue="0"
                                         ErrorMessage="Item is required"></asp:RequiredFieldValidator>
                                 </div>
 

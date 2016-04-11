@@ -103,14 +103,13 @@ namespace UBCSR.DAL
         #endregion
 
         #region Category
-        public void addCategory(string categoryName, string categoryTypeId)
+        public void addCategory(string categoryName)
         {
-            strSql = "INSERT INTO ItemCategory VALUES(@CategoryName,@CategoryTypeId)";
+            strSql = "INSERT INTO ItemCategory VALUES(@CategoryName)";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@CategoryName", categoryName);
-                comm.Parameters.AddWithValue("@CategoryTypeId", categoryTypeId);
                 conn.Open();
                 comm.ExecuteNonQuery();
                 comm.Dispose();
@@ -118,14 +117,13 @@ namespace UBCSR.DAL
             }
         }
 
-        public void editCategory(string categoryName, string categoryTypeId, string Id)
+        public void editCategory(string categoryName, string Id)
         {
-            strSql = "UPDATE ItemCategory SET CategoryName = @CategoryName, CategoryTypeId = @CategoryTypeId WHERE Id = @Id";
+            strSql = "UPDATE ItemCategory SET CategoryName = @CategoryName WHERE Id = @Id";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@CategoryName", categoryName);
-                comm.Parameters.AddWithValue("@CategoryTypeId", categoryTypeId);
                 comm.Parameters.AddWithValue("@Id", Id);
                 conn.Open();
                 comm.ExecuteNonQuery();
@@ -150,10 +148,9 @@ namespace UBCSR.DAL
 
         public DataTable searchCategory(string categorySearch)
         {
-            strSql = "SELECT ItemCategory.Id, ItemCategory.CategoryName, ItemCategoryType.CategoryType " +
-                "FROM ItemCategory, ItemCategoryType " +
+            strSql = "SELECT ItemCategory.Id, ItemCategory.CategoryName " +
+                "FROM ItemCategory " +
                 "WHERE " +
-                "ItemCategoryType.Id = ItemCategory.CategoryTypeId AND " +
                 "CategoryName LIKE '%' + @CategoryName + '%'";
             using (conn = new SqlConnection(CONN_STRING))
             {

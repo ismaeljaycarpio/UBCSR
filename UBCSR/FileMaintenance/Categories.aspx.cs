@@ -17,7 +17,6 @@ namespace UBCSR.FileMaintenance
             if(!Page.IsPostBack)
             {
                 bindData();
-                populateDropdowns();
             }
         }
 
@@ -29,7 +28,7 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            fm.addCategory(txtAddCategory.Text, ddlAddCategoryType.SelectedValue);
+            fm.addCategory(txtAddCategory.Text);
 
             bindData();
 
@@ -42,7 +41,7 @@ namespace UBCSR.FileMaintenance
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-           fm.editCategory(txtEditCategory.Text, ddlEditCategoryType.SelectedValue,lblRowId.Text);
+           fm.editCategory(txtEditCategory.Text,lblRowId.Text);
 
            bindData();
 
@@ -80,7 +79,6 @@ namespace UBCSR.FileMaintenance
 
                 dt = fm.getCategory((int)(gvCategory.DataKeys[index].Value));
                 lblRowId.Text = dt.Rows[0]["Id"].ToString();
-                ddlEditCategoryType.SelectedValue = dt.Rows[0]["CategoryTypeId"].ToString();
                 txtEditCategory.Text = dt.Rows[0]["CategoryName"].ToString();
 
                 sb.Append(@"<script type='text/javascript'>");
@@ -122,19 +120,5 @@ namespace UBCSR.FileMaintenance
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
-
-        protected void populateDropdowns()
-        {
-            ddlAddCategoryType.DataSource = fm.searchCategoryType("");
-            ddlAddCategoryType.DataTextField = "CategoryType";
-            ddlAddCategoryType.DataValueField = "Id";
-            ddlAddCategoryType.DataBind();
-
-            ddlEditCategoryType.DataSource = fm.searchCategoryType("");
-            ddlEditCategoryType.DataTextField = "CategoryType";
-            ddlEditCategoryType.DataValueField = "Id";
-            ddlEditCategoryType.DataBind();
-        }
-
     }
 }

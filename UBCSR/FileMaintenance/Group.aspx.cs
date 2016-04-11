@@ -67,7 +67,8 @@ namespace UBCSR.FileMaintenance
             ddlGroupLeader.DataSource = q;
             ddlGroupLeader.DataTextField = "FullName";
             ddlGroupLeader.DataValueField = "Id";
-            ddlGroupLeader.DataBind();         
+            ddlGroupLeader.DataBind();
+            ddlGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
         }
 
         protected void bindEditDropdown(Guid myUserId)
@@ -95,6 +96,7 @@ namespace UBCSR.FileMaintenance
             ddlEditGroupLeader.DataTextField = "FullName";
             ddlEditGroupLeader.DataValueField = "Id";
             ddlEditGroupLeader.DataBind();
+            ddlEditGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

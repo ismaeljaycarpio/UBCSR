@@ -49,19 +49,17 @@ namespace UBCSR.reserve
                         bindReserveItems();
                         bindBorrowers();
 
-                        //approval to CSR Head
-                        if(!User.IsInRole("CSR Head") && 
-                            !User.IsInRole("Admin"))
+                        //show approval buttons
+                        if(User.IsInRole("CSR Head") ||
+                            User.IsInRole("Admin"))
                         {
-                            btnApprove.Visible = false;
-                            btnDisapprove.Visible = false;
+                            btnApprove.Visible = true;
+                            btnDisapprove.Visible = true;
                         }
 
                         //can edit -> admin,csr head,student assistant,instructor
                         if(User.IsInRole("Student"))
                         {
-                            disableFields();
-                            btnSave.Text = "Ok";
                             btnTagGroup.Visible = true;
 
                             //hide borrow/return button
@@ -152,16 +150,24 @@ namespace UBCSR.reserve
 
         protected void btnDisapprove_Click(object sender, EventArgs e)
         {
-            int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
-            var q = (from r in db.Reservations
-                     where r.Id == resId
-                     select r).FirstOrDefault();
+            //open remarks modal
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#disapproveModal').modal('show');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
 
-            q.ApprovalStatus = "Disapproved";
 
-            db.SubmitChanges();
+            //int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
+            //var q = (from r in db.Reservations
+            //         where r.Id == resId
+            //         select r).FirstOrDefault();
 
-            Response.Redirect("~/reserve/default.aspx");
+            //q.ApprovalStatus = "Disapproved";
+
+            //db.SubmitChanges();
+
+            //Response.Redirect("~/reserve/default.aspx");
         }
 
         protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -519,6 +525,21 @@ namespace UBCSR.reserve
             txtLabRoom.Enabled = false;
             txtSubject.Enabled = false;
             gvReservaItems.Enabled = false;
+        }
+
+        protected void btnConfirmDisapprove_Click(object sender, EventArgs e)
+        {
+            int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
+            var q = (from r in db.Reservations
+                     where r.Id == resId
+                     select r).FirstOrDefault();
+
+            q.ApprovalStatus = "Disapproved";
+            q.DisapproveRemarks = txtDisapproveRemarks.Text;
+
+            db.SubmitChanges();
+
+            Response.Redirect("~/reserve/default.aspx");
         }
     }
 }

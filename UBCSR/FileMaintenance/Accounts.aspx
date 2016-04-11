@@ -21,9 +21,9 @@
                                     </span>
                                     <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
                                     <div class="pull-right">
-                                        <asp:Button ID="btnExport" 
-                                            runat="server" 
-                                            Text="Export to Excel" 
+                                        <asp:Button ID="btnExport"
+                                            runat="server"
+                                            Text="Export to Excel"
                                             CssClass="btn btn-default" OnClick="btnExport_Click" />
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                                     OnPageIndexChanging="gvAccount_PageIndexChanging"
                                     OnSelectedIndexChanging="gvAccount_SelectedIndexChanging">
                                     <Columns>
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
 
                                         <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
                                             <ItemTemplate>
@@ -99,12 +99,14 @@
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
                                 <!-- Trigger the modal with a button -->
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add User"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
+                                <div class="pull-right">
+                                    <asp:Button ID="btnOpenModal"
+                                        runat="server"
+                                        CssClass="btn btn-info btn-sm"
+                                        Text="Add User"
+                                        OnClick="btnOpenModal_Click"
+                                        CausesValidation="false" />
+                                </div>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="gvAccount" />
@@ -140,6 +142,7 @@
                                         ControlToValidate="ddlAddRole"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
+                                        InitialValue="0"
                                         ErrorMessage="Role is required"></asp:RequiredFieldValidator>
                                 </div>
 
@@ -229,6 +232,7 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator6"
                                         runat="server"
                                         Display="Dynamic"
+                                        InitialValue="0"
                                         ControlToValidate="ddlEditRole"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"

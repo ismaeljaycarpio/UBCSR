@@ -48,7 +48,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
 
                                         <asp:TemplateField HeaderText="Brand">
                                             <ItemTemplate>
@@ -62,12 +62,14 @@
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
                                 <!-- Trigger the modal with a button -->
-                                <asp:Button ID="btnOpenModal"
+                                <div class="pull-right">
+                                    <asp:Button ID="btnOpenModal"
                                     runat="server"
                                     CssClass="btn btn-info btn-sm"
                                     Text="Add Brand"
                                     OnClick="btnOpenModal_Click"
                                     CausesValidation="false" />
+                                </div>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="gvBrand" />

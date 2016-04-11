@@ -82,8 +82,9 @@
                                             <asp:BoundField DataField="DateFrom" HeaderText="Date Needed From" SortExpression="DateFrom" />
                                             <asp:BoundField DataField="DateTo" HeaderText="Date Needed To" SortExpression="DateTo" />
                                             <asp:BoundField DataField="LabRoom" HeaderText="Lab Room" SortExpression="LabRoom" />
+                                            <asp:BoundField DataField="DisapproveRemarks" HeaderText="Remarks" SortExpression="DisapproveRemarks" />
                                             <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval" SortExpression="ApprovalStatus" />
-
+                                            
                                             <%--<asp:TemplateField HeaderText="Released">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblReleased" runat="server" Text='<%# Boolean.Parse(Eval("IsReleased").ToString()) ? "Yes" : "No" %>'></asp:Label>
@@ -105,13 +106,15 @@
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
-                                    <asp:Button ID="btnCreateReservation"
-                                        runat="server"
-                                        CssClass="btn btn-default btn-sm"
-                                        Text="Create Reservation"
-                                        Visible="false"
-                                        OnClick="btnCreateReservation_Click"
-                                        CausesValidation="false" />
+                                    <div class="pull-right">
+                                        <asp:Button ID="btnCreateReservation"
+                                            runat="server"
+                                            CssClass="btn btn-default btn-sm"
+                                            Text="Create Reservation"
+                                            Visible="false"
+                                            OnClick="btnCreateReservation_Click"
+                                            CausesValidation="false" />
+                                    </div>
                                 </ContentTemplate>
                                 <Triggers>
                                 </Triggers>

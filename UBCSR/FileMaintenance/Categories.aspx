@@ -48,7 +48,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:ButtonField HeaderText="Action" ButtonType="Button" Text="Edit" CommandName="editRecord" />
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
 
                                         <asp:TemplateField HeaderText="Category">
                                             <ItemTemplate>
@@ -56,11 +56,11 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Category Type">
+                                        <%--<asp:TemplateField HeaderText="Category Type">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblCategoryType" runat="server" Text='<%# Eval("CategoryType") %>'></asp:Label>
                                             </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </asp:TemplateField>--%>
 
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
 
@@ -68,12 +68,14 @@
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
                                 <!-- Trigger the modal with a button -->
-                                <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add Category"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
+                                <div class="pull-right">
+                                    <asp:Button ID="btnOpenModal"
+                                        runat="server"
+                                        CssClass="btn btn-info btn-sm"
+                                        Text="Add Category"
+                                        OnClick="btnOpenModal_Click"
+                                        CausesValidation="false" />
+                                </div>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="gvCategory" />
@@ -99,7 +101,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form">
-                                <div class="form-group">
+                                <%--<div class="form-group">
                                     <label for="ddlAddCategoryType">Category Type</label>
                                     <asp:DropDownList ID="ddlAddCategoryType" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
@@ -109,7 +111,7 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
-                                </div>
+                                </div>--%>
 
                                 <div class="form-group">
                                     <label for="txtAddCategory">Category</label>
@@ -155,7 +157,7 @@
                                     <asp:Label ID="lblRowId" runat="server" Visible="false"></asp:Label>
                                 </div>
 
-                                <div class="form-group">
+                                <%--<div class="form-group">
                                     <label for="ddlEditCategoryType">Category Type</label>
                                     <asp:DropDownList ID="ddlEditCategoryType" runat="server" CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
@@ -165,7 +167,7 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="vsEdit"
                                         ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
-                                </div>
+                                </div>--%>
 
                                 <div class="form-group">
                                     <label for="txtEditCategory">Category</label>
