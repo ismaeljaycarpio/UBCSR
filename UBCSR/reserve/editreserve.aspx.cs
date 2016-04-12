@@ -61,6 +61,13 @@ namespace UBCSR.reserve
                             btnDisapprove.Visible = true;
                         }
 
+                        //show update button
+                        if(User.IsInRole("Admin") || User.IsInRole("Instructor"))
+                        {
+                            btnSave.Visible = true;
+                            enableFields();
+                        }
+
                         //can edit -> admin,csr head,student assistant,instructor
                         if(User.IsInRole("Student"))
                         {
@@ -540,6 +547,16 @@ namespace UBCSR.reserve
             txtLabRoom.Enabled = false;
             ddlSubject.Enabled = false;
             gvReservaItems.Enabled = false;
+        }
+
+        protected void enableFields()
+        {
+            txtDateNeeded.Enabled = true;
+            txtDateNeededTo.Enabled = true;
+            txtExpNo.Enabled = true;
+            txtLabRoom.Enabled = true;
+            ddlSubject.Enabled = true;
+            gvReservaItems.Enabled = true;
         }
 
         protected void btnConfirmDisapprove_Click(object sender, EventArgs e)
