@@ -122,6 +122,7 @@
                                                     ControlToValidate="txtQuantityToBorrow"
                                                     Display="Dynamic"
                                                     MinimumValue="1"
+                                                    ValidationGroup="vgPrimaryAdd"
                                                     MaximumValue='<%# Eval("Stocks") %>'
                                                     Type="Integer"
                                                     ErrorMessage="RangeValidator">*</asp:RangeValidator>
