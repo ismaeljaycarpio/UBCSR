@@ -457,12 +457,12 @@
                             <div class="form">
                                 <div class="form-group">
                                     <label for="txtDisapproveRemarks">Remarks: </label>
-                                    <asp:TextBox ID="txtDisapproveRemarks" 
+                                    <asp:TextBox ID="txtDisapproveRemarks"
                                         runat="server"
                                         TextMode="MultiLine"
                                         Height="200"
                                         CssClass="form-control"></asp:TextBox>
-                                </div>                             
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
