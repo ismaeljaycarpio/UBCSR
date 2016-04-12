@@ -9,25 +9,19 @@
                 </div>
 
                 <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <asp:Button ID="btnSearch"
-                                            runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="Go"
-                                            OnClick="btnSearch_Click" />
-                                    </span>
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                                    <div class="pull-right">
-                                        <asp:Button ID="btnExport" runat="server" Text="Export to Excel" CssClass="btn btn-default" OnClick="btnExport_Click" />
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="form-inline">
+                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                        <asp:Button ID="btnSearch"
+                            runat="server"
+                            CssClass="btn btn-primary"
+                            Text="Go"
+                            OnClick="btnSearch_Click" />
+                        <div class="pull-right">
+                            <asp:Button ID="btnExport" runat="server" Text="Export to Excel" CssClass="btn btn-default" OnClick="btnExport_Click" />
                         </div>
                     </div>
+                    
+                    <br />
 
                     <div class="table-responsive">
                         <asp:UpdatePanel ID="upItems" runat="server">
@@ -51,8 +45,6 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
-
                                         <asp:TemplateField HeaderText="Item">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblItem" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
@@ -71,6 +63,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
+                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
 
                                     </Columns>

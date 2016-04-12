@@ -47,13 +47,15 @@ namespace UBCSR.borrow
                     var q = from r in db.Reservations
                             join acc in db.AccountLINQs
                             on r.UserId equals acc.UserId
+                            join s in db.SubjectLINQs
+                            on r.SubjectId equals s.Id
                             where
                             r.ApprovalStatus == "Approved"
                             select new
                             {
                                 Id = r.Id,
                                 Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
-                                Subject = r.Subject,
+                                Subject = s.Name,
                                 ExperimentNo = r.ExperimentNo,
                                 DateRequested = r.DateRequested,
                                 DateFrom = r.DateFrom,
@@ -83,12 +85,14 @@ namespace UBCSR.borrow
                 var q = from r in db.Reservations
                         join acc in db.AccountLINQs
                         on r.UserId equals acc.UserId
+                        join s in db.SubjectLINQs
+                        on r.SubjectId equals s.Id
                         where r.UserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
                         select new
                         {
                             Id = r.Id,
                             Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
-                            Subject = r.Subject,
+                            Subject = s.Name,
                             ExperimentNo = r.ExperimentNo,
                             DateRequested = r.DateRequested,
                             DateFrom = r.DateFrom,
@@ -107,6 +111,8 @@ namespace UBCSR.borrow
                 var q = from r in db.Reservations
                         join acc in db.AccountLINQs
                         on r.UserId equals acc.UserId
+                        join s in db.SubjectLINQs
+                        on r.SubjectId equals s.Id
                         where
                         (r.ApprovalStatus == "Approved") &&
                         (r.IsReturned == false)
@@ -114,7 +120,7 @@ namespace UBCSR.borrow
                         {
                             Id = r.Id,
                             Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
-                            Subject = r.Subject,
+                            Subject = s.Name,
                             ExperimentNo = r.ExperimentNo,
                             DateRequested = r.DateRequested,
                             DateFrom = r.DateFrom,
@@ -138,13 +144,15 @@ namespace UBCSR.borrow
                 var q = from r in db.Reservations
                         join acc in db.AccountLINQs
                         on r.UserId equals acc.UserId
+                        join s in db.SubjectLINQs
+                        on r.SubjectId equals s.Id
                         where
                         (r.ApprovalStatus == "Pending" || r.ApprovalStatus == "Disapproved")
                         select new
                         {
                             Id = r.Id,
                             Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
-                            Subject = r.Subject,
+                            Subject = s.Name,
                             ExperimentNo = r.ExperimentNo,
                             DateRequested = r.DateRequested,
                             DateFrom = r.DateFrom,
@@ -164,11 +172,13 @@ namespace UBCSR.borrow
                 var q = from r in db.Reservations
                         join acc in db.AccountLINQs
                         on r.UserId equals acc.UserId
+                        join s in db.SubjectLINQs
+                        on r.SubjectId equals s.Id
                         select new
                         {
                             Id = r.Id,
                             Name = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName,
-                            Subject = r.Subject,
+                            Subject = s.Name,
                             ExperimentNo = r.ExperimentNo,
                             DateRequested = r.DateRequested,
                             DateFrom = r.DateFrom,

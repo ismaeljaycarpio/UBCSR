@@ -13,13 +13,13 @@ namespace UBCSR.reserve {
     public partial class editreserve {
         
         /// <summary>
-        /// txtSubject control.
+        /// ddlSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubject;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSubject;
         
         /// <summary>
         /// RequiredFieldValidator3 control.

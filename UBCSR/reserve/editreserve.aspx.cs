@@ -24,6 +24,10 @@ namespace UBCSR.reserve
                 {
                     int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
 
+                    //load dropdown
+                    bindDropdown();
+                    ddlSubject.Items.Insert(0, new ListItem("Select Subject", "0"));
+
                     var q = (from r in db.Reservations
                              where r.Id == resId
                              select r).ToList();
@@ -37,7 +41,7 @@ namespace UBCSR.reserve
                     {
                         var r = q.FirstOrDefault();
 
-                        txtSubject.Text = r.Subject;
+                        ddlSubject.SelectedValue = r.SubjectId.ToString();
                         txtExpNo.Text = r.ExperimentNo;
                         txtDateNeeded.Text = r.DateFrom.ToString();
                         txtDateNeededTo.Text = r.DateTo.ToString();
@@ -81,6 +85,17 @@ namespace UBCSR.reserve
             }
         }
 
+        private void bindDropdown()
+        {
+            var q = (from s in db.SubjectLINQs
+                     select s).ToList();
+
+            ddlSubject.DataSource = q;
+            ddlSubject.DataTextField = "Name";
+            ddlSubject.DataValueField = "Id";
+            ddlSubject.DataBind();
+        }
+
         protected void btnSave_Click(object sender, EventArgs e)
         {
             Page.Validate();
@@ -91,7 +106,7 @@ namespace UBCSR.reserve
                          where r.Id == Convert.ToInt32(hfResId.Value)
                          select r).FirstOrDefault();
 
-                q.Subject = txtSubject.Text;
+                q.SubjectId = Convert.ToInt32(ddlSubject.SelectedValue);
                 q.ExperimentNo = txtExpNo.Text;
                 q.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
                 q.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
@@ -523,7 +538,7 @@ namespace UBCSR.reserve
             txtDateNeededTo.Enabled = false;
             txtExpNo.Enabled = false;
             txtLabRoom.Enabled = false;
-            txtSubject.Enabled = false;
+            ddlSubject.Enabled = false;
             gvReservaItems.Enabled = false;
         }
 

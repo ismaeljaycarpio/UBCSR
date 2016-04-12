@@ -10,7 +10,7 @@
 namespace UBCSR.FileMaintenance {
     
     
-    public partial class Categories {
+    public partial class Subject {
         
         /// <summary>
         /// txtSearch control.
@@ -31,22 +31,22 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.Button btnSearch;
         
         /// <summary>
-        /// upCategory control.
+        /// upSubjects control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upCategory;
+        protected global::System.Web.UI.UpdatePanel upSubjects;
         
         /// <summary>
-        /// gvCategory control.
+        /// gvSubjects control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCategory;
+        protected global::System.Web.UI.WebControls.GridView gvSubjects;
         
         /// <summary>
         /// btnOpenModal control.
@@ -67,13 +67,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.UpdatePanel upAdd;
         
         /// <summary>
-        /// txtAddCategory control.
+        /// txtAddCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddCategory;
+        protected global::System.Web.UI.WebControls.TextBox txtAddCode;
         
         /// <summary>
         /// RequiredFieldValidator1 control.
@@ -83,6 +83,24 @@ namespace UBCSR.FileMaintenance {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        
+        /// <summary>
+        /// txtAddSubject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAddSubject;
+        
+        /// <summary>
+        /// RequiredFieldValidator2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
         
         /// <summary>
         /// btnSave control.
@@ -112,13 +130,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.Label lblRowId;
         
         /// <summary>
-        /// txtEditCategory control.
+        /// txtEditCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditCategory;
+        protected global::System.Web.UI.WebControls.TextBox txtEditCode;
         
         /// <summary>
         /// RequiredFieldValidator3 control.
@@ -128,6 +146,24 @@ namespace UBCSR.FileMaintenance {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
+        
+        /// <summary>
+        /// txtEditSubject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditSubject;
+        
+        /// <summary>
+        /// RequiredFieldValidator4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
         
         /// <summary>
         /// btnUpdate control.

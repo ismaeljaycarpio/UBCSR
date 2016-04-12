@@ -72,6 +72,9 @@ namespace UBCSR
     partial void InsertReservation(Reservation instance);
     partial void UpdateReservation(Reservation instance);
     partial void DeleteReservation(Reservation instance);
+    partial void InsertSubjectLINQ(SubjectLINQ instance);
+    partial void UpdateSubjectLINQ(SubjectLINQ instance);
+    partial void DeleteSubjectLINQ(SubjectLINQ instance);
     #endregion
 		
 		public CSRContextDataContext() : 
@@ -213,6 +216,14 @@ namespace UBCSR
 			get
 			{
 				return this.GetTable<Reservation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SubjectLINQ> SubjectLINQs
+		{
+			get
+			{
+				return this.GetTable<SubjectLINQ>();
 			}
 		}
 	}
@@ -3252,7 +3263,7 @@ namespace UBCSR
 		
 		private System.Nullable<System.Guid> _UserId;
 		
-		private string _Subject;
+		private System.Nullable<int> _SubjectId;
 		
 		private string _ExperimentNo;
 		
@@ -3282,6 +3293,8 @@ namespace UBCSR
 		
 		private EntitySet<Borrow> _Borrows;
 		
+		private EntityRef<SubjectLINQ> _Subject;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3290,8 +3303,8 @@ namespace UBCSR
     partial void OnIdChanged();
     partial void OnUserIdChanging(System.Nullable<System.Guid> value);
     partial void OnUserIdChanged();
-    partial void OnSubjectChanging(string value);
-    partial void OnSubjectChanged();
+    partial void OnSubjectIdChanging(System.Nullable<int> value);
+    partial void OnSubjectIdChanged();
     partial void OnExperimentNoChanging(string value);
     partial void OnExperimentNoChanged();
     partial void OnDateRequestedChanging(System.Nullable<System.DateTime> value);
@@ -3322,6 +3335,7 @@ namespace UBCSR
 		{
 			this._ReservationItems = new EntitySet<ReservationItem>(new Action<ReservationItem>(this.attach_ReservationItems), new Action<ReservationItem>(this.detach_ReservationItems));
 			this._Borrows = new EntitySet<Borrow>(new Action<Borrow>(this.attach_Borrows), new Action<Borrow>(this.detach_Borrows));
+			this._Subject = default(EntityRef<SubjectLINQ>);
 			OnCreated();
 		}
 		
@@ -3365,22 +3379,26 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subject", DbType="VarChar(50)")]
-		public string Subject
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SubjectId", DbType="Int")]
+		public System.Nullable<int> SubjectId
 		{
 			get
 			{
-				return this._Subject;
+				return this._SubjectId;
 			}
 			set
 			{
-				if ((this._Subject != value))
+				if ((this._SubjectId != value))
 				{
-					this.OnSubjectChanging(value);
+					if (this._Subject.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSubjectIdChanging(value);
 					this.SendPropertyChanging();
-					this._Subject = value;
-					this.SendPropertyChanged("Subject");
-					this.OnSubjectChanged();
+					this._SubjectId = value;
+					this.SendPropertyChanged("SubjectId");
+					this.OnSubjectIdChanged();
 				}
 			}
 		}
@@ -3651,6 +3669,40 @@ namespace UBCSR
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Reservation", Storage="_Subject", ThisKey="SubjectId", OtherKey="Id", IsForeignKey=true)]
+		public SubjectLINQ SubjectLINQ
+		{
+			get
+			{
+				return this._Subject.Entity;
+			}
+			set
+			{
+				SubjectLINQ previousValue = this._Subject.Entity;
+				if (((previousValue != value) 
+							|| (this._Subject.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Subject.Entity = null;
+						previousValue.Reservations.Remove(this);
+					}
+					this._Subject.Entity = value;
+					if ((value != null))
+					{
+						value.Reservations.Add(this);
+						this._SubjectId = value.Id;
+					}
+					else
+					{
+						this._SubjectId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("SubjectLINQ");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3693,6 +3745,144 @@ namespace UBCSR
 		{
 			this.SendPropertyChanging();
 			entity.Reservation = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Subject")]
+	public partial class SubjectLINQ : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Code;
+		
+		private string _Name;
+		
+		private EntitySet<Reservation> _Reservations;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public SubjectLINQ()
+		{
+			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(50)")]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(MAX)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Reservation", Storage="_Reservations", ThisKey="Id", OtherKey="SubjectId")]
+		public EntitySet<Reservation> Reservations
+		{
+			get
+			{
+				return this._Reservations;
+			}
+			set
+			{
+				this._Reservations.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.SubjectLINQ = this;
+		}
+		
+		private void detach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.SubjectLINQ = null;
 		}
 	}
 }

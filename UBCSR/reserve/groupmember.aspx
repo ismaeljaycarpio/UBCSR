@@ -18,14 +18,14 @@
                             <div class="form-group">
                                 <div class="col-sm-10">
                                     <div class="input-group">
-                                        <span class="input-group-btn">
+                                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                        <span class="input-group-btn" style="width:0;">
                                             <asp:Button ID="btnSearch"
                                                 runat="server"
                                                 CssClass="btn btn-primary"
                                                 Text="Go"
                                                 OnClick="btnSearch_Click" />
-                                        </span>
-                                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                        </span>               
                                     </div>
                                 </div>
                             </div>

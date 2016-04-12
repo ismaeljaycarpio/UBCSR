@@ -13,13 +13,13 @@
                 <div class="panel-body">
                     <div role="form">
                         <div class="col-md-4">
-                            <label for="txtSubject">Subject</label>
-                            <asp:TextBox ID="txtSubject" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                            <label for="ddlSubject">Subject</label>
+                            <asp:DropDownList ID="ddlSubject" runat="server" CssClass="form-control" Enabled="false"></asp:DropDownList>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                 runat="server"
                                 Display="Dynamic"
                                 ValidationGroup="vgPrimaryAdd"
-                                ControlToValidate="txtSubject"
+                                ControlToValidate="ddlSubject"
                                 CssClass="label label-danger"
                                 ErrorMessage="Subject is required"></asp:RequiredFieldValidator>
                         </div>
@@ -51,7 +51,7 @@
                 <div class="panel-body">
                     <div role="form">
                         <div class="col-md-4">
-                            <label for="txtDateNeeded">Date Needed From</label>
+                            <label for="txtDateNeeded">Date/Time From</label>
                             <asp:TextBox ID="txtDateNeeded"
                                 runat="server"
                                 Enabled="false"
@@ -65,7 +65,7 @@
                                 ErrorMessage="Date Needed is required"></asp:RequiredFieldValidator>
                         </div>
                         <div class="col-md-4">
-                            <label for="txtDateNeededTo">Date Needed To</label>
+                            <label for="txtDateNeededTo">Date/Time To</label>
                             <asp:TextBox ID="txtDateNeededTo"
                                 runat="server"
                                 Enabled="false"

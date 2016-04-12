@@ -152,7 +152,7 @@
     <Type Name="Reservation">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="Subject" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SubjectId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ExperimentNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="DateRequested" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="DateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -167,6 +167,15 @@
       <Column Name="DisapproveRemarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="Reservation_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="ReservationId" Type="ReservationItem" />
       <Association Name="Reservation_Borrow" Member="Borrows" ThisKey="Id" OtherKey="ReservationId" Type="Borrow" />
+      <Association Name="Subject_Reservation" Member="SubjectLINQ" Storage="_Subject" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Subject" Member="SubjectLINQs">
+    <Type Name="SubjectLINQ">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="Subject_Reservation" Member="Reservations" ThisKey="Id" OtherKey="SubjectId" Type="Reservation" />
     </Type>
   </Table>
 </Database>

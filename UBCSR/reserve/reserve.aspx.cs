@@ -16,24 +16,9 @@ namespace UBCSR.borrow
             if(!Page.IsPostBack)
             {
                 bindGridview();
+                bindDropdown();
+                ddlSubject.Items.Insert(0, new ListItem("Select Subject", "0"));
             }
-        }
-
-        protected void bindGridview()
-        {
-            var q = from i in db.Items
-                    join inv in db.InventoryLINQs
-                    on i.Id equals inv.ItemId
-                    where inv.Stocks > 0
-                    select new
-                    {
-                        Id = inv.Id,
-                        Name = i.ItemName,
-                        Stocks = inv.Stocks
-                    };
-
-            gvInv.DataSource = q.ToList();
-            gvInv.DataBind();
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -41,7 +26,7 @@ namespace UBCSR.borrow
             Page.Validate();
             Reservation r = new Reservation();
             r.UserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
-            r.Subject = txtSubject.Text;
+            r.SubjectId = Convert.ToInt32(ddlSubject.SelectedValue);
             r.ExperimentNo = txtExpNo.Text;
             r.DateRequested = DateTime.Now;
             r.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
@@ -90,6 +75,34 @@ namespace UBCSR.borrow
         protected void gvInv_RowCommand(object sender, GridViewCommandEventArgs e)
         {
 
+        }
+
+        protected void bindGridview()
+        {
+            var q = from i in db.Items
+                    join inv in db.InventoryLINQs
+                    on i.Id equals inv.ItemId
+                    where inv.Stocks > 0
+                    select new
+                    {
+                        Id = inv.Id,
+                        Name = i.ItemName,
+                        Stocks = inv.Stocks
+                    };
+
+            gvInv.DataSource = q.ToList();
+            gvInv.DataBind();
+        }
+
+        protected void bindDropdown()
+        {
+            var q = (from s in db.SubjectLINQs
+                     select s).ToList();
+
+            ddlSubject.DataSource = q;
+            ddlSubject.DataTextField = "Name";
+            ddlSubject.DataValueField = "Id";
+            ddlSubject.DataBind();
         }
     }
 }
