@@ -136,7 +136,7 @@
                                                     ForeColor="Red"
                                                     ControlToValidate="txtQuantityToBorrow"
                                                     Display="Dynamic"
-                                                    MinimumValue="1"
+                                                    MinimumValue="0"
                                                     ValidationGroup="vgPrimaryAdd"
                                                     MaximumValue='<%# Eval("Stocks") %>'
                                                     Type="Integer"
@@ -172,6 +172,8 @@
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>Notice!</strong> Your group is already <strong>tagged !</strong>
                     </asp:Panel>
+
+                    <!-- Borrowers List -->
                     <div class="panel-body">
                         <div class="table-responsive">
                             <h4>Groups that are tagged: </h4>
@@ -208,6 +210,52 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
+                                            <%--<asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Button ID="btnShowReturn"
+                                                        runat="server"
+                                                        Text="Return"
+                                                        CommandName="showReturn"
+                                                        CssClass="btn btn-success"
+                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>--%>
+                                        </Columns>
+                                        <PagerStyle CssClass="pagination-ys" />
+                                    </asp:GridView>
+                                </ContentTemplate>
+                                <Triggers>
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div>
+                    </div>
+
+                    <!-- Release List -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <h4>Groups that are currently using the items: </h4>
+                            <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                                <ContentTemplate>
+                                    <asp:GridView ID="gvRelease"
+                                        runat="server"
+                                        CssClass="table table-striped table-hover dataTable"
+                                        GridLines="None"
+                                        AutoGenerateColumns="false"
+                                        EmptyDataText="No Record(s) found"
+                                        ShowHeaderWhenEmpty="true"
+                                        DataKeyNames="Id"
+                                        OnRowCommand="gvRelease_RowCommand">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Group Id" Visible="false">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
+                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
+                                            <asp:BoundField DataField="Status" HeaderText="Status" />
+
                                             <asp:TemplateField>
                                                 <ItemTemplate>
                                                     <asp:Button ID="btnShowReturn"
@@ -228,6 +276,8 @@
                             </asp:UpdatePanel>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -288,7 +338,7 @@
 
                                                 <asp:BoundField DataField="ItemName" HeaderText="Item" />
                                                 <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
-                                                <%--<asp:BoundField DataField="ReservedQuantity" HeaderText="Reserved Quantity" />--%>
+                                                <asp:BoundField DataField="ReservedQuantity" HeaderText="Remaining Reserved Quantity" />
 
                                                 <asp:TemplateField HeaderText="Quantity to borrow">
                                                     <ItemTemplate>
@@ -311,6 +361,16 @@
                                                             ValidationGroup="vgConfirmBorrow"
                                                             ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
                                                             ErrorMessage="">*</asp:RegularExpressionValidator>
+                                                        <asp:RangeValidator ID="RangeValidator1"
+                                                            runat="server"
+                                                            ForeColor="Red"
+                                                            ControlToValidate="txtQuantity"
+                                                            Display="Dynamic"
+                                                            MinimumValue="1"
+                                                            ValidationGroup="vgConfirmBorrow"
+                                                            MaximumValue='<%# Eval("ReservedQuantity") %>'
+                                                            Type="Integer"
+                                                            ErrorMessage="RangeValidator">*</asp:RangeValidator>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

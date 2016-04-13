@@ -188,6 +188,7 @@
     <Content Include="reserve\default.aspx" />
     <Content Include="reserve\editreserve.aspx" />
     <Content Include="reserve\groupmember.aspx" />
+    <Content Include="reserve\release-list.aspx" />
     <Content Include="reserve\reserve.aspx" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
@@ -463,6 +464,13 @@
     </Compile>
     <Compile Include="reserve\groupmember.aspx.designer.cs">
       <DependentUpon>groupmember.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="reserve\release-list.aspx.cs">
+      <DependentUpon>release-list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="reserve\release-list.aspx.designer.cs">
+      <DependentUpon>release-list.aspx</DependentUpon>
     </Compile>
     <Compile Include="reserve\reserve.aspx.cs">
       <DependentUpon>reserve.aspx</DependentUpon>
