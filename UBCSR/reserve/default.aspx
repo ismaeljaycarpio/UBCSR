@@ -23,7 +23,7 @@
                                 runat="server"
                                 CssClass="btn btn-primary"
                                 Text="Go"
-                                OnClick="btnSearch_Click" />                          
+                                OnClick="btnSearch_Click" />
                             <div class="pull-right">
                                 <asp:Button ID="btnExport"
                                     runat="server"
@@ -120,7 +120,6 @@
     <!-- Delete Modal -->
     <div id="deleteModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">

@@ -85,7 +85,6 @@
                                     <ul class="nav navbar-nav">
                                         <li class="dropdown"><a runat="server" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File Maintenance<span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <%--<li><a runat="server" href="~/FileMaintenance/CategoryType.aspx">Category Type</a></li>--%>
                                                 <li><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
@@ -128,7 +127,6 @@
                                     <ul class="nav navbar-nav">
                                         <li class="dropdown"><a runat="server" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File Maintenance<span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <%--<li><a runat="server" href="~/FileMaintenance/CategoryType.aspx">Category Type</a></li>--%>
                                                 <li><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
