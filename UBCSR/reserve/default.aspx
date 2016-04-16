@@ -15,15 +15,19 @@
 
                     <div class="panel-body">
                         <div class="form-inline">
-                            <asp:TextBox ID="txtSearch"
-                                runat="server"
-                                CssClass="form-control"
-                                placeholder="Search..."></asp:TextBox>
-                            <asp:Button ID="btnSearch"
-                                runat="server"
-                                CssClass="btn btn-primary"
-                                Text="Go"
-                                OnClick="btnSearch_Click" />
+                            <div class="input-group">
+                                <asp:TextBox ID="txtSearch"
+                                    runat="server"
+                                    CssClass="form-control"
+                                    placeholder="Search..."></asp:TextBox>
+                                <div class="input-group-btn">
+                                    <asp:Button ID="btnSearch"
+                                        runat="server"
+                                        CssClass="btn btn-primary"
+                                        Text="Go"
+                                        OnClick="btnSearch_Click" />
+                                </div>
+                            </div>
                             <div class="pull-right">
                                 <asp:Button ID="btnExport"
                                     runat="server"

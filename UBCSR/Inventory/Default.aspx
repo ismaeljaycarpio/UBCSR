@@ -13,20 +13,23 @@
                     <asp:UpdatePanel ID="upInv" runat="server">
                         <ContentTemplate>
                             <div class="form-inline">
-                                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
-                                <asp:Button ID="btnSearch"
-                                    runat="server"
-                                    CssClass="btn btn-primary"
-                                    Text="Go"
-                                    CausesValidation="false"
-                                    OnClick="btnSearch_Click" />
-                                
+                                <div class="input-group">
+                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
+                                    <div class="input-group-btn">
+                                        <asp:Button ID="btnSearch"
+                                            runat="server"
+                                            CssClass="btn btn-primary"
+                                            Text="Go"
+                                            CausesValidation="false"
+                                            OnClick="btnSearch_Click" />
+                                    </div>
+                                </div>
                                 <div class="pull-right">
                                     <asp:Button ID="btnExport"
                                         runat="server"
                                         CausesValidation="false"
                                         Text="Export to Excel"
-                                        CssClass="btn btn-default"
+                                        CssClass="btn btn-default btn-sm"
                                         OnClick="btnExport_Click" />
                                 </div>
                             </div>
@@ -56,8 +59,6 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                        
-                                        <asp:ButtonField HeaderText="Update Stocks" ButtonType="Link" Text="Update Stocks" CommandName="updateRecord" />
-
                                         <asp:TemplateField HeaderText="Item" SortExpression="ItemName">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblItemName" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
@@ -100,6 +101,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
+                                        <asp:ButtonField HeaderText="Update Stocks" ButtonType="Link" Text="Update Stocks" CommandName="updateRecord" />
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
 

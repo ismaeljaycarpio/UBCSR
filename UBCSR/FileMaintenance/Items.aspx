@@ -10,19 +10,24 @@
 
                 <div class="panel-body">
                     <div class="form-inline">
-                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                        <asp:Button ID="btnSearch"
-                            runat="server"
-                            CssClass="btn btn-primary"
-                            Text="Go"
-                            OnClick="btnSearch_Click" />
+                        <div class="form-group">
+                            <div class="input-group">
+                                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                <div class="input-group-btn">
+                                    <asp:Button ID="btnSearch"
+                                        runat="server"
+                                        CssClass="btn btn-primary"
+                                        Text="Go"
+                                        OnClick="btnSearch_Click" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="pull-right">
                             <asp:Button ID="btnExport" runat="server" Text="Export to Excel" CssClass="btn btn-default" OnClick="btnExport_Click" />
                         </div>
                     </div>
-                    
-                    <br />
 
+                    <br />
                     <div class="table-responsive">
                         <asp:UpdatePanel ID="upItems" runat="server">
                             <ContentTemplate>

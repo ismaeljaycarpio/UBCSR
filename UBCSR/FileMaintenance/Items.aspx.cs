@@ -20,7 +20,7 @@ namespace UBCSR.FileMaintenance
             if (!Page.IsPostBack)
             {
                 populateDropdowns();
-                bindData();
+                bindData();                
             }
         }
 
@@ -28,6 +28,7 @@ namespace UBCSR.FileMaintenance
         {
             gvItem.DataSource = fm.searchItem(txtSearch.Text);
             gvItem.DataBind();
+            txtSearch.Focus();
         }
 
         protected void btnSave_Click(object sender, EventArgs e)

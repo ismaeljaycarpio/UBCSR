@@ -9,17 +9,22 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-inline">
-                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                            <asp:Button ID="btnSearch"
-                                runat="server"
-                                CssClass="btn btn-primary"
-                                Text="Go"
-                                OnClick="btnSearch_Click" />
+                        <div class="input-group">
+                            <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                            <div class="input-group-btn">
+                                <asp:Button ID="btnSearch"
+                                    runat="server"
+                                    CssClass="btn btn-primary"
+                                    Text="Go"
+                                    OnClick="btnSearch_Click" />
+                            </div>
+                        </div>
                         <div class="pull-right">
                             <asp:Button ID="btnExport"
                                 runat="server"
                                 Text="Export to Excel"
-                                CssClass="btn btn-default" OnClick="btnExport_Click" />
+                                CssClass="btn btn-default btn-sm" 
+                                OnClick="btnExport_Click" />
                         </div>
                     </div>
 
@@ -44,7 +49,7 @@
                                     OnPageIndexChanging="gvAccount_PageIndexChanging"
                                     OnSelectedIndexChanging="gvAccount_SelectedIndexChanging">
                                     <Columns>
-                                        
+
                                         <asp:TemplateField HeaderText="ID" SortExpression="StudentId">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblStudentId" runat="server" Text='<%# Eval("UserName") %>'></asp:Label>
