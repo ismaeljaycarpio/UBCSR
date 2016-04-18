@@ -10,93 +10,14 @@ namespace UBCSR.FileMaintenance
     public partial class Group : System.Web.UI.Page
     {
         CSRContextDataContext db = new CSRContextDataContext();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!Page.IsPostBack)
             {
+                bindSubject();
                 bindGridview();
             }
-        }
-
-        protected void bindGridview()
-        {
-            var q = (from g in db.GroupLINQs
-                     join a in db.AccountLINQs
-                     on g.LeaderUserId equals a.UserId
-                     where g.Name.Contains(txtSearch.Text.Trim()) ||
-                     g.YearFrom.Contains(txtSearch.Text.Trim()) ||
-                     g.YearTo.Contains(txtSearch.Text.Trim()) ||
-                     g.Sem.Contains(txtSearch.Text.Trim())
-                     select new
-                     {
-                         Id = g.Id,
-                         Name = g.Name,
-                         FullName = a.LastName + " ," + a.FirstName + " " + a.MiddleName,
-                         YearFrom = g.YearFrom,
-                         YearTo = g.YearTo,
-                         Sem = g.Sem
-                     }).ToList();
-
-            gvGroups.DataSource = q;
-            gvGroups.DataBind();
-
-            txtSearch.Focus();
-        }
-
-        protected void bindDropdonw()
-        {
-            //get users who dont have a group
-            var q = (from a in db.AccountLINQs
-                     join m in db.MembershipLINQs
-                     on a.UserId equals m.UserId
-                     join u in db.Users
-                     on m.UserId equals u.UserId
-                     join usr in db.UsersInRoles
-                     on u.UserId equals usr.UserId
-                     join r in db.Roles
-                     on usr.RoleId equals r.RoleId
-                     where 
-                     (r.RoleName == "Student") &&
-                     (a.GroupId == 0)
-                     select new
-                     {
-                         Id = a.UserId,
-                         FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
-                     }).ToList();
-            
-            ddlGroupLeader.DataSource = q;
-            ddlGroupLeader.DataTextField = "FullName";
-            ddlGroupLeader.DataValueField = "Id";
-            ddlGroupLeader.DataBind();
-            ddlGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
-        }
-
-        protected void bindEditDropdown(Guid myUserId)
-        {
-            var q = (from a in db.AccountLINQs
-                     join m in db.MembershipLINQs
-                     on a.UserId equals m.UserId
-                     join u in db.Users
-                     on m.UserId equals u.UserId
-                     join usr in db.UsersInRoles
-                     on u.UserId equals usr.UserId
-                     join r in db.Roles
-                     on usr.RoleId equals r.RoleId
-                     where 
-                     (a.GroupId == 0 ||
-                     a.UserId == myUserId) &&
-                     r.RoleName == "Student"
-                     select new
-                     {
-                         Id = a.UserId,
-                         FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
-                     }).ToList();
-
-            ddlEditGroupLeader.DataSource = q;
-            ddlEditGroupLeader.DataTextField = "FullName";
-            ddlEditGroupLeader.DataValueField = "Id";
-            ddlEditGroupLeader.DataBind();
-            ddlEditGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -121,9 +42,6 @@ namespace UBCSR.FileMaintenance
 
                 lblRowId.Text = q.Id.ToString();
                 txtEditGroup.Text = q.Name;
-                txtEditYearFrom.Text = q.YearFrom;
-                txtEditYearTo.Text = q.YearTo;
-                ddlEditSemester.SelectedItem.Text = q.Sem;
 
                 //load accnts
                 Guid myUserid = Guid.Parse(q.LeaderUserId.ToString());
@@ -187,17 +105,12 @@ namespace UBCSR.FileMaintenance
                      select g).FirstOrDefault();
 
             q.Name = txtEditGroup.Text;
-            q.YearFrom = txtEditYearFrom.Text;
-            q.YearTo = txtEditYearTo.Text;
-            q.Sem = ddlEditSemester.SelectedItem.Text;
-
-            Guid previousLeaderId = Guid.Parse(q.LeaderUserId.ToString());
-
-            q.LeaderUserId = Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString());
-
+            q.SubjectId = Convert.ToInt32(ddlEditSubject.SelectedValue);
             db.SubmitChanges();
 
             //chk if new leadership
+            Guid previousLeaderId = Guid.Parse(q.LeaderUserId.ToString());
+            q.LeaderUserId = Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString());
             if(q.LeaderUserId != previousLeaderId)
             {
                 //reset previous leader to groupid = 0
@@ -230,10 +143,8 @@ namespace UBCSR.FileMaintenance
         {
             GroupLINQ g = new GroupLINQ();
             g.Name = txtAddGroup.Text;
-            g.YearFrom = txtAddYearFrom.Text;
-            g.YearTo = txtAddYearTo.Text;
-            g.Sem = ddlAddSemester.SelectedItem.Text;
             g.LeaderUserId = Guid.Parse(ddlGroupLeader.SelectedValue.ToString());
+            g.SubjectId = Convert.ToInt32(ddlAddSubject.SelectedValue);
 
             db.GroupLINQs.InsertOnSubmit(g);
 
@@ -254,6 +165,143 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#addModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+        }
+
+        protected void bindSubject()
+        {
+            var q = (from s in db.SubjectLINQs
+                     select s).ToList();
+
+            ddlAddSubject.DataSource = q;
+            ddlAddSubject.DataTextField = "Name";
+            ddlAddSubject.DataValueField = "Id";
+            ddlAddSubject.DataBind();
+            ddlAddSubject.Items.Insert(0, new ListItem("Select One", "0"));
+
+            ddlEditSubject.DataSource = q;
+            ddlEditSubject.DataTextField = "Name";
+            ddlEditSubject.DataValueField = "Id";
+            ddlEditSubject.DataBind();
+            ddlEditSubject.Items.Insert(0, new ListItem("Select One", "0"));
+        }
+
+        protected void bindGridview()
+        {
+            var q = (from g in db.GroupLINQs
+                     join a in db.AccountLINQs
+                     on g.LeaderUserId equals a.UserId
+                     join s in db.SubjectLINQs
+                     on g.SubjectId equals s.Id
+                     where
+                     (g.Name.Contains(txtSearch.Text.Trim()))
+                     select new
+                     {
+                         Id = g.Id,
+                         Name = g.Name,
+                         FullName = a.LastName + " ," + a.FirstName + " " + a.MiddleName,
+                         Subject = s.Name
+                     }).ToList();
+
+            gvGroups.DataSource = q;
+            gvGroups.DataBind();
+
+            txtSearch.Focus();
+        }
+
+        protected void bindDropdonw()
+        {
+            //get users who dont have a group
+            var q = (from a in db.AccountLINQs
+                     join m in db.MembershipLINQs
+                     on a.UserId equals m.UserId
+                     join u in db.Users
+                     on m.UserId equals u.UserId
+                     join usr in db.UsersInRoles
+                     on u.UserId equals usr.UserId
+                     join r in db.Roles
+                     on usr.RoleId equals r.RoleId
+                     where
+                     (r.RoleName == "Student") &&
+                     (a.GroupId == 0)
+                     select new
+                     {
+                         Id = a.UserId,
+                         FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
+                     }).ToList();
+
+            ddlGroupLeader.DataSource = q;
+            ddlGroupLeader.DataTextField = "FullName";
+            ddlGroupLeader.DataValueField = "Id";
+            ddlGroupLeader.DataBind();
+            ddlGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
+        }
+
+        protected void bindEditDropdown(Guid myUserId)
+        {
+            var q = (from a in db.AccountLINQs
+                     join m in db.MembershipLINQs
+                     on a.UserId equals m.UserId
+                     join u in db.Users
+                     on m.UserId equals u.UserId
+                     join usr in db.UsersInRoles
+                     on u.UserId equals usr.UserId
+                     join r in db.Roles
+                     on usr.RoleId equals r.RoleId
+                     where
+                     (a.GroupId == 0 ||
+                     a.UserId == myUserId) &&
+                     r.RoleName == "Student"
+                     select new
+                     {
+                         Id = a.UserId,
+                         FullName = a.LastName + ", " + a.FirstName + " " + a.MiddleName
+                     }).ToList();
+
+            ddlEditGroupLeader.DataSource = q;
+            ddlEditGroupLeader.DataTextField = "FullName";
+            ddlEditGroupLeader.DataValueField = "Id";
+            ddlEditGroupLeader.DataBind();
+            ddlEditGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
+        }
+
+        protected void ddlAddSubject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlAddSubject.SelectedValue == "0")
+            {
+                lblAddYearFrom.Text = String.Empty;
+                lblAddYearTo.Text = String.Empty;
+                lblAddSem.Text = String.Empty;
+            }
+            else
+            {
+                var q = (from s in db.SubjectLINQs
+                         where s.Id == Convert.ToInt32(ddlAddSubject.SelectedValue)
+                         select s).FirstOrDefault();
+
+                lblAddYearFrom.Text = q.YearFrom.ToString();
+                lblAddYearTo.Text = q.YearTo.ToString();
+                lblAddSem.Text = q.Sem.ToString();
+            }
+        }
+
+        protected void ddlEditSubject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlEditSubject.SelectedValue == "0")
+            {
+                lblEditYearFrom.Text = String.Empty;
+                lblEditYearTo.Text = String.Empty;
+                lblEditSem.Text = String.Empty;
+            }
+            else
+            {
+                var q = (from s in db.SubjectLINQs
+                         where s.Id == Convert.ToInt32(ddlEditSubject.SelectedValue)
+                         select s).FirstOrDefault();
+
+                lblEditYearFrom.Text = q.YearFrom.ToString();
+                lblEditYearTo.Text = q.YearTo.ToString();
+                lblEditSem.Text = q.Sem.ToString();
+            }
         }
     }
 }

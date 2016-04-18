@@ -89,9 +89,18 @@
                                         </asp:TemplateField>
 
                                         <asp:BoundField DataField="RoleName" HeaderText="Role" SortExpression="RoleName" />
-
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
-                                        <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
+
+                                        <asp:TemplateField HeaderText="Delete">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lbtnDelete"
+                                                    runat="server"
+                                                    CommandName="deleteRecord"
+                                                    CommandArgument='<%#((GridViewRow)Container).RowIndex  %>'
+                                                    Text="Delete">
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
 
                                     </Columns>
                                     <PagerStyle CssClass="pagination-ys" />
@@ -120,7 +129,6 @@
     <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="upAdd" runat="server">
@@ -304,7 +312,6 @@
     <!-- Delete Modal -->
     <div id="deleteModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -333,7 +340,6 @@
     <!-- Update Group Modal -->
     <div id="updateGroupModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
@@ -387,4 +393,6 @@
             </div>
         </div>
     </div>
+
+    <asp:HiddenField ID="hfUserId" runat="server" />
 </asp:Content>

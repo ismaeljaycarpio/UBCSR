@@ -14,7 +14,10 @@
                         <ContentTemplate>
                             <div class="form-inline">
                                 <div class="input-group">
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Item Name"></asp:TextBox>
+                                    <asp:TextBox ID="txtSearch" 
+                                        runat="server" 
+                                        CssClass="form-control" 
+                                        placeholder="Search Inventory"></asp:TextBox>
                                     <div class="input-group-btn">
                                         <asp:Button ID="btnSearch"
                                             runat="server"
@@ -120,6 +123,7 @@
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="gvInventory" />
+                            <asp:PostBackTrigger ControlID="btnExport" />
                         </Triggers>
                     </asp:UpdatePanel>
                 </div>
@@ -352,7 +356,6 @@
     <!-- Delete Modal -->
     <div id="deleteModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">

@@ -23,8 +23,21 @@ namespace UBCSR.reserve
         protected void bindGridview()
         {
             var q = (from g in db.GroupLINQs
-                     where g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
-                     select g).ToList();
+                     join s in db.SubjectLINQs
+                     on g.SubjectId equals s.Id
+                     where
+                     (
+                     g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
+                     )
+                     select new
+                     {
+                         Id = g.Id,
+                         GroupName = g.Name,
+                         Subject = s.Name,
+                         YearFrom = s.YearFrom,
+                         YearTo = s.YearTo,
+                         Sem = s.Sem
+                     }).ToList();
 
             gvTeam.DataSource = q;
             gvTeam.DataBind();

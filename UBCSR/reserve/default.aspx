@@ -73,9 +73,9 @@
                                             <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                                             <asp:BoundField DataField="Subject" HeaderText="Subject" SortExpression="Subject" />
                                             <asp:BoundField DataField="ExperimentNo" HeaderText="Experiment No" SortExpression="ExperimentNo" />
-                                            <asp:BoundField DataField="DateRequested" HeaderText="Date Requested" SortExpression="DateRequested" />
-                                            <asp:BoundField DataField="DateFrom" HeaderText="Date Needed From" SortExpression="DateFrom" />
-                                            <asp:BoundField DataField="DateTo" HeaderText="Date Needed To" SortExpression="DateTo" />
+                                            <asp:BoundField DataField="DateRequested" HeaderText="Request Date" SortExpression="DateRequested" />
+                                            <asp:BoundField DataField="DateFrom" HeaderText="Date/Time From" SortExpression="DateFrom" />
+                                            <asp:BoundField DataField="DateTo" HeaderText="Date/Time To" SortExpression="DateTo" />
                                             <asp:BoundField DataField="LabRoom" HeaderText="Lab Room" SortExpression="LabRoom" />
                                             <asp:BoundField DataField="DisapproveRemarks" HeaderText="Remarks" SortExpression="DisapproveRemarks" />
                                             <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval" SortExpression="ApprovalStatus" />

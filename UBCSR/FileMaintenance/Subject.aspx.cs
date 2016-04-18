@@ -44,6 +44,9 @@ namespace UBCSR.FileMaintenance
                 lblRowId.Text = q.Id.ToString();
                 txtEditCode.Text = q.Code;
                 txtEditSubject.Text = q.Name;
+                txtEditYearFrom.Text = q.YearFrom.ToString();
+                txtEditYearTo.Text = q.YearTo.ToString();
+                ddlEditSemester.SelectedValue = q.Sem;
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -77,6 +80,9 @@ namespace UBCSR.FileMaintenance
             SubjectLINQ s = new SubjectLINQ();
             s.Code = txtAddCode.Text;
             s.Name = txtAddSubject.Text;
+            s.YearFrom = Convert.ToInt32(txtAddYearFrom.Text);
+            s.YearTo = Convert.ToInt32(txtAddYearTo.Text);
+            s.Sem = ddlAddSemester.SelectedValue;
 
             db.SubjectLINQs.InsertOnSubmit(s);
             db.SubmitChanges();
@@ -98,6 +104,10 @@ namespace UBCSR.FileMaintenance
 
             q.Code = txtEditCode.Text;
             q.Name = txtEditSubject.Text;
+            q.YearFrom = Convert.ToInt32(txtEditYearFrom.Text);
+            q.YearTo = Convert.ToInt32(txtEditYearTo.Text);
+            q.Sem = ddlEditSemester.SelectedValue;
+
             db.SubmitChanges();
 
             bindGridview();
@@ -131,7 +141,9 @@ namespace UBCSR.FileMaintenance
         {
             var q = (from s in db.SubjectLINQs
                      where
-                     (s.Code.Contains(txtSearch.Text) || s.Name.Contains(txtSearch.Text))
+                     (s.Code.Contains(txtSearch.Text) || 
+                     s.Name.Contains(txtSearch.Text) ||
+                     s.Sem.Contains(txtSearch.Text))
                      select s).ToList();
 
             gvSubjects.DataSource = q;

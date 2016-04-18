@@ -103,13 +103,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
         
         /// <summary>
-        /// txtAddYearFrom control.
+        /// ddlAddSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddYearFrom;
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddSubject;
         
         /// <summary>
         /// RequiredFieldValidator2 control.
@@ -121,31 +121,31 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
         
         /// <summary>
-        /// txtAddYearTo control.
+        /// lblAddYearFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddYearTo;
+        protected global::System.Web.UI.WebControls.Label lblAddYearFrom;
         
         /// <summary>
-        /// RequiredFieldValidator5 control.
+        /// lblAddYearTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
+        protected global::System.Web.UI.WebControls.Label lblAddYearTo;
         
         /// <summary>
-        /// ddlAddSemester control.
+        /// lblAddSem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAddSemester;
+        protected global::System.Web.UI.WebControls.Label lblAddSem;
         
         /// <summary>
         /// btnSave control.
@@ -211,13 +211,13 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator8;
         
         /// <summary>
-        /// txtEditYearFrom control.
+        /// ddlEditSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditYearFrom;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEditSubject;
         
         /// <summary>
         /// RequiredFieldValidator4 control.
@@ -229,31 +229,31 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
         
         /// <summary>
-        /// txtEditYearTo control.
+        /// lblEditYearFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditYearTo;
+        protected global::System.Web.UI.WebControls.Label lblEditYearFrom;
         
         /// <summary>
-        /// RequiredFieldValidator6 control.
+        /// lblEditYearTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
+        protected global::System.Web.UI.WebControls.Label lblEditYearTo;
         
         /// <summary>
-        /// ddlEditSemester control.
+        /// lblEditSem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEditSemester;
+        protected global::System.Web.UI.WebControls.Label lblEditSem;
         
         /// <summary>
         /// btnUpdate control.

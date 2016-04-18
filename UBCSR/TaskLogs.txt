@@ -1,4 +1,19 @@
-﻿===========================================================================
+﻿
+===========================================================================
+======================= Apr 18 2016 =======================================
+===========================================================================
+- implement - should not delete logged-in account ***DONE***
+- bulk delete - ***DENIED***
+- implement - should not allow to delete item in file maintenance if it is being used in Inventory - ***DONE***
+- Shool year - ***DENIED*** making in advanced
+- Bug fixed - Export to Excel Inventory - ***DONE***
+- Moved buttons in http://localhost:53405/reserve/groupmember.aspx - ***DONE***
+- Student Account - http://localhost:53405/reserve/editreserve.aspx?resId=7 - remove return button in release gridview - ***DONE***
+- SA -[implement] -  after returning completely, should go to returned panel 
+9. 
+10.
+
+===========================================================================
 ======================= Apr 13 2016 =======================================
 ===========================================================================
 - create release list page **DONE**
@@ -40,13 +55,6 @@ student assistant account:
 	*return button should be separate. **DONE**
 	*each time they click borrow>save... pupunta na sya sa borrow list and under borrow list andun yung return button.
 	 
-
-	
-	
-
-
-
-
 ===========================================================================
 ======================= Apr 07 2016 =======================================
 ===========================================================================

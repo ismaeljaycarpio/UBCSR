@@ -63,7 +63,8 @@ namespace UBCSR.reserve
                         }
 
                         //show update button
-                        if(User.IsInRole("Admin") || User.IsInRole("Instructor"))
+                        if(User.IsInRole("Admin") || 
+                            User.IsInRole("Instructor"))
                         {
                             btnSave.Visible = true;
                             enableFields();
@@ -76,7 +77,7 @@ namespace UBCSR.reserve
 
                             //hide borrow/return button
                             gvBorrowers.Columns[4].Visible = false;
-                            //gvBorrowers.Columns[5].Visible = false;
+                            gvRelease.Columns[4].Visible = false;
                         }
                         else
                         {
@@ -211,7 +212,7 @@ namespace UBCSR.reserve
                 txtGroupNameBorrow.Text = q.GroupName;
                 txtGroupLeaderBorrow.Text = q.GroupLeader;
                 
-                ////load related items - from BorrowItems
+                //load related items - from BorrowItems
                 var items = from i in db.Items
                             join inv in db.InventoryLINQs
                             on i.Id equals inv.ItemId
@@ -231,26 +232,6 @@ namespace UBCSR.reserve
                                 ReservedQuantity = ri.Quantity,
                                 BorrowQuantity = bi.BorrowedQuantity
                             };
-
-                //var q = from i in db.Items
-                //        join inv in db.InventoryLINQs
-                //        on i.Id equals inv.ItemId
-                //        join ri in db.ReservationItems
-                //        on inv.Id equals ri.InventoryId
-                //        join r in db.Reservations
-                //        on ri.ReservationId equals r.Id
-                //        where r.Id == Convert.ToInt32(hfResId.Value)
-                //        select new
-                //        {
-                //            Id = ri.Id,
-                //            InventoryId = ri.InventoryId,
-                //            Name = i.ItemName,
-                //            Stocks = inv.Stocks,
-                //            Quantity = ri.Quantity
-                //        };
-
-                //gvReservaItems.DataSource = q.ToList();
-                //gvReservaItems.DataBind();
 
                 gvBorrow.DataSource = items.ToList();
                 gvBorrow.DataBind();

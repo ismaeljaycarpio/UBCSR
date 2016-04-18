@@ -59,6 +59,20 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
+                                        <asp:TemplateField HeaderText="School Year">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblYearFrom" runat="server" Text='<%# Eval("YearFrom") %>'></asp:Label>
+                                                -
+                                                <asp:Label ID="lblYearTo" runat="server" Text='<%# Eval("YearTo") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Semester">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblSemester" runat="server" Text='<%# Eval("Sem") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
 
@@ -122,6 +136,40 @@
                                         ErrorMessage="Subject is required"></asp:RequiredFieldValidator>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="txtAddYearFrom">Year From</label>
+                                    <asp:TextBox ID="txtAddYearFrom" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtAddYearFrom"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Year From is required"></asp:RequiredFieldValidator>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="txtAddYearTo">Year To</label>
+                                    <asp:TextBox ID="txtAddYearTo" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtAddYearTo"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Year To is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlAddSemester">Semester</label>
+                                    <asp:DropDownList ID="ddlAddSemester" runat="server" CssClass="form-control" placeholder="Item">
+                                        <asp:ListItem Value="FirstSem">First Sem</asp:ListItem>
+                                        <asp:ListItem Value="SecondSem">Second Sem</asp:ListItem>
+                                        <asp:ListItem Value="Summer">Summer</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -176,6 +224,40 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"
                                         ErrorMessage="Subject Name is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtEditYearFrom">Year From</label>
+                                    <asp:TextBox ID="txtEditYearFrom" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtEditYearFrom"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Year From is required"></asp:RequiredFieldValidator>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="txtEditYearTo">Year To</label>
+                                    <asp:TextBox ID="txtEditYearTo" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="txtEditYearTo"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Year To is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlEditSemester">Semester</label>
+                                    <asp:DropDownList ID="ddlEditSemester" runat="server" CssClass="form-control" placeholder="Item">
+                                        <asp:ListItem Value="FirstSem">First Sem</asp:ListItem>
+                                        <asp:ListItem Value="SecondSem">Second Sem</asp:ListItem>
+                                        <asp:ListItem Value="Summer">Summer</asp:ListItem>
+                                    </asp:DropDownList>
                                 </div>
 
                             </div>

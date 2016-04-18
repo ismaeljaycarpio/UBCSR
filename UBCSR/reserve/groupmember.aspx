@@ -50,12 +50,15 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Add Members" CommandName="addMembers" />
-                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit Members" CommandName="editMembers" />
-
                                             <asp:TemplateField HeaderText="Group Name">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblName" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
+                                                    <asp:Label ID="lblName" runat="server" Text='<%# Eval("GroupName") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Subject">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblSubject" runat="server" Text='<%# Eval("Subject") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -72,6 +75,10 @@
                                                     <asp:Label ID="lblSemester" runat="server" Text='<%# Eval("Sem") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+
+                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Add Members" CommandName="addMembers" />
+                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit Members" CommandName="editMembers" />
+
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>

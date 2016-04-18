@@ -16,11 +16,14 @@ namespace UBCSR.FileMaintenance
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
         CSRContextDataContext db = new CSRContextDataContext();
+        Guid myUserId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                hfUserId.Value = Membership.GetUser().ProviderUserKey.ToString();
+                
                 bindData();
                 populateDropdowns();
             }
@@ -52,14 +55,6 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#updateModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditHideModalScript", sb.ToString(), false);
-        }
-
-        protected void bindData()
-        {
-            gvAccount.DataSource = fm.searchUser(txtSearch.Text);
-            gvAccount.DataBind();
-
-            txtSearch.Focus();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -105,6 +100,15 @@ namespace UBCSR.FileMaintenance
                 }
 
                 lnkReset.Attributes.Add("onclick", "return confirm('Do you want to reset the password of this user ? ');");
+
+                //hide delete btn for logged-in accnt
+                LinkButton lbtnDelete = e.Row.FindControl("lbtnDelete") as LinkButton;
+                Guid userId = Guid.Parse(gvAccount.DataKeys[e.Row.RowIndex].Value.ToString());
+
+                if(userId == Guid.Parse(hfUserId.Value))
+                {
+                    lbtnDelete.Visible = false;
+                }
             }
             else if (e.Row.RowType == DataControlRowType.Footer)
             {
@@ -346,10 +350,6 @@ namespace UBCSR.FileMaintenance
             var q = (from g in db.GroupLINQs
                      where g.Id == Convert.ToInt32(ddlGroupNo.SelectedValue)
                      select g).FirstOrDefault();
-
-            lblYearFrom.Text = q.YearFrom;
-            lblYearTo.Text = q.YearTo;
-            lblSemester.Text = q.Sem;
         }
 
         protected void btnExport_Click(object sender, EventArgs e)
@@ -380,6 +380,14 @@ namespace UBCSR.FileMaintenance
                 Response.Flush();
                 Response.End();
             }
+        }
+
+        protected void bindData()
+        {
+            gvAccount.DataSource = fm.searchUser(txtSearch.Text);
+            gvAccount.DataBind();
+
+            txtSearch.Focus();
         }
     }
 }
