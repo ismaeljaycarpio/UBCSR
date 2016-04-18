@@ -70,7 +70,7 @@ namespace UBCSR.FileMaintenance
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-            bindDropdonw();
+            //bindDropdown();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -118,17 +118,9 @@ namespace UBCSR.FileMaintenance
                          where ac.UserId == previousLeaderId
                          select ac).FirstOrDefault();
 
-                a.GroupId = 0;
+                //a.GroupId = 0;
                 db.SubmitChanges();
             }
-
-            //update Account table also
-            var acc = (from a in db.AccountLINQs
-                     where a.UserId == Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString())
-                     select a).FirstOrDefault();
-
-            acc.GroupId = q.Id;
-            db.SubmitChanges();
 
             bindGridview();
 
@@ -150,14 +142,6 @@ namespace UBCSR.FileMaintenance
 
             db.SubmitChanges();
 
-            //update Account table also
-            var q = (from a in db.AccountLINQs
-                     where a.UserId == Guid.Parse(ddlGroupLeader.SelectedValue.ToString())
-                     select a).FirstOrDefault();
-
-            q.GroupId = g.Id;
-            db.SubmitChanges();
-
             bindGridview();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -165,6 +149,63 @@ namespace UBCSR.FileMaintenance
             sb.Append("$('#addModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+        }
+
+        protected void ddlAddSubject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlAddSubject.SelectedValue == "0")
+            {
+                lblAddYearFrom.Text = String.Empty;
+                lblAddYearTo.Text = String.Empty;
+                lblAddSem.Text = String.Empty;
+            }
+            else
+            {
+                var q = (from s in db.SubjectLINQs
+                         where s.Id == Convert.ToInt32(ddlAddSubject.SelectedValue)
+                         select s).FirstOrDefault();
+
+                lblAddYearFrom.Text = q.YearFrom.ToString();
+                lblAddYearTo.Text = q.YearTo.ToString();
+                lblAddSem.Text = q.Sem.ToString();
+
+                //fill leader drop down - load users that dont belong on this subject
+                var user = (from a in db.AccountLINQs
+                           join gm in db.GroupMembers
+                           on a.UserId equals gm.UserId
+                           into b
+                           from gm in b.DefaultIfEmpty()
+                           select new
+                           {
+                               UserId = a.UserId,
+                               FullName = a.LastName + " , " + a.FirstName + " " + a.MiddleName
+                           }).ToList();
+
+                ddlGroupLeader.DataSource = user;
+                ddlGroupLeader.DataTextField = "FullName";
+                ddlGroupLeader.DataValueField = "UserId";
+                ddlGroupLeader.DataBind();
+            }
+        }
+
+        protected void ddlEditSubject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlEditSubject.SelectedValue == "0")
+            {
+                lblEditYearFrom.Text = String.Empty;
+                lblEditYearTo.Text = String.Empty;
+                lblEditSem.Text = String.Empty;
+            }
+            else
+            {
+                var q = (from s in db.SubjectLINQs
+                         where s.Id == Convert.ToInt32(ddlEditSubject.SelectedValue)
+                         select s).FirstOrDefault();
+
+                lblEditYearFrom.Text = q.YearFrom.ToString();
+                lblEditYearTo.Text = q.YearTo.ToString();
+                lblEditSem.Text = q.Sem.ToString();
+            }
         }
 
         protected void bindSubject()
@@ -199,7 +240,10 @@ namespace UBCSR.FileMaintenance
                          Id = g.Id,
                          Name = g.Name,
                          FullName = a.LastName + " ," + a.FirstName + " " + a.MiddleName,
-                         Subject = s.Name
+                         Subject = s.Name,
+                         YearFrom = s.YearFrom,
+                         YearTo = s.YearTo,
+                         Sem = s.Sem
                      }).ToList();
 
             gvGroups.DataSource = q;
@@ -208,7 +252,7 @@ namespace UBCSR.FileMaintenance
             txtSearch.Focus();
         }
 
-        protected void bindDropdonw()
+        protected void bindDropdown()
         {
             //get users who dont have a group
             var q = (from a in db.AccountLINQs
@@ -221,8 +265,8 @@ namespace UBCSR.FileMaintenance
                      join r in db.Roles
                      on usr.RoleId equals r.RoleId
                      where
-                     (r.RoleName == "Student") &&
-                     (a.GroupId == 0)
+                     (r.RoleName == "Student")
+                     //(a.GroupId == 0)
                      select new
                      {
                          Id = a.UserId,
@@ -248,7 +292,8 @@ namespace UBCSR.FileMaintenance
                      join r in db.Roles
                      on usr.RoleId equals r.RoleId
                      where
-                     (a.GroupId == 0 ||
+                     (
+                     //a.GroupId == 0 ||
                      a.UserId == myUserId) &&
                      r.RoleName == "Student"
                      select new
@@ -263,45 +308,6 @@ namespace UBCSR.FileMaintenance
             ddlEditGroupLeader.DataBind();
             ddlEditGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
         }
-
-        protected void ddlAddSubject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(ddlAddSubject.SelectedValue == "0")
-            {
-                lblAddYearFrom.Text = String.Empty;
-                lblAddYearTo.Text = String.Empty;
-                lblAddSem.Text = String.Empty;
-            }
-            else
-            {
-                var q = (from s in db.SubjectLINQs
-                         where s.Id == Convert.ToInt32(ddlAddSubject.SelectedValue)
-                         select s).FirstOrDefault();
-
-                lblAddYearFrom.Text = q.YearFrom.ToString();
-                lblAddYearTo.Text = q.YearTo.ToString();
-                lblAddSem.Text = q.Sem.ToString();
-            }
-        }
-
-        protected void ddlEditSubject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(ddlEditSubject.SelectedValue == "0")
-            {
-                lblEditYearFrom.Text = String.Empty;
-                lblEditYearTo.Text = String.Empty;
-                lblEditSem.Text = String.Empty;
-            }
-            else
-            {
-                var q = (from s in db.SubjectLINQs
-                         where s.Id == Convert.ToInt32(ddlEditSubject.SelectedValue)
-                         select s).FirstOrDefault();
-
-                lblEditYearFrom.Text = q.YearFrom.ToString();
-                lblEditYearTo.Text = q.YearTo.ToString();
-                lblEditSem.Text = q.Sem.ToString();
-            }
-        }
+   
     }
 }

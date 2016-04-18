@@ -62,11 +62,11 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Group No" SortExpression="GroupNo">
+                                        <%--<asp:TemplateField HeaderText="Group No" SortExpression="GroupNo">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lblGroupNo" runat="server" Text='<%# Eval("GroupNo") %>' CommandName="updateGroup" CommandArgument='<%#((GridViewRow)Container).RowIndex  %>'></asp:LinkButton>
                                             </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </asp:TemplateField>--%>
 
                                         <asp:TemplateField HeaderText="Account Status" SortExpression="IsApproved">
                                             <ItemTemplate>

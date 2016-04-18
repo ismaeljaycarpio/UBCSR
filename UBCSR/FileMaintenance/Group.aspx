@@ -66,6 +66,20 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
+                                        <asp:TemplateField HeaderText="School Year">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblYearFrom" runat="server" Text='<%# Eval("YearFrom") %>'></asp:Label>
+                                                -
+                                                <asp:Label ID="lblYearTo" runat="server" Text='<%# Eval("YearTo") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Semester">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblSemester" runat="server" Text='<%# Eval("Sem") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit" CommandName="editRecord" />
                                         <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
 
@@ -118,19 +132,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="ddlGroupLeader">Group Leader</label>
-                                    <asp:DropDownList ID="ddlGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="ddlGroupLeader"
-                                        CssClass="label label-danger"
-                                        InitialValue="0"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="ddlAddSubject">Subject</label>
                                     <asp:DropDownList ID="ddlAddSubject"
                                         runat="server"
@@ -146,6 +147,19 @@
                                         InitialValue="0"
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Subject is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlGroupLeader">Group Leader</label>
+                                    <asp:DropDownList ID="ddlGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlGroupLeader"
+                                        CssClass="label label-danger"
+                                        InitialValue="0"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
@@ -208,19 +222,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="ddlEditGroupLeader">Group Leader</label>
-                                    <asp:DropDownList ID="ddlEditGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        InitialValue="0"
-                                        ControlToValidate="ddlEditGroupLeader"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgEdit"
-                                        ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="ddlEditSubject">Subject</label>
                                     <asp:DropDownList ID="ddlEditSubject"
                                         runat="server"
@@ -236,6 +237,19 @@
                                         InitialValue="0"
                                         ValidationGroup="vgEdit"
                                         ErrorMessage="Subject is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlEditGroupLeader">Group Leader</label>
+                                    <asp:DropDownList ID="ddlEditGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        InitialValue="0"
+                                        ControlToValidate="ddlEditGroupLeader"
+                                        CssClass="label label-danger"
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">

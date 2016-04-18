@@ -431,7 +431,7 @@ namespace UBCSR.DAL
         public DataTable searchUser(string searchKeyWord)
         {
             strSql = "SELECT Users.UserName, Memberships.UserId, Memberships.IsApproved, " +
-                "Roles.RoleName, [Group].Name AS [GroupNo], " +
+                "Roles.RoleName, " +
                 "(Account.LastName + ', ' + Account.FirstName + ' ' + Account.MiddleName) AS [FullName] " +
                 "FROM Memberships " +
                 "LEFT JOIN Users " +
@@ -442,8 +442,6 @@ namespace UBCSR.DAL
                 "ON Roles.RoleId = UsersInRoles.RoleId " +
                 "LEFT JOIN Account " +
                 "ON Memberships.UserId = Account.UserId " +
-                "LEFT JOIN [Group] " +
-                "ON [Group].Id = Account.GroupId " + 
                 "WHERE " +
                 "(Account.FirstName LIKE '%' + @searchKeyWord + '%' OR " +
                 "Account.MiddleName LIKE '%' + @searchKeyWord + '%' OR " +

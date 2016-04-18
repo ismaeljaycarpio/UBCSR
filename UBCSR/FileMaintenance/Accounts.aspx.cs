@@ -188,7 +188,7 @@ namespace UBCSR.FileMaintenance
                          where a.StudentId == userName
                          select a).FirstOrDefault();
 
-                ddlGroupNo.SelectedValue = q.GroupId.ToString();
+                //ddlGroupNo.SelectedValue = q.GroupId.ToString();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -333,7 +333,7 @@ namespace UBCSR.FileMaintenance
                      where a.StudentId == lblUpdateGroupId.Text
                      select a).FirstOrDefault();
 
-            q.GroupId = Convert.ToInt32(ddlGroupNo.SelectedValue);
+            //q.GroupId = Convert.ToInt32(ddlGroupNo.SelectedValue);
             db.SubmitChanges();
 
             bindData();

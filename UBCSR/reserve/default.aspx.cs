@@ -41,7 +41,7 @@ namespace UBCSR.borrow
                             where a.UserId == myUserId
                             select a).FirstOrDefault();
 
-                if(user.GroupId != 0)
+                if(user !=  null)
                 {
                     lblTitle.Text = "Reserved List by your Instructor - Only Group Leaders can view the list";
                     var q = from r in db.Reservations

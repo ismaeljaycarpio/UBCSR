@@ -60,7 +60,7 @@ namespace UBCSR.reserve
 
                 var query = (from acc in db.AccountLINQs
                             join g in db.GroupLINQs
-                            on acc.GroupId equals g.Id
+                            on acc.UserId equals g.LeaderUserId
                             where
                             (g.Id == Convert.ToInt32(rowId))
                             select new
@@ -86,9 +86,11 @@ namespace UBCSR.reserve
                         join r in db.Roles
                         on usr.RoleId equals r.RoleId
                         where 
-                        (a.GroupId == 0) &&
+                        (
+                        //a.GroupId == 0) &&
                         (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
                         (r.RoleName == "Student")
+                        )
                         select new
                         {
                             UserId = a.UserId,
@@ -111,7 +113,7 @@ namespace UBCSR.reserve
 
                 var query = (from acc in db.AccountLINQs
                              join g in db.GroupLINQs
-                             on acc.GroupId equals g.Id
+                             on acc.UserId equals g.LeaderUserId
                              where
                              (g.Id == Convert.ToInt32(rowId))
                              select new
@@ -128,8 +130,10 @@ namespace UBCSR.reserve
                 //load members
                 var q = from a in db.AccountLINQs
                         where
-                        (a.GroupId == query.GroupId) &&
+                        (
+                        //a.GroupId == query.GroupId) &&
                         (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString()))
+                        )
                         select new
                         {
                             UserId = a.UserId,
@@ -178,7 +182,7 @@ namespace UBCSR.reserve
                                     where a.UserId == userId
                                     select a).FirstOrDefault();
 
-                        user.GroupId = Convert.ToInt32(lblGroupId.Text);
+                        //user.GroupId = Convert.ToInt32(lblGroupId.Text);
                         db.SubmitChanges();
                     }
                 }
@@ -209,7 +213,7 @@ namespace UBCSR.reserve
                                     where a.UserId == userId
                                     select a).FirstOrDefault();
 
-                        user.GroupId = 0;
+                        //user.GroupId = 0;
                         db.SubmitChanges();
                     }
                 }
