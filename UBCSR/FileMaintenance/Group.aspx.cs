@@ -173,8 +173,22 @@ namespace UBCSR.FileMaintenance
                 var user = (from a in db.AccountLINQs
                            join gm in db.GroupMembers
                            on a.UserId equals gm.UserId
-                           into b
-                           from gm in b.DefaultIfEmpty()
+                           into JoinedAccountGroupMember
+                           from gm in JoinedAccountGroupMember.DefaultIfEmpty()
+                           join g in db.GroupLINQs
+                           on gm.GroupId equals g.Id
+                           into JoinedGroupMemberGroup
+                           from g in JoinedGroupMemberGroup.DefaultIfEmpty()
+                           join uir in db.UsersInRoles
+                           on a.UserId equals uir.UserId
+                           into JoinedGroupUserInRoles
+                           from c in JoinedGroupUserInRoles.DefaultIfEmpty()
+                           join r in db.Roles
+                           on c.RoleId equals r.RoleId
+                           into JoinedUserInRolesToRoles
+                           from d in JoinedUserInRolesToRoles.DefaultIfEmpty()
+                           where
+                            (d.RoleName == "Student")
                            select new
                            {
                                UserId = a.UserId,
