@@ -168,6 +168,12 @@
                             Text="Close" OnClick="btnCancel_Click"
                             CssClass="btn btn-default" />
                     </div>
+
+                    <asp:Panel ID="pnlSuccessfullJoin" CssClass="alert alert-success" runat="server" Visible="false">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Notice!</strong> Your group is  <strong>tagged !</strong>
+                    </asp:Panel>
+
                     <asp:Panel ID="pnlDoublejoin" CssClass="alert alert-info" runat="server" Visible="false">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>Notice!</strong> Your group is already <strong>tagged !</strong>

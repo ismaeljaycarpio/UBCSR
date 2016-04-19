@@ -183,67 +183,6 @@ namespace UBCSR.reserve
             //Response.Redirect("~/reserve/default.aspx");
         }
 
-        protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            if(e.CommandName.Equals("showBorrow"))
-           { 
-                int index = Convert.ToInt32(e.CommandArgument);
-                int borId = (int)gvBorrowers.DataKeys[index].Value;
-
-                //load group info
-                var q = (from b in db.Borrows
-                         join g in db.GroupLINQs
-                         on b.GroupId equals g.Id
-                         join acc in db.AccountLINQs
-                         on g.LeaderUserId equals acc.UserId
-                         where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-                         (b.Id == borId)
-                         select new
-                         {
-                             Id = b.Id,
-                             GroupName = g.Name,
-                             GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-                             Status = b.Status,
-                             GroupId = g.Id
-                         }).FirstOrDefault();
-
-
-                lblBorrowId.Text = q.Id.ToString();
-                txtGroupNameBorrow.Text = q.GroupName;
-                txtGroupLeaderBorrow.Text = q.GroupLeader;
-                
-                //load related items - from BorrowItems
-                var items = from i in db.Items
-                            join inv in db.InventoryLINQs
-                            on i.Id equals inv.ItemId
-                            join ri in db.ReservationItems
-                            on inv.Id equals ri.InventoryId
-                            join bi in db.BorrowItems
-                            on ri.InventoryId equals bi.InventoryId
-                            where
-                            (bi.BorrowId == borId) &&
-                            (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
-                            select new
-                            {
-                                Id = bi.Id,
-                                InventoryId = bi.InventoryId,
-                                ItemName = i.ItemName,
-                                Stocks = inv.Stocks,
-                                ReservedQuantity = ri.Quantity,
-                                BorrowQuantity = bi.BorrowedQuantity
-                            };
-
-                gvBorrow.DataSource = items.ToList();
-                gvBorrow.DataBind();
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#showBorrowModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
-            }
-        }
-
         protected void btnRelease_Click(object sender, EventArgs e)
         {
             int resId = Convert.ToInt32(Request.QueryString["resId"]);
@@ -424,13 +363,14 @@ namespace UBCSR.reserve
                         db.SubmitChanges();
                     }
                 }
-
-                Response.Redirect("~/reserve/default.aspx");
+                bindBorrowers();
+                pnlSuccessfullJoin.Visible = true;
             }
             else
             {
                 //show alert
                 pnlDoublejoin.Visible = true;
+                pnlSuccessfullJoin.Visible = false;
             }
         }
 
@@ -447,6 +387,67 @@ namespace UBCSR.reserve
             db.SubmitChanges();
 
             Response.Redirect("~/reserve/default.aspx");
+        }
+
+        protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName.Equals("showBorrow"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int borId = (int)gvBorrowers.DataKeys[index].Value;
+
+                //load group info
+                var q = (from b in db.Borrows
+                         join g in db.GroupLINQs
+                         on b.GroupId equals g.Id
+                         join acc in db.AccountLINQs
+                         on g.LeaderUserId equals acc.UserId
+                         where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                         (b.Id == borId)
+                         select new
+                         {
+                             Id = b.Id,
+                             GroupName = g.Name,
+                             GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
+                             Status = b.Status,
+                             GroupId = g.Id
+                         }).FirstOrDefault();
+
+
+                lblBorrowId.Text = q.Id.ToString();
+                txtGroupNameBorrow.Text = q.GroupName;
+                txtGroupLeaderBorrow.Text = q.GroupLeader;
+
+                //load related items - from BorrowItems
+                var items = from i in db.Items
+                            join inv in db.InventoryLINQs
+                            on i.Id equals inv.ItemId
+                            join ri in db.ReservationItems
+                            on inv.Id equals ri.InventoryId
+                            join bi in db.BorrowItems
+                            on ri.InventoryId equals bi.InventoryId
+                            where
+                            (bi.BorrowId == borId) &&
+                            (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                            select new
+                            {
+                                Id = bi.Id,
+                                InventoryId = bi.InventoryId,
+                                ItemName = i.ItemName,
+                                Stocks = inv.Stocks,
+                                ReservedQuantity = ri.Quantity,
+                                BorrowQuantity = bi.BorrowedQuantity
+                            };
+
+                gvBorrow.DataSource = items.ToList();
+                gvBorrow.DataBind();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#showBorrowModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void gvRelease_RowCommand(object sender, GridViewCommandEventArgs e)

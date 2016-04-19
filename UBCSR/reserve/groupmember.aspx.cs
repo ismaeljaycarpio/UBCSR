@@ -190,6 +190,13 @@ namespace UBCSR.reserve
         {
             int groupId = Convert.ToInt32(lblEditGroupId.Text);
 
+            //clear group in GroupMember
+            var q = (from gm in db.GroupMembers
+                     where gm.GroupId == groupId
+                     select gm).ToList();
+            db.GroupMembers.DeleteAllOnSubmit(q);
+            db.SubmitChanges();
+
             foreach (GridViewRow row in gvEditMembers.Rows)
             {
                 if (row.RowType == DataControlRowType.DataRow)
@@ -204,7 +211,12 @@ namespace UBCSR.reserve
                                     where a.UserId == userId
                                     select a).FirstOrDefault();
 
-                        //user.GroupId = 0;
+                        //re-add to group member
+                        GroupMember gm = new GroupMember();
+                        gm.GroupId = groupId;
+                        gm.UserId = user.UserId;
+
+                        db.GroupMembers.InsertOnSubmit(gm);
                         db.SubmitChanges();
                     }
                 }
