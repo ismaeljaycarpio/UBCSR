@@ -20,31 +20,6 @@ namespace UBCSR.reserve
             }
         }
 
-        protected void bindGridview()
-        {
-            var q = (from g in db.GroupLINQs
-                     join s in db.SubjectLINQs
-                     on g.SubjectId equals s.Id
-                     where
-                     (
-                     g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
-                     )
-                     select new
-                     {
-                         Id = g.Id,
-                         GroupName = g.Name,
-                         Subject = s.Name,
-                         YearFrom = s.YearFrom,
-                         YearTo = s.YearTo,
-                         Sem = s.Sem
-                     }).ToList();
-
-            gvTeam.DataSource = q;
-            gvTeam.DataBind();
-
-            txtSearch.Focus();
-        }
-
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             bindGridview();
@@ -74,9 +49,13 @@ namespace UBCSR.reserve
                 txtGroupName.Text = query.GroupName;
                 txtGroupLeader.Text = query.FullName;
 
-                //load accnts to grid
+                //load accnts that dont belong to this group
                 //dont include self
                 var q = from a in db.AccountLINQs
+                        join gm in db.GroupMembers
+                        on a.UserId equals gm.UserId
+                        into JoinedAccountGroupMember
+                        from gm in JoinedAccountGroupMember.DefaultIfEmpty()
                         join m in db.MembershipLINQs
                         on a.UserId equals m.UserId
                         join u in db.Users
@@ -87,7 +66,7 @@ namespace UBCSR.reserve
                         on usr.RoleId equals r.RoleId
                         where 
                         (
-                        //a.GroupId == 0) &&
+                        //(gm.GroupId != query.GroupId) &&
                         (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
                         (r.RoleName == "Student")
                         )
@@ -129,10 +108,12 @@ namespace UBCSR.reserve
 
                 //load members
                 var q = from a in db.AccountLINQs
+                        join gm in db.GroupMembers
+                        on a.UserId equals gm.UserId
                         where
                         (
-                        //a.GroupId == query.GroupId) &&
-                        (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString()))
+                        gm.GroupId == query.GroupId &&
+                        a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
                         )
                         select new
                         {
@@ -168,6 +149,8 @@ namespace UBCSR.reserve
 
         protected void btnAddGroup_Click(object sender, EventArgs e)
         {
+            int groupId = Convert.ToInt32(lblGroupId.Text);
+
             foreach(GridViewRow row in gvMembers.Rows)
             {
                 if(row.RowType == DataControlRowType.DataRow)
@@ -182,7 +165,13 @@ namespace UBCSR.reserve
                                     where a.UserId == userId
                                     select a).FirstOrDefault();
 
-                        //user.GroupId = Convert.ToInt32(lblGroupId.Text);
+                        
+                        //add to GroupMember
+                        GroupMember gm = new GroupMember();
+                        gm.GroupId = groupId;
+                        gm.UserId = user.UserId;
+
+                        db.GroupMembers.InsertOnSubmit(gm);
                         db.SubmitChanges();
                     }
                 }
@@ -199,6 +188,8 @@ namespace UBCSR.reserve
 
         protected void btnEditGroup_Click(object sender, EventArgs e)
         {
+            int groupId = Convert.ToInt32(lblEditGroupId.Text);
+
             foreach (GridViewRow row in gvEditMembers.Rows)
             {
                 if (row.RowType == DataControlRowType.DataRow)
@@ -226,6 +217,31 @@ namespace UBCSR.reserve
             sb.Append("$('#editMembersModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+        }
+
+        protected void bindGridview()
+        {
+            var q = (from g in db.GroupLINQs
+                     join s in db.SubjectLINQs
+                     on g.SubjectId equals s.Id
+                     where
+                     (
+                     g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
+                     )
+                     select new
+                     {
+                         Id = g.Id,
+                         GroupName = g.Name,
+                         Subject = s.Name,
+                         YearFrom = s.YearFrom,
+                         YearTo = s.YearTo,
+                         Sem = s.Sem
+                     }).ToList();
+
+            gvTeam.DataSource = q;
+            gvTeam.DataBind();
+
+            txtSearch.Focus();
         }
     }
 }

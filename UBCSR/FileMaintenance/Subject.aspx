@@ -164,8 +164,8 @@
                                 <div class="form-group">
                                     <label for="ddlAddSemester">Semester</label>
                                     <asp:DropDownList ID="ddlAddSemester" runat="server" CssClass="form-control" placeholder="Item">
-                                        <asp:ListItem Value="FirstSem">First Sem</asp:ListItem>
-                                        <asp:ListItem Value="SecondSem">Second Sem</asp:ListItem>
+                                        <asp:ListItem Value="First Sem">First Sem</asp:ListItem>
+                                        <asp:ListItem Value="Second Sem">Second Sem</asp:ListItem>
                                         <asp:ListItem Value="Summer">Summer</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
@@ -254,8 +254,8 @@
                                 <div class="form-group">
                                     <label for="ddlEditSemester">Semester</label>
                                     <asp:DropDownList ID="ddlEditSemester" runat="server" CssClass="form-control" placeholder="Item">
-                                        <asp:ListItem Value="FirstSem">First Sem</asp:ListItem>
-                                        <asp:ListItem Value="SecondSem">Second Sem</asp:ListItem>
+                                        <asp:ListItem Value="First Sem">First Sem</asp:ListItem>
+                                        <asp:ListItem Value="Second Sem">Second Sem</asp:ListItem>
                                         <asp:ListItem Value="Summer">Summer</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>

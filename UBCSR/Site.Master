@@ -79,7 +79,6 @@
                         </AnonymousTemplate>
 
                         <RoleGroups>
-
                             <asp:RoleGroup Roles="Admin">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
@@ -113,14 +112,16 @@
                                             <ul class="dropdown-menu">
                                                 <li><a runat="server" href="~/Account/ChangePassword.aspx">Change Password</a></li>
                                                 <li>
-                                                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="RedirectToLoginPage" LogoutText="Log Out" />
+                                                    <asp:LoginStatus ID="LoginStatus1" 
+                                                        runat="server" 
+                                                        LogoutAction="RedirectToLoginPage"
+                                                        LogoutText="Log Out" />
                                                 </li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </ContentTemplate>
                             </asp:RoleGroup>
-
 
                             <asp:RoleGroup Roles="CSR Head">
                                 <ContentTemplate>
@@ -162,7 +163,6 @@
                                 </ContentTemplate>
                             </asp:RoleGroup>
 
-
                             <asp:RoleGroup Roles="Student Assistant">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
@@ -192,7 +192,6 @@
                                 </ContentTemplate>
                             </asp:RoleGroup>
 
-
                             <asp:RoleGroup Roles="Instructor">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
@@ -221,7 +220,6 @@
                                     </ul>
                                 </ContentTemplate>
                             </asp:RoleGroup>
-
 
                             <asp:RoleGroup Roles="Student">
                                 <ContentTemplate>

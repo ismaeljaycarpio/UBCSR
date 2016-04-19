@@ -48,6 +48,7 @@ namespace UBCSR.FileMaintenance
                 bindEditDropdown(myUserid);
 
                 ddlEditGroupLeader.SelectedValue = q.LeaderUserId.ToString();
+                ddlEditSubject.SelectedValue = q.SubjectId.ToString();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -169,7 +170,8 @@ namespace UBCSR.FileMaintenance
                 lblAddYearTo.Text = q.YearTo.ToString();
                 lblAddSem.Text = q.Sem.ToString();
 
-                //fill leader drop down - load users that dont belong on this subject
+                //fill leader drop down
+                //load users that dont belong on this subject
                 var user = (from a in db.AccountLINQs
                            join gm in db.GroupMembers
                            on a.UserId equals gm.UserId
@@ -188,7 +190,9 @@ namespace UBCSR.FileMaintenance
                            into JoinedUserInRolesToRoles
                            from d in JoinedUserInRolesToRoles.DefaultIfEmpty()
                            where
-                            (d.RoleName == "Student")
+                            (
+                            d.RoleName == "Student"
+                            )
                            select new
                            {
                                UserId = a.UserId,
