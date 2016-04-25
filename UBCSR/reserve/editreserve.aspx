@@ -283,6 +283,52 @@
                         </div>
                     </div>
 
+                    <!-- Returned List-->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <h4>Groups that returned the items: </h4>
+                            <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                                <ContentTemplate>
+                                    <asp:GridView ID="gvReturned"
+                                        runat="server"
+                                        CssClass="table table-striped table-hover dataTable"
+                                        GridLines="None"
+                                        AutoGenerateColumns="false"
+                                        EmptyDataText="No Record(s) found"
+                                        ShowHeaderWhenEmpty="true"
+                                        DataKeyNames="Id"
+                                        OnRowCommand="gvReturned_RowCommand">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Group Id" Visible="false">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
+                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
+                                            <asp:BoundField DataField="Status" HeaderText="Status" />
+
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Button ID="btnShowReturn"
+                                                        runat="server"
+                                                        Text="Return"
+                                                        CommandName="showReturn"
+                                                        CssClass="btn btn-success"
+                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                        </Columns>
+                                        <PagerStyle CssClass="pagination-ys" />
+                                    </asp:GridView>
+                                </ContentTemplate>
+                                <Triggers>
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -451,9 +497,22 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
+                                                <asp:TemplateField HeaderText="Inventory Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblInventoryId" runat="server" Text='<%# Eval("InventoryId") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
                                                 <asp:BoundField DataField="Name" HeaderText="Item" />
                                                 <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
-                                                <asp:BoundField DataField="BorrowedQuantity" HeaderText="Borrowed Quantity" />
+
+                                                <asp:TemplateField HeaderText="Borrowed Quantity">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblBorrowedQuantity" 
+                                                            runat="server" 
+                                                            Text='<%# Eval("BorrowedQuantity") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
 
                                                 <asp:TemplateField HeaderText="Breakage">
                                                     <ItemTemplate>

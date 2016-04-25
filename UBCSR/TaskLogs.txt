@@ -1,11 +1,19 @@
 ﻿
+
+===========================================================================
+======================= Apr 25 2016 =======================================
+===========================================================================
+- fix bug in http://localhost:53405/reserve/default.aspx - **DONE**
+- work on fm -> group
+
+
 ===========================================================================
 ======================= Apr 18 2016 =======================================
 ===========================================================================
 - implement - should not delete logged-in account ***DONE***
 - bulk delete - ***DENIED***
 - implement - should not allow to delete item in file maintenance if it is being used in Inventory - ***DONE***
-- Shool year - ***DENIED*** making in advanced
+- Shool year - ***DENIED*** how about making in advanced
 - Bug fixed - Export to Excel Inventory - ***DONE***
 - Moved buttons in http://localhost:53405/reserve/groupmember.aspx - ***DONE***
 - Student Account - http://localhost:53405/reserve/editreserve.aspx?resId=7 - remove return button in release gridview - ***DONE***

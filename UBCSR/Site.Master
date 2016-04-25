@@ -4,7 +4,7 @@
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
-    <title>UBCSR - <%: Page.Title %></title>
+    <title>TIPI-CSR - <%: Page.Title %></title>
 
 
     <link href="~/Content/Site.css" rel="stylesheet" />

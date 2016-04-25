@@ -151,7 +151,11 @@
 
                                 <div class="form-group">
                                     <label for="ddlGroupLeader">Group Leader</label>
-                                    <asp:DropDownList ID="ddlGroupLeader" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlGroupLeader" 
+                                        runat="server"
+                                        AutoPostBack="true"
+                                        OnSelectedIndexChanged="ddlGroupLeader_SelectedIndexChanged"
+                                        CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator7"
                                         runat="server"
                                         Display="Dynamic"
@@ -162,6 +166,36 @@
                                         ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <div class="table table-responsive">
+                                        <asp:GridView ID="gvMembers"
+                                            runat="server"
+                                            CssClass="table table-striped table-hover dataTable"
+                                            GridLines="None"
+                                            AutoGenerateColumns="false"
+                                            EmptyDataText="No Record(s) found"
+                                            ShowHeaderWhenEmpty="true"
+                                            DataKeyNames="UserId">
+                                            <Columns>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkRow" runat="server" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblUserId" runat="server" Text='<%# Eval("UserId") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:BoundField DataField="FullName" HeaderText="Name" />
+                                            </Columns>
+                                            <PagerStyle CssClass="pagination-ys" />
+                                        </asp:GridView>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="lblAddYearFrom">Year From:</label>
                                     <asp:Label ID="lblAddYearFrom" runat="server"></asp:Label>
@@ -250,6 +284,37 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"
                                         ErrorMessage="Group Leader is required"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gvEditMembers"></label>
+                                    <div class="table table-responsive">
+                                        <asp:GridView ID="gvEditMembers"
+                                            runat="server"
+                                            CssClass="table table-striped table-hover dataTable"
+                                            GridLines="None"
+                                            AutoGenerateColumns="false"
+                                            EmptyDataText="No Record(s) found"
+                                            ShowHeaderWhenEmpty="true"
+                                            DataKeyNames="UserId">
+                                            <Columns>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkRow" runat="server" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblUserId" runat="server" Text='<%# Eval("UserId") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:BoundField DataField="FullName" HeaderText="Name" />
+                                            </Columns>
+                                            <PagerStyle CssClass="pagination-ys" />
+                                        </asp:GridView>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">

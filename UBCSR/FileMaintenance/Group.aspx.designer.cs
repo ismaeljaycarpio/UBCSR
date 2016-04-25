@@ -121,6 +121,15 @@ namespace UBCSR.FileMaintenance {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
         
         /// <summary>
+        /// gvMembers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvMembers;
+        
+        /// <summary>
         /// lblAddYearFrom control.
         /// </summary>
         /// <remarks>
@@ -227,6 +236,15 @@ namespace UBCSR.FileMaintenance {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator8;
+        
+        /// <summary>
+        /// gvEditMembers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvEditMembers;
         
         /// <summary>
         /// lblEditYearFrom control.

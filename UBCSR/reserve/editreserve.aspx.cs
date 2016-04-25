@@ -53,6 +53,7 @@ namespace UBCSR.reserve
                         bindReserveItems();
                         bindBorrowers();
                         bindReleaseGroups();
+                        bindReturnedGroups();
 
                         //show approval buttons
                         if(User.IsInRole("CSR Head") ||
@@ -223,13 +224,19 @@ namespace UBCSR.reserve
 
         protected void btnConfirmReturn_Click(object sender, EventArgs e)
         {
+            var res = (from r in db.Reservations
+                       where r.Id == Convert.ToInt32(Request.QueryString["resId"])
+                       select r).FirstOrDefault();
+
             //update here:
             foreach(GridViewRow row in gvBreakage.Rows)
             {
                 if(row.RowType == DataControlRowType.DataRow)
                 {
                     int biId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                    int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
                     int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                    int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
                     string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
 
                     var q = (from bi in db.BorrowItems
@@ -241,14 +248,33 @@ namespace UBCSR.reserve
 
                     db.SubmitChanges();
 
+                    //add in ReservationItem
+                    var resItems = (from ri in db.ReservationItems
+                                    where
+                                    (ri.InventoryId == inventoryId) &&
+                                    (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                                    select ri).FirstOrDefault();
+
+                    resItems.Quantity = (resItems.Quantity + quantityToBorrow);
+
+
                     //return quantity to inv stocks
                     var qu = (from i in db.InventoryLINQs
                              where i.Id == q.InventoryId
                              select i).FirstOrDefault();
+
                     qu.Stocks = (qu.Stocks + q.BorrowedQuantity);
                     db.SubmitChanges();
+                 
+                    //chk if it has breakage - change status
+                    if(breakageQuantity > 0)
+                    {
+                        res.Status = "Has Breakage";
+                    }
                 }
             }
+
+            db.SubmitChanges();
 
             bindReserveItems();
             bindBorrowers();
@@ -491,6 +517,7 @@ namespace UBCSR.reserve
                             select new
                             {
                                 Id = bi.Id,
+                                InventoryId = bi.InventoryId,
                                 Name = i.ItemName,
                                 Stocks = inv.Stocks,
                                 BorrowedQuantity = bi.BorrowedQuantity,
@@ -574,6 +601,28 @@ namespace UBCSR.reserve
             gvRelease.DataBind();
         }
 
+        protected void bindReturnedGroups()
+        {
+            var q = from b in db.Borrows
+                    join g in db.GroupLINQs
+                    on b.GroupId equals g.Id
+                    join acc in db.AccountLINQs
+                    on g.LeaderUserId equals acc.UserId
+                    where
+                    (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                    (b.Status == "Returned")
+                    select new
+                    {
+                        Id = b.Id,
+                        GroupName = g.Name,
+                        GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
+                        Status = b.Status
+                    };
+
+            gvReturned.DataSource = q.ToList();
+            gvReturned.DataBind();
+        }
+
         protected void disableFields()
         {
             txtDateNeeded.Enabled = false;
@@ -603,6 +652,11 @@ namespace UBCSR.reserve
             ddlSubject.DataTextField = "Name";
             ddlSubject.DataValueField = "Id";
             ddlSubject.DataBind();
+        }
+
+        protected void gvReturned_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
         }
     }
 }

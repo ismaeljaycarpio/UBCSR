@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -71,8 +72,6 @@ namespace UBCSR.FileMaintenance
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-            //bindDropdown();
-
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#addModal').modal('show');");
@@ -226,6 +225,11 @@ namespace UBCSR.FileMaintenance
             }
         }
 
+        protected void ddlGroupLeader_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bindAddMembers(Guid.Parse(ddlGroupLeader.SelectedValue));
+        }
+
         protected void bindSubject()
         {
             var q = (from s in db.SubjectLINQs
@@ -325,6 +329,37 @@ namespace UBCSR.FileMaintenance
             ddlEditGroupLeader.DataValueField = "Id";
             ddlEditGroupLeader.DataBind();
             ddlEditGroupLeader.Items.Insert(0, new ListItem("Select One", "0"));
+        }
+
+        protected void bindAddMembers(Guid selectedLeaderUserId)
+        {
+            //load accnts that dont belong to this group
+            //dont include self
+            var q = from a in db.AccountLINQs
+                    join gm in db.GroupMembers
+                    on a.UserId equals gm.UserId
+                    into JoinedAccountGroupMember
+                    from gm in JoinedAccountGroupMember.DefaultIfEmpty()
+                    join m in db.MembershipLINQs
+                    on a.UserId equals m.UserId
+                    join u in db.Users
+                    on m.UserId equals u.UserId
+                    join usr in db.UsersInRoles
+                    on u.UserId equals usr.UserId
+                    join r in db.Roles
+                    on usr.RoleId equals r.RoleId
+                    where
+                    (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
+                    (a.UserId != selectedLeaderUserId) &&
+                    (r.RoleName == "Student")
+                    select new
+                    {
+                        UserId = a.UserId,
+                        FullName = a.LastName + " , " + a.FirstName + " " + a.MiddleName
+                    };
+
+            gvMembers.DataSource = q.ToList();
+            gvMembers.DataBind();
         }
    
     }

@@ -23,12 +23,13 @@ namespace UBCSR.DAL
         public DataTable searchReservation()
         {
             strSql = "SELECT Reservation.Id, Account.LastName + ' , ' + Account.FirstName + ' ' + Account.MiddleName AS [FullName], " +
-                "Reservation.Subject, Reservation.ExperimentNo, Reservation.DateRequested, " +
+                "Subject.Name, Reservation.ExperimentNo, Reservation.DateRequested, " +
                 "Reservation.DateFrom, Reservation.DateTo, Reservation.LabRoom, Reservation.Status, " +
                 "Reservation.ApprovalStatus " +
                 "FROM " +
-                "Reservation, Account " +
-                "WHERE Reservation.UserId = Account.UserId";
+                "Reservation, Account, Subject " +
+                "WHERE Reservation.UserId = Account.UserId " + 
+                "AND Reservation.SubjectId = Subject.Id";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
