@@ -77,12 +77,32 @@
                                 CssClass="label label-danger"
                                 ValidationGroup="vgPrimaryAdd"
                                 ErrorMessage="Date Needed to is required"></asp:RequiredFieldValidator>
+                            <asp:CustomValidator ID="CustomValidator1"
+                                runat="server"
+                                CssClass="label label-danger"
+                                Display="Dynamic"
+                                ValidationGroup="vgPrimaryAdd"
+                                OnServerValidate="CustomValidator1_ServerValidate"
+                                ErrorMessage="Date/Time To must always be greater than Date/Time From"></asp:CustomValidator>
                         </div>
                         <div class="col-md-4">
                             <label for="txtIsReleased">Status</label>
                             <asp:TextBox ID="txtIsReleased"
                                 runat="server"
                                 Enabled="false"
+                                CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div role="form">
+                        <div class="col-md-4">
+                            <label for="txtRemarks">Disapproved Remarks</label>
+                            <asp:TextBox ID="txtDisapprovedRemarks"
+                                runat="server"
+                                Enabled="false"
+                                TextMode="MultiLine"
                                 CssClass="form-control"></asp:TextBox>
                         </div>
                     </div>
@@ -140,7 +160,7 @@
                                                     ValidationGroup="vgPrimaryAdd"
                                                     MaximumValue='<%# Eval("Stocks") %>'
                                                     Type="Integer"
-                                                    ErrorMessage="RangeValidator">*</asp:RangeValidator>
+                                                    ErrorMessage="Invalid Input"></asp:RangeValidator>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>

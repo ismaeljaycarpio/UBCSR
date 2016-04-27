@@ -46,7 +46,8 @@ namespace UBCSR.reserve
                         txtDateNeeded.Text = r.DateFrom.ToString();
                         txtDateNeededTo.Text = r.DateTo.ToString();
                         txtLabRoom.Text = r.LabRoom;
-                        
+                        txtDisapprovedRemarks.Text = r.DisapproveRemarks;
+
                         //assign Id to control
                         hfResId.Value = r.Id.ToString();
 
@@ -97,49 +98,52 @@ namespace UBCSR.reserve
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            Page.Validate();
+            Page.Validate("vgPrimaryAdd");
             
-            if(btnSave.Text != "Ok")
+            if(Page.IsValid)
             {
-                var q = (from r in db.Reservations
-                         where r.Id == Convert.ToInt32(hfResId.Value)
-                         select r).FirstOrDefault();
-
-                q.SubjectId = Convert.ToInt32(ddlSubject.SelectedValue);
-                q.ExperimentNo = txtExpNo.Text;
-                q.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
-                q.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
-                q.LabRoom = txtLabRoom.Text;
-
-                db.SubmitChanges();
-
-                int resId = q.Id;
-
-                foreach (GridViewRow row in gvReservaItems.Rows)
+                if (btnSave.Text != "Ok")
                 {
-                    //chk if checkbox is checked
-                    if (((CheckBox)row.FindControl("chkRow")).Checked == true)
+                    var q = (from r in db.Reservations
+                             where r.Id == Convert.ToInt32(hfResId.Value)
+                             select r).FirstOrDefault();
+
+                    q.SubjectId = Convert.ToInt32(ddlSubject.SelectedValue);
+                    q.ExperimentNo = txtExpNo.Text;
+                    q.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
+                    q.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
+                    q.LabRoom = txtLabRoom.Text;
+
+                    db.SubmitChanges();
+
+                    int resId = q.Id;
+
+                    foreach (GridViewRow row in gvReservaItems.Rows)
                     {
-                        string quantity = "";
-                        int riId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-
-                        if ((quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty)
+                        //chk if checkbox is checked
+                        if (((CheckBox)row.FindControl("chkRow")).Checked == true)
                         {
-                            var r = (from ri in db.ReservationItems
-                                     where ri.Id == riId
-                                     select ri).FirstOrDefault();
+                            string quantity = "";
+                            int riId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
 
-                            r.Quantity = Convert.ToInt32(quantity);
+                            if ((quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty)
+                            {
+                                var r = (from ri in db.ReservationItems
+                                         where ri.Id == riId
+                                         select ri).FirstOrDefault();
 
-                            db.SubmitChanges();
+                                r.Quantity = Convert.ToInt32(quantity);
+
+                                db.SubmitChanges();
+                            }
                         }
                     }
+                    Response.Redirect("~/reserve/default.aspx");
                 }
-                Response.Redirect("~/reserve/default.aspx");
-            }
-            else
-            {
-                Response.Redirect("~/reserve/default.aspx");
+                else
+                {
+                    Response.Redirect("~/reserve/default.aspx");
+                }
             }
         }
 
@@ -158,6 +162,9 @@ namespace UBCSR.reserve
             q.ApprovalStatus = "Approved";
 
             db.SubmitChanges();
+
+            //deduct in stocks
+
 
             Response.Redirect("~/reserve/default.aspx");
         }
@@ -657,6 +664,18 @@ namespace UBCSR.reserve
         protected void gvReturned_RowCommand(object sender, GridViewCommandEventArgs e)
         {
 
+        }
+
+        protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            if (Convert.ToDateTime(txtDateNeeded.Text) >= Convert.ToDateTime(txtDateNeededTo.Text))
+            {
+                args.IsValid = false;
+            }
+            else
+            {
+                args.IsValid = true;
+            }
         }
     }
 }

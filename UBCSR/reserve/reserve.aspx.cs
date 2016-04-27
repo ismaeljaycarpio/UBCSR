@@ -23,48 +23,56 @@ namespace UBCSR.borrow
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            Page.Validate();
-            Reservation r = new Reservation();
-            r.UserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
-            r.SubjectId = Convert.ToInt32(ddlSubject.SelectedValue);
-            r.ExperimentNo = txtExpNo.Text;
-            r.DateRequested = DateTime.Now;
-            r.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
-            r.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
-            r.LabRoom = txtLabRoom.Text;
-            r.ApprovalStatus = "Pending";
-            r.IsReleased = false;
-            r.IsReturned = false;
-
-
-            db.Reservations.InsertOnSubmit(r);
-            db.SubmitChanges();
-
-            int reserveId = r.Id;
-            
-            //reserve selected items
-            foreach(GridViewRow row in gvInv.Rows)
+            Page.Validate("vgPrimaryAdd");
+            if(Page.IsValid)
             {
-                //chk if checkbox is checked
-                if(((CheckBox)row.FindControl("chkRow")).Checked == true)
+                Reservation r = new Reservation();
+                r.UserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
+                r.SubjectId = Convert.ToInt32(ddlSubject.SelectedValue);
+                r.ExperimentNo = txtExpNo.Text;
+                r.DateRequested = DateTime.Now;
+                r.DateFrom = Convert.ToDateTime(txtDateNeeded.Text);
+                r.DateTo = Convert.ToDateTime(txtDateNeededTo.Text);
+                r.LabRoom = txtLabRoom.Text;
+                r.ApprovalStatus = "Pending";
+                r.IsReleased = false;
+                r.IsReturned = false;
+
+
+                db.Reservations.InsertOnSubmit(r);
+                db.SubmitChanges();
+
+                int reserveId = r.Id;
+
+                //reserve selected items
+                foreach (GridViewRow row in gvInv.Rows)
                 {
-                    string quantity = "";
-                    int invId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-
-                    if((quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty)
+                    //chk if checkbox is checked
+                    if (((CheckBox)row.FindControl("chkRow")).Checked == true)
                     {
-                        ReservationItem ri = new ReservationItem();
-                        ri.InventoryId = invId;
-                        ri.Quantity = Convert.ToInt32(quantity);
-                        ri.ReservationId = reserveId;
+                        string quantity = "";
+                        string quantityByGroup = "";
+                        int invId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
 
-                        db.ReservationItems.InsertOnSubmit(ri);
-                        db.SubmitChanges();
+                        if (
+                            (quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty &&
+                            (quantityByGroup = ((TextBox)row.FindControl("txtQuantityToBorrowByGroup")).Text) != String.Empty
+                           )
+                        {
+                            ReservationItem ri = new ReservationItem();
+                            ri.InventoryId = invId;
+                            ri.Quantity = Convert.ToInt32(quantity);
+                            ri.ReservationId = reserveId;
+                            ri.QuantityByGroup = Convert.ToInt32(quantityByGroup);
+
+                            db.ReservationItems.InsertOnSubmit(ri);
+                            db.SubmitChanges();
+                        }
                     }
                 }
-            }
 
-            Response.Redirect("~/reserve/default.aspx");
+                Response.Redirect("~/reserve/default.aspx");
+            }
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -103,6 +111,18 @@ namespace UBCSR.borrow
             ddlSubject.DataTextField = "Name";
             ddlSubject.DataValueField = "Id";
             ddlSubject.DataBind();
+        }
+
+        protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            if(Convert.ToDateTime(txtDateNeeded.Text) >= Convert.ToDateTime(txtDateNeededTo.Text))
+            {
+                args.IsValid = false;
+            }
+            else
+            {
+                args.IsValid = true;
+            }
         }
     }
 }

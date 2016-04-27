@@ -147,7 +147,7 @@ namespace UBCSR.borrow
                         join s in db.SubjectLINQs
                         on r.SubjectId equals s.Id
                         where
-                        (r.ApprovalStatus == "Pending" || r.ApprovalStatus == "Disapproved")
+                        (r.ApprovalStatus == "Pending")
                         select new
                         {
                             Id = r.Id,
@@ -164,6 +164,10 @@ namespace UBCSR.borrow
 
                 gvBorrow.DataSource = q.ToList();
                 gvBorrow.DataBind();
+
+                //hide delete btn
+                gvBorrow.Columns[10].Visible = false;
+                gvBorrow.Columns[11].Visible = false;
             }
             else
             {

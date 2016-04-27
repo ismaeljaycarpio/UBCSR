@@ -77,6 +77,13 @@
                                 CssClass="label label-danger"
                                 ValidationGroup="vgPrimaryAdd"
                                 ErrorMessage="Date Needed to is required"></asp:RequiredFieldValidator>
+                            <asp:CustomValidator ID="CustomValidator1" 
+                                runat="server"
+                                CssClass="label label-danger"
+                                Display="Dynamic"
+                                ValidationGroup="vgPrimaryAdd"
+                                OnServerValidate="CustomValidator1_ServerValidate"
+                                ErrorMessage="Date/Time To must always be greater than Date/Time From"></asp:CustomValidator>
                         </div>
                     </div>
                 </div>
@@ -125,7 +132,27 @@
                                                     ValidationGroup="vgPrimaryAdd"
                                                     MaximumValue='<%# Eval("Stocks") %>'
                                                     Type="Integer"
-                                                    ErrorMessage="RangeValidator">*</asp:RangeValidator>
+                                                    ErrorMessage="Invalid Input"></asp:RangeValidator>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Quantity to Borrow by Group">
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="txtQuantityToBorrowByGroup"
+                                                    runat="server"
+                                                    CssClass="form-control"
+                                                    Width="50"
+                                                    Enabled="false"></asp:TextBox>
+                                                <asp:RangeValidator ID="RangeValidator1"
+                                                    runat="server"
+                                                    ForeColor="Red"
+                                                    ControlToValidate="txtQuantityToBorrowByGroup"
+                                                    Display="Dynamic"
+                                                    MinimumValue="1"
+                                                    ValidationGroup="vgPrimaryAdd"
+                                                    MaximumValue='<%# Eval("Stocks") %>'
+                                                    Type="Integer"
+                                                    ErrorMessage="Invalid Input"></asp:RangeValidator>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
