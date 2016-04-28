@@ -143,7 +143,7 @@
                                                     CssClass="form-control"
                                                     Width="50"
                                                     Enabled="false"></asp:TextBox>
-                                                <asp:RangeValidator ID="RangeValidator1"
+                                                <asp:RangeValidator ID="RangeValidator2"
                                                     runat="server"
                                                     ForeColor="Red"
                                                     ControlToValidate="txtQuantityToBorrowByGroup"

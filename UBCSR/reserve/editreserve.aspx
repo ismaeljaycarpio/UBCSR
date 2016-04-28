@@ -163,6 +163,29 @@
                                                     ErrorMessage="Invalid Input"></asp:RangeValidator>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Quantity to Borrow by Group">
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="txtQuantityToBorrowByGroup"
+                                                    runat="server"
+                                                    CssClass="form-control"
+                                                    Width="50"
+                                                    Text='<%# Eval("QuantityByGroup") %>'
+                                                    Enabled="false"></asp:TextBox>
+                                                <asp:RangeValidator ID="RangeValidator2"
+                                                    runat="server"
+                                                    ForeColor="Red"
+                                                    ControlToValidate="txtQuantityToBorrowByGroup"
+                                                    Display="Dynamic"
+                                                    MinimumValue="1"
+                                                    ValidationGroup="vgPrimaryAdd"
+                                                    MaximumValue='<%# Eval("Stocks") %>'
+                                                    Type="Integer"
+                                                    ErrorMessage="Invalid Input"></asp:RangeValidator>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+
                                     </Columns>
                                     <PagerStyle CssClass="pagination-ys" />
                                 </asp:GridView>
@@ -396,7 +419,7 @@
                                             ShowHeaderWhenEmpty="true"
                                             DataKeyNames="Id">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="BorrowItem Id" Visible="false">
+                                                <asp:TemplateField HeaderText="ReservationItemId" Visible="false">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                                                     </ItemTemplate>
@@ -410,13 +433,13 @@
 
                                                 <asp:BoundField DataField="ItemName" HeaderText="Item" />
                                                 <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
-                                                <asp:BoundField DataField="ReservedQuantity" HeaderText="Remaining Reserved Quantity" />
+                                                <asp:BoundField DataField="ReservedQuantity" HeaderText="Reserved Quantity" />
 
                                                 <asp:TemplateField HeaderText="Quantity to borrow">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtQuantity"
                                                             runat="server"
-                                                            Text='<%# Eval("BorrowQuantity") %>'
+                                                            Text='<%# Eval("QuantityByGroup") %>'
                                                             CssClass="form-control"></asp:TextBox>
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                                             runat="server"

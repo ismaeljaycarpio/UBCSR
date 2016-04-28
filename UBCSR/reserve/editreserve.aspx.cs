@@ -60,8 +60,13 @@ namespace UBCSR.reserve
                         if(User.IsInRole("CSR Head") ||
                             User.IsInRole("Admin"))
                         {
-                            btnApprove.Visible = true;
-                            btnDisapprove.Visible = true;
+                            //chk if approved
+                            //to avoid duplication of deduction
+                            if(r.ApprovalStatus != "Approved")
+                            {
+                                btnApprove.Visible = true;
+                                btnDisapprove.Visible = true;
+                            }
                         }
 
                         //show update button
@@ -164,7 +169,19 @@ namespace UBCSR.reserve
             db.SubmitChanges();
 
             //deduct in stocks
+            var resItems = (from ri in db.ReservationItems
+                            where ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"])
+                            select ri).ToList();
 
+            foreach(var item in resItems)
+            {
+                var updateStocks = (from inv in db.InventoryLINQs
+                                    where inv.Id == item.InventoryId
+                                    select inv).FirstOrDefault();
+
+                updateStocks.Stocks = (updateStocks.Stocks - item.Quantity);
+                db.SubmitChanges();
+            }
 
             Response.Redirect("~/reserve/default.aspx");
         }
@@ -296,36 +313,41 @@ namespace UBCSR.reserve
 
         protected void btnConfirmBorrow_Click(object sender, EventArgs e)
         {
+            int reservationId = Convert.ToInt32(Request.QueryString["resId"]);
+
             foreach(GridViewRow row in gvBorrow.Rows)
             {
                 if(row.RowType == DataControlRowType.DataRow)
                 {
-                    int borrowItemId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
                     int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
                     int quantityToBorrow = Convert.ToInt32(((TextBox)row.FindControl("txtQuantity")).Text);
 
                     //update borroweditems
                     var item = (from bi in db.BorrowItems
-                                where bi.Id == borrowItemId
+                                join b in db.Borrows
+                                on bi.BorrowId equals b.Id
+                                where
+                                (b.ReservationId == reservationId) &&
+                                (bi.InventoryId == inventoryId)
                                 select bi).FirstOrDefault();
 
                     item.BorrowedQuantity = quantityToBorrow;
 
 
-                    //deduct in ReservationItem
-                    var resItems = (from ri in db.ReservationItems
-                                    where 
-                                    (ri.InventoryId == inventoryId) &&
-                                    (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
-                                    select ri).FirstOrDefault();
-                    resItems.Quantity = (resItems.Quantity - quantityToBorrow);
+                    ////deduct in ReservationItem
+                    //var resItems = (from ri in db.ReservationItems
+                    //                where 
+                    //                (ri.InventoryId == inventoryId) &&
+                    //                (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                    //                select ri).FirstOrDefault();
+                    //resItems.Quantity = (resItems.Quantity - quantityToBorrow);
 
 
-                    //deduct in Inventory
-                    var q = (from i in db.InventoryLINQs
-                             where i.Id == inventoryId
-                             select i).FirstOrDefault();
-                    q.Stocks = (q.Stocks - quantityToBorrow);
+                    ////deduct in Inventory
+                    //var q = (from i in db.InventoryLINQs
+                    //         where i.Id == inventoryId
+                    //         select i).FirstOrDefault();
+                    //q.Stocks = (q.Stocks - quantityToBorrow);
 
                     db.SubmitChanges();
                 }
@@ -457,19 +479,16 @@ namespace UBCSR.reserve
                             on i.Id equals inv.ItemId
                             join ri in db.ReservationItems
                             on inv.Id equals ri.InventoryId
-                            join bi in db.BorrowItems
-                            on ri.InventoryId equals bi.InventoryId
                             where
-                            (bi.BorrowId == borId) &&
                             (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
                             select new
                             {
-                                Id = bi.Id,
-                                InventoryId = bi.InventoryId,
+                                Id = ri.Id,
+                                InventoryId = ri.InventoryId,
                                 ItemName = i.ItemName,
                                 Stocks = inv.Stocks,
                                 ReservedQuantity = ri.Quantity,
-                                BorrowQuantity = bi.BorrowedQuantity
+                                QuantityByGroup = ri.QuantityByGroup
                             };
 
                 gvBorrow.DataSource = items.ToList();
@@ -506,7 +525,6 @@ namespace UBCSR.reserve
                              Status = b.Status,
                              GroupId = g.Id
                          }).FirstOrDefault();
-
 
                 lblRowId.Text = q.Id.ToString();
                 txtGroupName.Text = q.GroupName;
@@ -559,7 +577,8 @@ namespace UBCSR.reserve
                         InventoryId = ri.InventoryId,
                         Name = i.ItemName,
                         Stocks = inv.Stocks,
-                        Quantity = ri.Quantity
+                        Quantity = ri.Quantity,
+                        QuantityByGroup = ri.QuantityByGroup
                     };
 
             gvReservaItems.DataSource = q.ToList();
