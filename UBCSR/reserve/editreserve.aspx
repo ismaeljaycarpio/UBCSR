@@ -222,13 +222,13 @@
                         <strong>Notice!</strong> Your group is already <strong>tagged !</strong>
                     </asp:Panel>
 
-                    <!-- Borrowers List -->
+                    <!-- Tagged Group List -->
                     <div class="panel-body">
                         <div class="table-responsive">
                             <h4>Groups that are tagged: </h4>
                             <asp:UpdatePanel ID="upBorrowers" runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView ID="gvBorrowers"
+                                    <asp:GridView ID="gvTaggedGroups"
                                         runat="server"
                                         CssClass="table table-striped table-hover dataTable"
                                         GridLines="None"
@@ -279,13 +279,13 @@
                         </div>
                     </div>
 
-                    <!-- Release List -->
+                    <!-- Release Group List -->
                     <div class="panel-body">
                         <div class="table-responsive">
                             <h4>Groups that are currently using the items: </h4>
                             <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView ID="gvRelease"
+                                    <asp:GridView ID="gvReleaseGroup"
                                         runat="server"
                                         CssClass="table table-striped table-hover dataTable"
                                         GridLines="None"
@@ -326,13 +326,13 @@
                         </div>
                     </div>
 
-                    <!-- Returned List-->
+                    <!-- Returned Group List-->
                     <div class="panel-body">
                         <div class="table-responsive">
                             <h4>Groups that returned the items: </h4>
                             <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView ID="gvReturned"
+                                    <asp:GridView ID="gvReturnedGroup"
                                         runat="server"
                                         CssClass="table table-striped table-hover dataTable"
                                         GridLines="None"

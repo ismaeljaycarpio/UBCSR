@@ -9,6 +9,7 @@
         <siteMapNode url="~/FileMaintenance/Brands.aspx" title="Brands"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Items.aspx" title="Items"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Group.aspx" title="Group"></siteMapNode>
+        <siteMapNode url="~/FileMaintenance/Section.aspx" title="Section"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Subject.aspx" title="Subject"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Accounts.aspx" title="Accounts"></siteMapNode>
         <siteMapNode url="~/FileMaintenance/Roles.aspx" title="Roles"></siteMapNode>

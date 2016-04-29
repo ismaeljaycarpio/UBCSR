@@ -121,7 +121,7 @@
       <Column Name="DisapproveRemarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="Reservation_Borrow" Member="Borrows" ThisKey="Id" OtherKey="ReservationId" Type="Borrow" />
       <Association Name="Reservation_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="ReservationId" Type="ReservationItem" />
-      <Association Name="SubjectLINQ_Reservation" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
+      <Association Name="Subject_Reservation" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Inventory" Member="InventoryLINQs">
@@ -137,18 +137,6 @@
       <Association Name="Item_InventoryLINQ" Member="Item" ThisKey="ItemId" OtherKey="Id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Subject" Member="SubjectLINQs">
-    <Type Name="SubjectLINQ">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="YearFrom" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="YearTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Sem" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="SubjectLINQ_Reservation" Member="Reservations" ThisKey="Id" OtherKey="SubjectId" Type="Reservation" />
-      <Association Name="SubjectLINQ_GroupLINQ" Member="GroupLINQs" ThisKey="Id" OtherKey="SubjectId" Type="GroupLINQ" />
-    </Type>
-  </Table>
   <Table Name="dbo.[Group]" Member="GroupLINQs">
     <Type Name="GroupLINQ">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -157,7 +145,7 @@
       <Column Name="SubjectId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="GroupLINQ_Borrow" Member="Borrows" ThisKey="Id" OtherKey="GroupId" Type="Borrow" />
       <Association Name="GroupLINQ_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
-      <Association Name="SubjectLINQ_GroupLINQ" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
+      <Association Name="Subject_GroupLINQ" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.GroupMember" Member="GroupMembers">
@@ -188,6 +176,27 @@
       <Column Name="QuantityByGroup" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="InventoryLINQ_ReservationItem" Member="InventoryLINQ" ThisKey="InventoryId" OtherKey="Id" Type="InventoryLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Reservation_ReservationItem" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Subject" Member="SubjectLINQs">
+    <Type Name="SubjectLINQ">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="YearFrom" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="YearTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sem" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SectionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Subject_Reservation" Member="Reservations" ThisKey="Id" OtherKey="SubjectId" Type="Reservation" />
+      <Association Name="Subject_GroupLINQ" Member="GroupLINQs" ThisKey="Id" OtherKey="SubjectId" Type="GroupLINQ" />
+      <Association Name="Section_Subject" Member="Section" ThisKey="SectionId" OtherKey="Id" Type="Section" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Section" Member="Sections">
+    <Type Name="Section">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Section" Member="Section1" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Section_Subject" Member="SubjectLINQs" ThisKey="Id" OtherKey="SectionId" Type="SubjectLINQ" />
     </Type>
   </Table>
 </Database>

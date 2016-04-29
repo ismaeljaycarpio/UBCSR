@@ -52,7 +52,7 @@ namespace UBCSR.reserve
                         hfResId.Value = r.Id.ToString();
 
                         bindReserveItems();
-                        bindBorrowers();
+                        bindTaggedGroups();
                         bindReleaseGroups();
                         bindReturnedGroups();
 
@@ -83,8 +83,8 @@ namespace UBCSR.reserve
                             btnTagGroup.Visible = true;
 
                             //hide borrow/return button
-                            gvBorrowers.Columns[4].Visible = false;
-                            gvRelease.Columns[4].Visible = false;
+                            gvTaggedGroups.Columns[4].Visible = false;
+                            gvReleaseGroup.Columns[4].Visible = false;
                         }
                         else
                         {
@@ -92,7 +92,7 @@ namespace UBCSR.reserve
                                 !User.IsInRole("Student Assistant"))
                             {
                                 //hide borrow/return button
-                                gvBorrowers.Columns[4].Visible = false;
+                                gvTaggedGroups.Columns[4].Visible = false;
                                 //gvBorrowers.Columns[5].Visible = false;
                             }
                         }
@@ -208,44 +208,6 @@ namespace UBCSR.reserve
             //Response.Redirect("~/reserve/default.aspx");
         }
 
-        protected void btnRelease_Click(object sender, EventArgs e)
-        {
-            int resId = Convert.ToInt32(Request.QueryString["resId"]);
-
-            //set released status - reservation
-            foreach(GridViewRow row in gvBorrowers.Rows)
-            {
-                if(row.RowType == DataControlRowType.DataRow)
-                {
-                    var q = (from r in db.Reservations
-                             where r.Id == resId
-                             select r).FirstOrDefault();
-
-                    q.IsReleased = true;
-                    q.ReleasedDate = DateTime.Now;
-                    db.SubmitChanges();
-                }
-            }
-
-            //deduct borrowed quantity to inv
-            var resItems = (from ri in db.ReservationItems
-                     where ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"])
-                     select ri).ToList();
-
-                               
-            foreach(var item in resItems)
-            {
-                var updateStocks = (from inv in db.InventoryLINQs
-                                    where inv.Id == item.InventoryId
-                                    select inv).FirstOrDefault();
-
-                updateStocks.Stocks = (updateStocks.Stocks - item.Quantity);
-                db.SubmitChanges();
-            }
-
-            Response.Redirect("~/reserve/default.aspx");
-        }
-
         protected void btnConfirmReturn_Click(object sender, EventArgs e)
         {
             var res = (from r in db.Reservations
@@ -272,14 +234,14 @@ namespace UBCSR.reserve
 
                     db.SubmitChanges();
 
-                    //add in ReservationItem
-                    var resItems = (from ri in db.ReservationItems
-                                    where
-                                    (ri.InventoryId == inventoryId) &&
-                                    (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
-                                    select ri).FirstOrDefault();
+                    ////add in ReservationItem
+                    //var resItems = (from ri in db.ReservationItems
+                    //                where
+                    //                (ri.InventoryId == inventoryId) &&
+                    //                (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                    //                select ri).FirstOrDefault();
 
-                    resItems.Quantity = (resItems.Quantity + quantityToBorrow);
+                    //resItems.Quantity = (resItems.Quantity + quantityToBorrow);
 
 
                     //return quantity to inv stocks
@@ -301,7 +263,7 @@ namespace UBCSR.reserve
             db.SubmitChanges();
 
             bindReserveItems();
-            bindBorrowers();
+            bindTaggedGroups();
             bindReleaseGroups();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -363,7 +325,7 @@ namespace UBCSR.reserve
             db.SubmitChanges();
 
             bindReserveItems();
-            bindBorrowers();
+            bindTaggedGroups();
             bindReleaseGroups();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -418,7 +380,7 @@ namespace UBCSR.reserve
                         db.SubmitChanges();
                     }
                 }
-                bindBorrowers();
+                bindTaggedGroups();
                 pnlSuccessfullJoin.Visible = true;
             }
             else
@@ -449,7 +411,7 @@ namespace UBCSR.reserve
             if (e.CommandName.Equals("showBorrow"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int borId = (int)gvBorrowers.DataKeys[index].Value;
+                int borId = (int)gvTaggedGroups.DataKeys[index].Value;
 
                 //load group info
                 var q = (from b in db.Borrows
@@ -507,7 +469,7 @@ namespace UBCSR.reserve
             if (e.CommandName.Equals("showReturn"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int borId = (int)gvRelease.DataKeys[index].Value;
+                int borId = (int)gvReleaseGroup.DataKeys[index].Value;
 
                 //load group info
                 var q = (from b in db.Borrows
@@ -585,7 +547,7 @@ namespace UBCSR.reserve
             gvReservaItems.DataBind();
         }
 
-        protected void bindBorrowers()
+        protected void bindTaggedGroups()
         {
             var q = from b in db.Borrows
                     join g in db.GroupLINQs
@@ -602,8 +564,8 @@ namespace UBCSR.reserve
                         GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
                         Status = b.Status
                     };
-            gvBorrowers.DataSource = q.ToList();
-            gvBorrowers.DataBind();
+            gvTaggedGroups.DataSource = q.ToList();
+            gvTaggedGroups.DataBind();
         }
 
         protected void bindReleaseGroups()
@@ -623,8 +585,8 @@ namespace UBCSR.reserve
                         GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
                         Status = b.Status
                     };
-            gvRelease.DataSource = q.ToList();
-            gvRelease.DataBind();
+            gvReleaseGroup.DataSource = q.ToList();
+            gvReleaseGroup.DataBind();
         }
 
         protected void bindReturnedGroups()
@@ -645,8 +607,8 @@ namespace UBCSR.reserve
                         Status = b.Status
                     };
 
-            gvReturned.DataSource = q.ToList();
-            gvReturned.DataBind();
+            gvReturnedGroup.DataSource = q.ToList();
+            gvReturnedGroup.DataBind();
         }
 
         protected void disableFields()

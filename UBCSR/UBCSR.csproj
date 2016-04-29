@@ -188,6 +188,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="FileMaintenance\Section.aspx" />
     <Content Include="FileMaintenance\Subject.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="reserve\default.aspx" />
@@ -438,6 +439,13 @@
     </Compile>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="FileMaintenance\Section.aspx.cs">
+      <DependentUpon>Section.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FileMaintenance\Section.aspx.designer.cs">
+      <DependentUpon>Section.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FileMaintenance\Subject.aspx.cs">
       <DependentUpon>Subject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

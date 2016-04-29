@@ -220,13 +220,13 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.UpdatePanel upBorrowers;
         
         /// <summary>
-        /// gvBorrowers control.
+        /// gvTaggedGroups control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvBorrowers;
+        protected global::System.Web.UI.WebControls.GridView gvTaggedGroups;
         
         /// <summary>
         /// UpdatePanel3 control.
@@ -238,13 +238,13 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.UpdatePanel UpdatePanel3;
         
         /// <summary>
-        /// gvRelease control.
+        /// gvReleaseGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvRelease;
+        protected global::System.Web.UI.WebControls.GridView gvReleaseGroup;
         
         /// <summary>
         /// UpdatePanel4 control.
@@ -256,13 +256,13 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.UpdatePanel UpdatePanel4;
         
         /// <summary>
-        /// gvReturned control.
+        /// gvReturnedGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvReturned;
+        protected global::System.Web.UI.WebControls.GridView gvReturnedGroup;
         
         /// <summary>
         /// UpdatePanel1 control.

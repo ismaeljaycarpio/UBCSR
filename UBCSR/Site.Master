@@ -87,6 +87,7 @@
                                                 <li><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
+                                                <li><a runat="server" href="~/FileMaintenance/Section.aspx">Section</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Subject.aspx">Subjects</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Group.aspx">Group</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
@@ -131,6 +132,7 @@
                                                 <li><a runat="server" href="~/FileMaintenance/Categories.aspx">Categories</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
+                                                <li><a runat="server" href="~/FileMaintenance/Section.aspx">Section</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Subject.aspx">Subjects</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Group.aspx">Group</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
@@ -196,6 +198,7 @@
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
                                         <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>
+                                        <li><a runat="server" href="~/reserve/groupmember.aspx">Group Management</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
