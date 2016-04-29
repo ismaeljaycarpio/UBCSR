@@ -341,7 +341,7 @@ namespace UBCSR.reserve
             var q = (from b in db.Borrows
                      join g in db.GroupLINQs
                      on b.GroupId equals g.Id
-                     where (g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
+                     where
                      (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
                      select new
                      {
@@ -349,7 +349,6 @@ namespace UBCSR.reserve
                      }).ToList();
 
             var group = (from g in db.GroupLINQs
-                         where g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
                          select g).FirstOrDefault();
 
             if (q.Count < 1)
@@ -417,8 +416,10 @@ namespace UBCSR.reserve
                 var q = (from b in db.Borrows
                          join g in db.GroupLINQs
                          on b.GroupId equals g.Id
+                         join gm in db.GroupMembers
+                         on g.Id equals gm.GroupId
                          join acc in db.AccountLINQs
-                         on g.LeaderUserId equals acc.UserId
+                         on gm.UserId equals acc.UserId
                          where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
                          (b.Id == borId)
                          select new
@@ -475,8 +476,10 @@ namespace UBCSR.reserve
                 var q = (from b in db.Borrows
                          join g in db.GroupLINQs
                          on b.GroupId equals g.Id
+                         join gm in db.GroupMembers
+                         on g.Id equals gm.GroupId
                          join acc in db.AccountLINQs
-                         on g.LeaderUserId equals acc.UserId
+                         on gm.UserId equals acc.UserId
                          where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
                          (b.Id == borId)
                          select new
@@ -552,9 +555,11 @@ namespace UBCSR.reserve
             var q = from b in db.Borrows
                     join g in db.GroupLINQs
                     on b.GroupId equals g.Id
+                    join gm in db.GroupMembers
+                    on g.Id equals gm.GroupId
                     join acc in db.AccountLINQs
-                    on g.LeaderUserId equals acc.UserId
-                    where 
+                    on gm.UserId equals acc.UserId
+                    where
                     (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
                     (b.Status == "Joined")
                     select new
@@ -573,8 +578,10 @@ namespace UBCSR.reserve
             var q = from b in db.Borrows
                     join g in db.GroupLINQs
                     on b.GroupId equals g.Id
+                    join gm in db.GroupMembers
+                    on g.Id equals gm.GroupId
                     join acc in db.AccountLINQs
-                    on g.LeaderUserId equals acc.UserId
+                    on gm.UserId equals acc.UserId
                     where
                     (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
                     (b.Status == "In-Progress")
@@ -594,8 +601,10 @@ namespace UBCSR.reserve
             var q = from b in db.Borrows
                     join g in db.GroupLINQs
                     on b.GroupId equals g.Id
+                    join gm in db.GroupMembers
+                    on g.Id equals gm.GroupId
                     join acc in db.AccountLINQs
-                    on g.LeaderUserId equals acc.UserId
+                    on gm.UserId equals acc.UserId
                     where
                     (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
                     (b.Status == "Returned")

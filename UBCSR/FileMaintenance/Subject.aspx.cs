@@ -16,26 +16,20 @@ namespace UBCSR.FileMaintenance
         {
             if(!Page.IsPostBack)
             {
-                bindGridview();
+                bindDropdown();
             }
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            bindGridview();
-        }
-
-        protected void gvSubjects_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvSubjects.PageIndex = e.NewPageIndex;
-            bindGridview();
+            this.gvSubjects.DataBind();
         }
 
         protected void gvSubjects_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            int index = Convert.ToInt32(e.CommandArgument);
+        {         
             if(e.CommandName.Equals("editRecord"))
             {
+                int index = Convert.ToInt32(e.CommandArgument);
                 int Id = Convert.ToInt32(gvSubjects.DataKeys[index].Value.ToString());
                 var q = (from s in db.SubjectLINQs
                          where s.Id == Id
@@ -47,6 +41,7 @@ namespace UBCSR.FileMaintenance
                 txtEditYearFrom.Text = q.YearFrom.ToString();
                 txtEditYearTo.Text = q.YearTo.ToString();
                 ddlEditSemester.SelectedValue = q.Sem;
+                ddlEditSection.SelectedValue = q.SectionId.ToString();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -56,6 +51,7 @@ namespace UBCSR.FileMaintenance
             }
             else if(e.CommandName.Equals("deleteRecord"))
             {
+                int index = Convert.ToInt32(e.CommandArgument);
                 hfDeleteId.Value = gvSubjects.DataKeys[index].Value.ToString();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -83,11 +79,12 @@ namespace UBCSR.FileMaintenance
             s.YearFrom = Convert.ToInt32(txtAddYearFrom.Text);
             s.YearTo = Convert.ToInt32(txtAddYearTo.Text);
             s.Sem = ddlAddSemester.SelectedValue;
+            s.SectionId = Convert.ToInt32(ddlAddSection.SelectedValue);
 
             db.SubjectLINQs.InsertOnSubmit(s);
             db.SubmitChanges();
 
-            bindGridview();
+            this.gvSubjects.DataBind();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -107,10 +104,11 @@ namespace UBCSR.FileMaintenance
             q.YearFrom = Convert.ToInt32(txtEditYearFrom.Text);
             q.YearTo = Convert.ToInt32(txtEditYearTo.Text);
             q.Sem = ddlEditSemester.SelectedValue;
+            q.SectionId = Convert.ToInt32(ddlEditSection.SelectedValue);
 
             db.SubmitChanges();
 
-            bindGridview();
+            this.gvSubjects.DataBind();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -128,7 +126,7 @@ namespace UBCSR.FileMaintenance
             db.SubjectLINQs.DeleteOnSubmit(q);
             db.SubmitChanges();
 
-            bindGridview();
+            this.gvSubjects.DataBind();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -137,18 +135,48 @@ namespace UBCSR.FileMaintenance
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
 
-        private void bindGridview()
+        protected void bindDropdown()
         {
-            var q = (from s in db.SubjectLINQs
-                     where
-                     (s.Code.Contains(txtSearch.Text) || 
-                     s.Name.Contains(txtSearch.Text) ||
-                     s.Sem.Contains(txtSearch.Text))
+            var q = (from s in db.Sections
                      select s).ToList();
 
-            gvSubjects.DataSource = q;
-            gvSubjects.DataBind();
+            ddlAddSection.DataSource = q;
+            ddlAddSection.DataTextField = "Section1";
+            ddlAddSection.DataValueField = "Id";
+            ddlAddSection.DataBind();
+            ddlAddSection.Items.Insert(0, new ListItem("-- Select Section --", "0"));
 
+            ddlEditSection.DataSource = q;
+            ddlEditSection.DataTextField = "Section1";
+            ddlEditSection.DataValueField = "Id";
+            ddlEditSection.DataBind();
+            ddlEditSection.Items.Insert(0, new ListItem("-- Select Section --", "0"));
+
+        }
+
+        protected void SubjectDataSource_Selecting(object sender, LinqDataSourceSelectEventArgs e)
+        {
+            var q = (from sub in db.SubjectLINQs
+                     join sec in db.Sections
+                     on sub.SectionId equals sec.Id
+                     where
+                     (sub.Code.Contains(txtSearch.Text) ||
+                     sub.Name.Contains(txtSearch.Text) ||
+                     sub.Sem.Contains(txtSearch.Text) ||
+                     sec.Section1.Contains(txtSearch.Text)
+                     )
+                     select new
+                     {
+                         Id = sub.Id,
+                         SubjectCode = sub.Code,
+                         Subject = sub.Name,
+                         YearFrom = sub.YearFrom,
+                         YearTo = sub.YearTo,
+                         Sem = sub.Sem,
+                         Section = sec.Section1
+                     }).ToList();
+
+            e.Result = q;
             txtSearch.Focus();
         }
     }

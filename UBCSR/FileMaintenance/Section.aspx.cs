@@ -130,6 +130,7 @@ namespace UBCSR.FileMaintenance
                      select s).ToList();
 
             e.Result = q;
+            txtSearch.Focus();
         }
     }
 }

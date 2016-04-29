@@ -8,8 +8,14 @@
 ======================= Apr 29 2016 =======================================
 ===========================================================================
 - add section - **DONE**
-- map section to subject
-- modify group management
+- map section to subject - **DONE**
+- modify group management - *WORKING*
+- add creating group
+- add new members
+- modify members of the group
+- what to do with breakage?
+- where to go returned items
+- what reports are there?
 
 
 ===========================================================================

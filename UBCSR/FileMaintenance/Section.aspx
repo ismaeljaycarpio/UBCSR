@@ -10,23 +10,18 @@
                 </div>
 
                 <div class="panel-body">
-                    <div class="form-horizontal">
+                    <div class="form-inline">
                         <div class="form-group">
-                            <div class="col-sm-6">
-                                <div class="input-group">
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                                    <span class="input-group-btn">
-                                        <asp:Button ID="btnSearch"
-                                            runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="Go"
-                                            OnClick="btnSearch_Click" />
-                                    </span>
-                                </div>
-                            </div>
+                            <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                            <asp:Button ID="btnSearch"
+                                runat="server"
+                                CssClass="btn btn-primary"
+                                Text="Go"
+                                OnClick="btnSearch_Click" />
                         </div>
                     </div>
 
+                    <br />
                     <div class="table-responsive">
                         <asp:UpdatePanel ID="upBrands" runat="server">
                             <ContentTemplate>

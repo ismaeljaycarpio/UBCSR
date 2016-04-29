@@ -34,40 +34,6 @@ namespace UBCSR.FileMaintenance
 
         protected void gvGroups_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int index = Convert.ToInt32(e.CommandArgument);
-            if (e.CommandName.Equals("editRecord"))
-            {
-                var q = (from g in db.GroupLINQs
-                         where g.Id == (int)gvGroups.DataKeys[index].Value
-                         select g).FirstOrDefault();
-
-                lblRowId.Text = q.Id.ToString();
-                txtEditGroup.Text = q.Name;
-
-                //load accnts
-                Guid myUserid = Guid.Parse(q.LeaderUserId.ToString());
-                bindEditDropdown(myUserid);
-
-                ddlEditGroupLeader.SelectedValue = q.LeaderUserId.ToString();
-                ddlEditSubject.SelectedValue = q.SubjectId.ToString();
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#updateModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
-            }
-            else if (e.CommandName.Equals("deleteRecord"))
-            {
-                string rowId = ((Label)gvGroups.Rows[index].FindControl("lblRowId")).Text;
-                hfDeleteId.Value = rowId;
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
-            }
         }
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
@@ -100,27 +66,6 @@ namespace UBCSR.FileMaintenance
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            var q = (from g in db.GroupLINQs
-                     where g.Id == Convert.ToInt32(lblRowId.Text)
-                     select g).FirstOrDefault();
-
-            q.Name = txtEditGroup.Text;
-            q.SubjectId = Convert.ToInt32(ddlEditSubject.SelectedValue);
-            db.SubmitChanges();
-
-            //chk if new leadership
-            Guid previousLeaderId = Guid.Parse(q.LeaderUserId.ToString());
-            q.LeaderUserId = Guid.Parse(ddlEditGroupLeader.SelectedValue.ToString());
-            if(q.LeaderUserId != previousLeaderId)
-            {
-                //reset previous leader to groupid = 0
-                var a = (from ac in db.AccountLINQs
-                         where ac.UserId == previousLeaderId
-                         select ac).FirstOrDefault();
-
-                //a.GroupId = 0;
-                db.SubmitChanges();
-            }
 
             bindGridview();
 
@@ -135,7 +80,7 @@ namespace UBCSR.FileMaintenance
         {
             GroupLINQ g = new GroupLINQ();
             g.Name = txtAddGroup.Text;
-            g.LeaderUserId = Guid.Parse(ddlGroupLeader.SelectedValue.ToString());
+            //g.LeaderUserId = Guid.Parse(ddlGroupLeader.SelectedValue.ToString());
             g.SubjectId = Convert.ToInt32(ddlAddSubject.SelectedValue);
 
             db.GroupLINQs.InsertOnSubmit(g);
@@ -250,28 +195,6 @@ namespace UBCSR.FileMaintenance
 
         protected void bindGridview()
         {
-            var q = (from g in db.GroupLINQs
-                     join a in db.AccountLINQs
-                     on g.LeaderUserId equals a.UserId
-                     join s in db.SubjectLINQs
-                     on g.SubjectId equals s.Id
-                     where
-                     (g.Name.Contains(txtSearch.Text.Trim()))
-                     select new
-                     {
-                         Id = g.Id,
-                         Name = g.Name,
-                         FullName = a.LastName + " ," + a.FirstName + " " + a.MiddleName,
-                         Subject = s.Name,
-                         YearFrom = s.YearFrom,
-                         YearTo = s.YearTo,
-                         Sem = s.Sem
-                     }).ToList();
-
-            gvGroups.DataSource = q;
-            gvGroups.DataBind();
-
-            txtSearch.Focus();
         }
 
         protected void bindDropdown()

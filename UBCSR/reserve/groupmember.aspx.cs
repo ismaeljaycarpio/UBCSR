@@ -16,34 +16,35 @@ namespace UBCSR.reserve
         {
             if (!Page.IsPostBack)
             {
-                bindGridview();
             }
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            bindGridview();
+            this.gvTeam.DataBind();
         }
 
         protected void gvTeam_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int index = Convert.ToInt32(e.CommandArgument);
-            if (e.CommandName.Equals("addMembers"))
+            if(e.CommandName.Equals("addMembers"))
             {
+                int index = Convert.ToInt32(e.CommandArgument);
                 string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
                 hfDeleteId.Value = rowId;
 
                 var query = (from acc in db.AccountLINQs
-                            join g in db.GroupLINQs
-                            on acc.UserId equals g.LeaderUserId
-                            where
-                            (g.Id == Convert.ToInt32(rowId))
-                            select new
-                            {
-                                GroupId = g.Id,
-                                GroupName = g.Name,
-                                FullName = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName
-                            }).FirstOrDefault();
+                             join gm in db.GroupMembers
+                             on acc.UserId equals gm.UserId
+                             join g in db.GroupLINQs
+                             on gm.GroupId equals g.Id
+                             where
+                             (g.Id == Convert.ToInt32(rowId))
+                             select new
+                             {
+                                 GroupId = g.Id,
+                                 GroupName = g.Name,
+                                 FullName = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName
+                             }).FirstOrDefault();
 
                 lblGroupId.Text = query.GroupId.ToString();
                 txtGroupName.Text = query.GroupName;
@@ -64,9 +65,9 @@ namespace UBCSR.reserve
                         on u.UserId equals usr.UserId
                         join r in db.Roles
                         on usr.RoleId equals r.RoleId
-                        where 
+                        where
                         (
-                        //(gm.GroupId != query.GroupId) &&
+                            //(gm.GroupId != query.GroupId) &&
                         (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
                         (r.RoleName == "Student")
                         )
@@ -85,14 +86,17 @@ namespace UBCSR.reserve
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
-            else if (e.CommandName.Equals("editMembers"))
+            else if(e.CommandName.Equals("editMembers"))
             {
+                int index = Convert.ToInt32(e.CommandArgument);
                 string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
                 hfDeleteId.Value = rowId;
 
                 var query = (from acc in db.AccountLINQs
+                             join gm in db.GroupMembers
+                             on acc.UserId equals gm.UserId
                              join g in db.GroupLINQs
-                             on acc.UserId equals g.LeaderUserId
+                             on gm.GroupId equals g.Id
                              where
                              (g.Id == Convert.ToInt32(rowId))
                              select new
@@ -125,9 +129,9 @@ namespace UBCSR.reserve
                 gvEditMembers.DataBind();
 
                 //set chkbox
-                foreach(GridViewRow row in gvEditMembers.Rows)
+                foreach (GridViewRow row in gvEditMembers.Rows)
                 {
-                    if(row.RowType == DataControlRowType.DataRow)
+                    if (row.RowType == DataControlRowType.DataRow)
                     {
                         CheckBox chk = (CheckBox)row.FindControl("chkRow");
                         chk.Checked = true;
@@ -177,7 +181,7 @@ namespace UBCSR.reserve
                 }
             }
 
-            bindGridview();
+            this.gvTeam.DataBind();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -222,7 +226,7 @@ namespace UBCSR.reserve
                 }
             }
 
-            bindGridview();
+            this.gvTeam.DataBind();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -231,29 +235,49 @@ namespace UBCSR.reserve
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
-        protected void bindGridview()
+        protected void GroupDataSource_Selecting(object sender, LinqDataSourceSelectEventArgs e)
         {
+            string strSearch = txtSearch.Text;
+
             var q = (from g in db.GroupLINQs
                      join s in db.SubjectLINQs
                      on g.SubjectId equals s.Id
+                     join sec in db.Sections
+                     on s.SectionId equals sec.Id
                      where
-                     (
-                     g.LeaderUserId == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
-                     )
+                     (g.Name.Contains(strSearch) || s.Code.Contains(strSearch) || s.Name.Contains(strSearch) || s.Sem.Contains(strSearch) || sec.Section1.Contains(strSearch))
                      select new
                      {
                          Id = g.Id,
                          GroupName = g.Name,
                          Subject = s.Name,
+                         Section = sec.Section1,
                          YearFrom = s.YearFrom,
                          YearTo = s.YearTo,
                          Sem = s.Sem
                      }).ToList();
 
-            gvTeam.DataSource = q;
-            gvTeam.DataBind();
-
+            e.Result = q;
             txtSearch.Focus();
+        }
+
+        protected void btnOpenModal_Click(object sender, EventArgs e)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#createModal').modal('show');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+        }
+
+        protected void btnCreateGroup_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlCreateSubject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

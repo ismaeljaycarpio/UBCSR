@@ -9,22 +9,18 @@
                 </div>
 
                 <div class="panel-body">
-                    <div class="form-horizontal">
+                    <div class="form-inline">
                         <div class="form-group">
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                                    <span class="input-group-btn" style="width: 0;">
-                                        <asp:Button ID="btnSearch"
-                                            runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="Go"
-                                            OnClick="btnSearch_Click" />
-                                    </span>
-                                </div>
-                            </div>
+                            <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                            <asp:Button ID="btnSearch"
+                                runat="server"
+                                CssClass="btn btn-primary"
+                                Text="Go"
+                                OnClick="btnSearch_Click" />
                         </div>
                     </div>
+
+                    <br />
 
                     <div class="table-responsive">
                         <asp:UpdatePanel ID="upSubjects" runat="server">
@@ -36,10 +32,11 @@
                                     ShowHeaderWhenEmpty="true"
                                     AutoGenerateColumns="false"
                                     AllowPaging="true"
+                                    AllowSorting="true"
                                     DataKeyNames="Id"
                                     EmptyDataText="No Record(s) found"
-                                    OnPageIndexChanging="gvSubjects_PageIndexChanging"
-                                    OnRowCommand="gvSubjects_RowCommand">
+                                    OnRowCommand="gvSubjects_RowCommand"
+                                    DataSourceID="SubjectDataSource">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Row Id" Visible="false">
                                             <ItemTemplate>
@@ -47,19 +44,25 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Code">
+                                        <asp:TemplateField HeaderText="Subject Code" SortExpression="SubjectCode">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblCode" runat="server" Text='<%# Eval("Code") %>'></asp:Label>
+                                                <asp:Label ID="lblCode" runat="server" Text='<%# Eval("SubjectCode") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Subject">
+                                        <asp:TemplateField HeaderText="Subject" SortExpression="Subject">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblSubject" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
+                                                <asp:Label ID="lblSubject" runat="server" Text='<%# Eval("Subject") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="School Year">
+                                        <asp:TemplateField HeaderText="Section"  SortExpression="Section">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblSection" runat="server" Text='<%# Eval("Section") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="School Year" SortExpression="YearFrom">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblYearFrom" runat="server" Text='<%# Eval("YearFrom") %>'></asp:Label>
                                                 -
@@ -67,7 +70,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Semester">
+                                        <asp:TemplateField HeaderText="Semester" SortExpression="Sem">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblSemester" runat="server" Text='<%# Eval("Sem") %>'></asp:Label>
                                             </ItemTemplate>
@@ -112,6 +115,20 @@
                         </div>
                         <div class="modal-body">
                             <div class="form">
+
+                                <div class="form-group">
+                                    <label for="ddlAddSection">Section</label>
+                                    <asp:DropDownList ID="ddlAddSection" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator9"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlAddSection"
+                                        CssClass="label label-danger"
+                                        InitialValue="0"
+                                        ValidationGroup="vgAdd"
+                                        ErrorMessage="Section is required"></asp:RequiredFieldValidator>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="txtAddCode">Code</label>
                                     <asp:TextBox ID="txtAddCode" runat="server" CssClass="form-control" placeholder="Code"></asp:TextBox>
@@ -200,6 +217,19 @@
                             <div class="form">
                                 <div class="form-group">
                                     <asp:Label ID="lblRowId" runat="server" Visible="false"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlEditSection">Section</label>
+                                    <asp:DropDownList ID="ddlEditSection" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator10"
+                                        runat="server"
+                                        Display="Dynamic"
+                                        ControlToValidate="ddlEditSection"
+                                        CssClass="label label-danger"
+                                        InitialValue="0"
+                                        ValidationGroup="vgEdit"
+                                        ErrorMessage="Section is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
@@ -305,4 +335,5 @@
     </div>
 
     <asp:HiddenField ID="hfUserId" runat="server" />
+    <asp:LinqDataSource ID="SubjectDataSource" runat="server" OnSelecting="SubjectDataSource_Selecting"></asp:LinqDataSource>
 </asp:Content>
