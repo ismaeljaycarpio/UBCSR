@@ -89,7 +89,6 @@
                                                 <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Section.aspx">Section</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Subject.aspx">Subjects</a></li>
-                                                <li><a runat="server" href="~/FileMaintenance/Group.aspx">Group</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
                                             </ul>
                                         </li>
@@ -113,8 +112,8 @@
                                             <ul class="dropdown-menu">
                                                 <li><a runat="server" href="~/Account/ChangePassword.aspx">Change Password</a></li>
                                                 <li>
-                                                    <asp:LoginStatus ID="LoginStatus1" 
-                                                        runat="server" 
+                                                    <asp:LoginStatus ID="LoginStatus1"
+                                                        runat="server"
                                                         LogoutAction="RedirectToLoginPage"
                                                         LogoutText="Log Out" />
                                                 </li>
@@ -134,7 +133,6 @@
                                                 <li><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Section.aspx">Section</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Subject.aspx">Subjects</a></li>
-                                                <li><a runat="server" href="~/FileMaintenance/Group.aspx">Group</a></li>
                                                 <li><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
                                             </ul>
                                         </li>
@@ -227,8 +225,7 @@
                             <asp:RoleGroup Roles="Student">
                                 <ContentTemplate>
                                     <ul class="nav navbar-nav">
-                                        <li><a runat="server" href="~/reserve/groupmember.aspx">Group Management</a></li>
-                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>                                        
+                                        <li><a runat="server" href="~/reserve/default.aspx">Reservation</a></li>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">

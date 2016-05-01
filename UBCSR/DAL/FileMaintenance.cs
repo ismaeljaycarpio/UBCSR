@@ -561,7 +561,7 @@ namespace UBCSR.DAL
 
         public void addUser(Guid UserId, string firstName, string middleName, string lastName, string studentId)
         {
-            strSql = "INSERT INTO Account VALUES(@UserId,@LastName,@MiddleName,@FirstName,@StudentId,@GroupId)";
+            strSql = "INSERT INTO Account VALUES(@UserId,@LastName,@MiddleName,@FirstName,@StudentId)";
 
             conn = new SqlConnection();
             conn.ConnectionString = CONN_STRING;
@@ -574,7 +574,6 @@ namespace UBCSR.DAL
                 comm.Parameters.AddWithValue("@MiddleName", middleName);
                 comm.Parameters.AddWithValue("@LastName", lastName);
                 comm.Parameters.AddWithValue("@StudentId", studentId);
-                comm.Parameters.AddWithValue("@GroupId", "0");
                 comm.ExecuteNonQuery();
                 conn.Close();
             }

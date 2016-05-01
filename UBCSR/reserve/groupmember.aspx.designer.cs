@@ -121,15 +121,6 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
         
         /// <summary>
-        /// gvCreateMembers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCreateMembers;
-        
-        /// <summary>
         /// lblCreateYearFrom control.
         /// </summary>
         /// <remarks>
@@ -155,6 +146,24 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCreateSem;
+        
+        /// <summary>
+        /// lblCreateSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCreateSection;
+        
+        /// <summary>
+        /// gvCreateMembers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvCreateMembers;
         
         /// <summary>
         /// btnCreateGroup control.
@@ -191,15 +200,6 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtGroupName;
-        
-        /// <summary>
-        /// txtGroupLeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGroupLeader;
         
         /// <summary>
         /// gvMembers control.
@@ -245,15 +245,6 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEditGroupName;
-        
-        /// <summary>
-        /// txtEditGroupLeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditGroupLeader;
         
         /// <summary>
         /// gvEditMembers control.

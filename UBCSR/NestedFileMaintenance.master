@@ -36,8 +36,7 @@
                             <li id="brands"><a runat="server" href="~/FileMaintenance/Brands.aspx">Brands</a></li>
                             <li id="items"><a runat="server" href="~/FileMaintenance/Items.aspx">Items</a></li>
                             <li id="section"><a runat="server" href="~/FileMaintenance/Section.aspx">Section</a></li>
-                            <li id="subjects"><a runat="server" href="~/FileMaintenance/Subject.aspx">Subjects</a></li>
-                            <li id="groups"><a runat="server" href="~/FileMaintenance/Group.aspx">Groups</a></li>                           
+                            <li id="subjects"><a runat="server" href="~/FileMaintenance/Subject.aspx">Subjects</a></li>                           
                             <li id="accounts"><a runat="server" href="~/FileMaintenance/Accounts.aspx">Accounts</a></li>
                         </ul>
                     </div>

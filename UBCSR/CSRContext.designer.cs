@@ -63,9 +63,6 @@ namespace UBCSR
     partial void InsertInventoryLINQ(InventoryLINQ instance);
     partial void UpdateInventoryLINQ(InventoryLINQ instance);
     partial void DeleteInventoryLINQ(InventoryLINQ instance);
-    partial void InsertGroupMember(GroupMember instance);
-    partial void UpdateGroupMember(GroupMember instance);
-    partial void DeleteGroupMember(GroupMember instance);
     partial void InsertAccountLINQ(AccountLINQ instance);
     partial void UpdateAccountLINQ(AccountLINQ instance);
     partial void DeleteAccountLINQ(AccountLINQ instance);
@@ -81,6 +78,9 @@ namespace UBCSR
     partial void InsertGroupLINQ(GroupLINQ instance);
     partial void UpdateGroupLINQ(GroupLINQ instance);
     partial void DeleteGroupLINQ(GroupLINQ instance);
+    partial void InsertGroupMember(GroupMember instance);
+    partial void UpdateGroupMember(GroupMember instance);
+    partial void DeleteGroupMember(GroupMember instance);
     #endregion
 		
 		public CSRContextDataContext() : 
@@ -201,14 +201,6 @@ namespace UBCSR
 			}
 		}
 		
-		public System.Data.Linq.Table<GroupMember> GroupMembers
-		{
-			get
-			{
-				return this.GetTable<GroupMember>();
-			}
-		}
-		
 		public System.Data.Linq.Table<AccountLINQ> AccountLINQs
 		{
 			get
@@ -246,6 +238,14 @@ namespace UBCSR
 			get
 			{
 				return this.GetTable<GroupLINQ>();
+			}
+		}
+		
+		public System.Data.Linq.Table<GroupMember> GroupMembers
+		{
+			get
+			{
+				return this.GetTable<GroupMember>();
 			}
 		}
 	}
@@ -3114,157 +3114,6 @@ namespace UBCSR
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GroupMember")]
-	public partial class GroupMember : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private System.Nullable<int> _GroupId;
-		
-		private System.Nullable<System.Guid> _UserId;
-		
-		private EntityRef<GroupLINQ> _GroupLINQ;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnGroupIdChanging(System.Nullable<int> value);
-    partial void OnGroupIdChanged();
-    partial void OnUserIdChanging(System.Nullable<System.Guid> value);
-    partial void OnUserIdChanged();
-    #endregion
-		
-		public GroupMember()
-		{
-			this._GroupLINQ = default(EntityRef<GroupLINQ>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupId", DbType="Int")]
-		public System.Nullable<int> GroupId
-		{
-			get
-			{
-				return this._GroupId;
-			}
-			set
-			{
-				if ((this._GroupId != value))
-				{
-					if (this._GroupLINQ.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnGroupIdChanging(value);
-					this.SendPropertyChanging();
-					this._GroupId = value;
-					this.SendPropertyChanged("GroupId");
-					this.OnGroupIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupMember", Storage="_GroupLINQ", ThisKey="GroupId", OtherKey="Id", IsForeignKey=true)]
-		public GroupLINQ GroupLINQ
-		{
-			get
-			{
-				return this._GroupLINQ.Entity;
-			}
-			set
-			{
-				GroupLINQ previousValue = this._GroupLINQ.Entity;
-				if (((previousValue != value) 
-							|| (this._GroupLINQ.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GroupLINQ.Entity = null;
-						previousValue.GroupMembers.Remove(this);
-					}
-					this._GroupLINQ.Entity = value;
-					if ((value != null))
-					{
-						value.GroupMembers.Add(this);
-						this._GroupId = value.Id;
-					}
-					else
-					{
-						this._GroupId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("GroupLINQ");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Account")]
 	public partial class AccountLINQ : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4243,7 +4092,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupMember", Storage="_GroupMembers", ThisKey="Id", OtherKey="GroupId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_GroupMember", Storage="_GroupMembers", ThisKey="Id", OtherKey="GroupId")]
 		public EntitySet<GroupMember> GroupMembers
 		{
 			get
@@ -4332,6 +4181,157 @@ namespace UBCSR
 		{
 			this.SendPropertyChanging();
 			entity.GroupLINQ = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GroupMember")]
+	public partial class GroupMember : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _GroupId;
+		
+		private System.Nullable<System.Guid> _UserId;
+		
+		private EntityRef<GroupLINQ> _GroupLINQ;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnGroupIdChanging(System.Nullable<int> value);
+    partial void OnGroupIdChanged();
+    partial void OnUserIdChanging(System.Nullable<System.Guid> value);
+    partial void OnUserIdChanged();
+    #endregion
+		
+		public GroupMember()
+		{
+			this._GroupLINQ = default(EntityRef<GroupLINQ>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupId", DbType="Int")]
+		public System.Nullable<int> GroupId
+		{
+			get
+			{
+				return this._GroupId;
+			}
+			set
+			{
+				if ((this._GroupId != value))
+				{
+					if (this._GroupLINQ.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._GroupId = value;
+					this.SendPropertyChanged("GroupId");
+					this.OnGroupIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_GroupMember", Storage="_GroupLINQ", ThisKey="GroupId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		public GroupLINQ GroupLINQ
+		{
+			get
+			{
+				return this._GroupLINQ.Entity;
+			}
+			set
+			{
+				GroupLINQ previousValue = this._GroupLINQ.Entity;
+				if (((previousValue != value) 
+							|| (this._GroupLINQ.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GroupLINQ.Entity = null;
+						previousValue.GroupMembers.Remove(this);
+					}
+					this._GroupLINQ.Entity = value;
+					if ((value != null))
+					{
+						value.GroupMembers.Add(this);
+						this._GroupId = value.Id;
+					}
+					else
+					{
+						this._GroupId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("GroupLINQ");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

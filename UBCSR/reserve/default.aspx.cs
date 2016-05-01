@@ -33,8 +33,6 @@ namespace UBCSR.borrow
         {
             if(User.IsInRole("Student"))
             {
-                lblTitle.Text = "Reserved List by your Instructor - Only Users that belongs to a group can view the list";
-
                 //chk if user belongs to a group
                 Guid myUserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
                 var user = (from a in db.AccountLINQs
@@ -43,7 +41,7 @@ namespace UBCSR.borrow
 
                 if(user !=  null)
                 {
-                    lblTitle.Text = "Reserved List by your Instructor - Only Group Leaders can view the list";
+                    lblTitle.Text = "Reserved List";
                     var q = from r in db.Reservations
                             join acc in db.AccountLINQs
                             on r.UserId equals acc.UserId

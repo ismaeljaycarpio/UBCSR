@@ -84,9 +84,9 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Add Members" CommandName="addMembers" />
+                                            <%--<asp:ButtonField HeaderText="" ButtonType="Link" Text="Add Members" CommandName="addMembers" />--%>
                                             <asp:ButtonField HeaderText="" ButtonType="Link" Text="Edit Members" CommandName="editMembers" />
-
+                                            <asp:ButtonField HeaderText="" ButtonType="Link" Text="Delete" CommandName="deleteRecord" />
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
@@ -95,7 +95,7 @@
                                         <asp:Button ID="btnOpenModal"
                                             runat="server"
                                             CssClass="btn btn-info btn-sm"
-                                            Text="Add Group"
+                                            Text="Create Group"
                                             OnClick="btnOpenModal_Click"
                                             CausesValidation="false" />
                                     </div>
@@ -154,6 +154,26 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="lblCreateYearFrom">Year From:</label>
+                                    <asp:Label ID="lblCreateYearFrom" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lblCreateYearTo">Year To:</label>
+                                    <asp:Label ID="lblCreateYearTo" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lblCreateSem">Semester:</label>
+                                    <asp:Label ID="lblCreateSem" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lblCreateSection">Section:</label>
+                                    <asp:Label ID="lblCreateSection" runat="server"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="gvCreateMembers"></label>
                                     <div class="table table-responsive">
                                         <asp:GridView ID="gvCreateMembers"
@@ -183,22 +203,6 @@
                                         </asp:GridView>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateYearFrom">Year From:</label>
-                                    <asp:Label ID="lblCreateYearFrom" runat="server"></asp:Label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateYearTo">Year To:</label>
-                                    <asp:Label ID="lblCreateYearTo" runat="server"></asp:Label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateSem">Semester:</label>
-                                    <asp:Label ID="lblCreateSem" runat="server"></asp:Label>
-                                </div>
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -240,11 +244,6 @@
                                 <div class="form-group">
                                     <label for="txtGroupName">Group Name: </label>
                                     <asp:TextBox ID="txtGroupName" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="txtGroupLeader">Group Leader: </label>
-                                    <asp:TextBox ID="txtGroupLeader" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                 </div>
 
                                 <div class="form-group">
@@ -322,12 +321,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtGroupLeader">Group Leader: </label>
-                                    <asp:TextBox ID="txtEditGroupLeader" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="gvEditMembers"></label>
+                                    <label for="gvEditMembers">Check user you want to remove</label>
                                     <div class="table table-responsive">
                                         <asp:GridView ID="gvEditMembers"
                                             runat="server"

@@ -130,7 +130,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtAddCode">Code</label>
+                                    <label for="txtAddCode">Subject Code</label>
                                     <asp:TextBox ID="txtAddCode" runat="server" CssClass="form-control" placeholder="Code"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
                                         runat="server"
@@ -233,7 +233,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtEditCode">Code</label>
+                                    <label for="txtEditCode">Subject Code</label>
                                     <asp:TextBox ID="txtEditCode" runat="server" CssClass="form-control" placeholder="Code"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                         runat="server"

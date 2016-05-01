@@ -137,14 +137,6 @@
       <Association Name="Item_InventoryLINQ" Member="Item" ThisKey="ItemId" OtherKey="Id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.GroupMember" Member="GroupMembers">
-    <Type Name="GroupMember">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Group_GroupMember" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Account" Member="AccountLINQs">
     <Type Name="AccountLINQ">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -194,8 +186,16 @@
       <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="SubjectId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Group_Borrow" Member="Borrows" ThisKey="Id" OtherKey="GroupId" Type="Borrow" />
-      <Association Name="Group_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
+      <Association Name="GroupLINQ_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
       <Association Name="SubjectLINQ_Group" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GroupMember" Member="GroupMembers">
+    <Type Name="GroupMember">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="GroupLINQ_GroupMember" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
 </Database>

@@ -16,6 +16,7 @@ namespace UBCSR.reserve
         {
             if (!Page.IsPostBack)
             {
+                fillSubject();
             }
         }
 
@@ -30,25 +31,18 @@ namespace UBCSR.reserve
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
-                hfDeleteId.Value = rowId;
 
-                var query = (from acc in db.AccountLINQs
-                             join gm in db.GroupMembers
-                             on acc.UserId equals gm.UserId
-                             join g in db.GroupLINQs
-                             on gm.GroupId equals g.Id
+                var query = (from g in db.GroupLINQs
                              where
                              (g.Id == Convert.ToInt32(rowId))
                              select new
                              {
                                  GroupId = g.Id,
-                                 GroupName = g.Name,
-                                 FullName = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName
+                                 GroupName = g.Name
                              }).FirstOrDefault();
 
                 lblGroupId.Text = query.GroupId.ToString();
                 txtGroupName.Text = query.GroupName;
-                txtGroupLeader.Text = query.FullName;
 
                 //load accnts that dont belong to this group
                 //dont include self
@@ -56,21 +50,25 @@ namespace UBCSR.reserve
                         join gm in db.GroupMembers
                         on a.UserId equals gm.UserId
                         into JoinedAccountGroupMember
-                        from gm in JoinedAccountGroupMember.DefaultIfEmpty()
+                        from agm in JoinedAccountGroupMember.DefaultIfEmpty()
                         join m in db.MembershipLINQs
-                        on a.UserId equals m.UserId
+                        on agm.UserId equals m.UserId
+                        into JoinedAccountMembership
+                        from mem in JoinedAccountMembership.DefaultIfEmpty()
                         join u in db.Users
-                        on m.UserId equals u.UserId
+                        on mem.UserId equals u.UserId
+                        into JoinedMembershipUser
+                        from ussr in JoinedMembershipUser.DefaultIfEmpty()
                         join usr in db.UsersInRoles
-                        on u.UserId equals usr.UserId
+                        on ussr.UserId equals usr.UserId
                         join r in db.Roles
                         on usr.RoleId equals r.RoleId
+                        into JoinedUserRoles
+                        from uirr in JoinedUserRoles.DefaultIfEmpty()
                         where
-                        (
-                            //(gm.GroupId != query.GroupId) &&
                         (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
-                        (r.RoleName == "Student")
-                        )
+                        (uirr.RoleName == "Student") &&
+                        (agm.GroupId != query.GroupId)
                         select new
                         {
                             UserId = a.UserId,
@@ -102,13 +100,11 @@ namespace UBCSR.reserve
                              select new
                              {
                                  GroupId = g.Id,
-                                 GroupName = g.Name,
-                                 FullName = acc.LastName + " , " + acc.FirstName + " " + acc.MiddleName
+                                 GroupName = g.Name
                              }).FirstOrDefault();
 
                 lblEditGroupId.Text = query.GroupId.ToString();
                 txtEditGroupName.Text = query.GroupName;
-                txtEditGroupLeader.Text = query.FullName;
 
                 //load members
                 var q = from a in db.AccountLINQs
@@ -116,8 +112,7 @@ namespace UBCSR.reserve
                         on a.UserId equals gm.UserId
                         where
                         (
-                        gm.GroupId == query.GroupId &&
-                        a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())
+                        gm.GroupId == query.GroupId
                         )
                         select new
                         {
@@ -134,7 +129,7 @@ namespace UBCSR.reserve
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         CheckBox chk = (CheckBox)row.FindControl("chkRow");
-                        chk.Checked = true;
+                        chk.Checked = false;
                     }
                 }
 
@@ -144,11 +139,36 @@ namespace UBCSR.reserve
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
+            else if(e.CommandName.Equals("deleteRecord"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
+                hfDeleteId.Value = rowId;
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#deleteModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
+            var q = (from g in db.GroupLINQs
+                     where g.Id == Convert.ToInt32(hfDeleteId.Value)
+                     select g).FirstOrDefault();
 
+            db.GroupLINQs.DeleteOnSubmit(q);
+            db.SubmitChanges();
+
+            this.gvTeam.DataBind();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#deleteModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
         protected void btnAddGroup_Click(object sender, EventArgs e)
@@ -263,6 +283,32 @@ namespace UBCSR.reserve
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
+            //fill gv
+            var q = from a in db.AccountLINQs
+                    join gm in db.GroupMembers
+                    on a.UserId equals gm.UserId
+                    into JoinedAccountGroupMember
+                    from gm in JoinedAccountGroupMember.DefaultIfEmpty()
+                    join m in db.MembershipLINQs
+                    on a.UserId equals m.UserId
+                    join u in db.Users
+                    on m.UserId equals u.UserId
+                    join usr in db.UsersInRoles
+                    on u.UserId equals usr.UserId
+                    join r in db.Roles
+                    on usr.RoleId equals r.RoleId
+                    where
+                    (a.UserId != Guid.Parse(Membership.GetUser().ProviderUserKey.ToString())) &&
+                    (r.RoleName == "Student")
+                    select new
+                    {
+                        UserId = a.UserId,
+                        FullName = a.LastName + " , " + a.FirstName + " " + a.MiddleName
+                    };
+
+            gvCreateMembers.DataSource = q.ToList();
+            gvCreateMembers.DataBind();
+
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#createModal').modal('show');");
@@ -272,12 +318,95 @@ namespace UBCSR.reserve
 
         protected void btnCreateGroup_Click(object sender, EventArgs e)
         {
+            //add to Group table
+            GroupLINQ g = new GroupLINQ();
+            g.Name = txtCreateGroupName.Text;
+            g.SubjectId = Convert.ToInt32(ddlCreateSubject.SelectedValue);
+            db.GroupLINQs.InsertOnSubmit(g);
+            db.SubmitChanges();
 
+            int groupId = g.Id;
+
+            foreach (GridViewRow row in gvCreateMembers.Rows)
+            {
+                if (row.RowType == DataControlRowType.DataRow)
+                {
+                    //chk if checked
+                    if (((CheckBox)row.FindControl("chkRow")).Checked == true)
+                    {
+                        string rowId = ((Label)row.FindControl("lblUserId")).Text;
+                        Guid userId = Guid.Parse(rowId);
+
+                        var user = (from a in db.AccountLINQs
+                                    where a.UserId == userId
+                                    select a).FirstOrDefault();
+
+                        //add to GroupMember
+                        GroupMember gm = new GroupMember();
+                        gm.GroupId = groupId;
+                        gm.UserId = user.UserId;
+
+                        db.GroupMembers.InsertOnSubmit(gm);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+
+            this.gvTeam.DataBind();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#createModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
         protected void ddlCreateSubject_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(ddlCreateSubject.SelectedValue != "0")
+            {
+                var q = (from sub in db.SubjectLINQs
+                         join sec in db.Sections
+                         on sub.SectionId equals sec.Id
+                         where sub.Id == Convert.ToInt32(ddlCreateSubject.SelectedValue)
+                         select new
+                         {
+                             YearFrom = sub.YearFrom,
+                             YearTo = sub.YearTo,
+                             Sem = sub.Sem,
+                             Section = sec.Section1
+                         }).FirstOrDefault();
 
+                lblCreateYearFrom.Text = q.YearFrom.ToString();
+                lblCreateYearTo.Text = q.YearTo.ToString();
+                lblCreateSem.Text = q.Sem;
+                lblCreateSection.Text = q.Section;
+            }
+            else
+            {
+                lblCreateYearFrom.Text = "";
+                lblCreateYearTo.Text = "";
+                lblCreateSem.Text = "";
+                lblCreateSection.Text = "";
+            }
+        }
+
+        protected void fillSubject()
+        {
+            var q = (from sub in db.SubjectLINQs
+                     join sec in db.Sections
+                     on sub.SectionId equals sec.Id
+                     select new
+                     {
+                         Id = sub.Id,
+                         SubjectName = sub.Name
+                     }).ToList();
+
+            ddlCreateSubject.DataSource = q;
+            ddlCreateSubject.DataTextField = "SubjectName";
+            ddlCreateSubject.DataValueField = "Id";
+            ddlCreateSubject.DataBind();
+            ddlCreateSubject.Items.Insert(0, new ListItem("-- Select One --", "0"));
         }
     }
 }
