@@ -99,6 +99,7 @@
                                     EmptyDataText="No Record(s) found"
                                     ShowHeaderWhenEmpty="true"
                                     DataKeyNames="Id"
+                                    OnRowDataBound="gvInv_RowDataBound"
                                     OnRowCommand="gvInv_RowCommand">
                                     <Columns>
                                         <asp:TemplateField>

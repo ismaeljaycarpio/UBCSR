@@ -124,5 +124,10 @@ namespace UBCSR.borrow
                 args.IsValid = true;
             }
         }
+
+        protected void gvInv_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+        }
     }
 }
