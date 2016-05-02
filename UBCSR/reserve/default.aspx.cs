@@ -35,9 +35,19 @@ namespace UBCSR.borrow
             {
                 //chk if user belongs to a group
                 Guid myUserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
+
+                //chk if user belongs a group and can access the subject
                 var user = (from a in db.AccountLINQs
-                            where a.UserId == myUserId
-                            select a).FirstOrDefault();
+                           join gm in db.GroupMembers
+                           on a.UserId equals gm.UserId
+                           join g in db.GroupLINQs
+                           on gm.GroupId equals g.Id
+                           where a.UserId == myUserId
+                           select new
+                           {
+                               UserId = a.UserId,
+                               SubjectId = g.SubjectId
+                           }).ToList();
 
                 if(user !=  null)
                 {
@@ -48,7 +58,7 @@ namespace UBCSR.borrow
                             join s in db.SubjectLINQs
                             on r.SubjectId equals s.Id
                             where
-                            r.ApprovalStatus == "Approved"
+                            (r.ApprovalStatus == "Approved")
                             select new
                             {
                                 Id = r.Id,
