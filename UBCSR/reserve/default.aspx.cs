@@ -49,16 +49,21 @@ namespace UBCSR.borrow
                                SubjectId = g.SubjectId
                            }).ToList();
 
-                if(user !=  null)
-                {
-                    lblTitle.Text = "Reserved List";
+                lblTitle.Text = "Reserved List";
+                if(user.Count > 0)
+                {                    
                     var q = from r in db.Reservations
                             join acc in db.AccountLINQs
                             on r.UserId equals acc.UserId
                             join s in db.SubjectLINQs
                             on r.SubjectId equals s.Id
+                            join g in db.GroupLINQs
+                            on s.Id equals g.SubjectId
+                            join gm in db.GroupMembers
+                            on g.Id equals gm.GroupId
                             where
-                            (r.ApprovalStatus == "Approved")
+                            (r.ApprovalStatus == "Approved") &&
+                            (gm.UserId == myUserId)
                             select new
                             {
                                 Id = r.Id,

@@ -85,13 +85,6 @@
                                 OnServerValidate="CustomValidator1_ServerValidate"
                                 ErrorMessage="Date/Time To must always be greater than Date/Time From"></asp:CustomValidator>
                         </div>
-                        <div class="col-md-4">
-                            <label for="txtIsReleased">Status</label>
-                            <asp:TextBox ID="txtIsReleased"
-                                runat="server"
-                                Enabled="false"
-                                CssClass="form-control"></asp:TextBox>
-                        </div>
                     </div>
                 </div>
 

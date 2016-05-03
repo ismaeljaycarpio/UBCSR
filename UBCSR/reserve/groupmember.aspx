@@ -321,7 +321,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="gvEditMembers">Check user you want to remove</label>
+                                    <label for="gvEditMembers">Check user you want to remove:</label>
                                     <div class="table table-responsive">
                                         <asp:GridView ID="gvEditMembers"
                                             runat="server"

@@ -26,30 +26,6 @@
       <Association Name="ItemCategory_Item" Member="ItemCategory" ThisKey="ItemCategoryId" OtherKey="Id" Type="ItemCategory" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
-  <Table Name="dbo.BorrowItem" Member="BorrowItems">
-    <Type Name="BorrowItem">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="BorrowId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="InventoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="BorrowedQuantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Breakage" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Association Name="Borrow_BorrowItem" Member="Borrow" ThisKey="BorrowId" OtherKey="Id" Type="Borrow" IsForeignKey="true" DeleteRule="CASCADE" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Borrow" Member="Borrows">
-    <Type Name="Borrow">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ReservationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="JoinedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="Borrow_BorrowItem" Member="BorrowItems" ThisKey="Id" OtherKey="BorrowId" Type="BorrowItem" />
-      <Association Name="Reservation_Borrow" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
-      <Association Name="Group_Borrow" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
-    </Type>
-  </Table>
   <Table Name="dbo.Memberships" Member="MembershipLINQs">
     <Type Name="MembershipLINQ">
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -119,8 +95,8 @@
       <Column Name="ReleasedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="ReturnedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="DisapproveRemarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Association Name="Reservation_Borrow" Member="Borrows" ThisKey="Id" OtherKey="ReservationId" Type="Borrow" />
       <Association Name="Reservation_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="ReservationId" Type="ReservationItem" />
+      <Association Name="Reservation_Group" Member="GroupLINQs" ThisKey="Id" OtherKey="ReservationId" Type="GroupLINQ" />
       <Association Name="SubjectLINQ_Reservation" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
     </Type>
   </Table>
@@ -134,6 +110,7 @@
       <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="InventoryLINQ_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="InventoryId" Type="ReservationItem" />
+      <Association Name="InventoryLINQ_GroupItem" Member="GroupItems" ThisKey="Id" OtherKey="InventoryId" Type="GroupItem" />
       <Association Name="Item_InventoryLINQ" Member="Item" ThisKey="ItemId" OtherKey="Id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
@@ -180,22 +157,39 @@
       <Association Name="Section_SubjectLINQ" Member="SubjectLINQs" ThisKey="Id" OtherKey="SectionId" Type="SubjectLINQ" />
     </Type>
   </Table>
-  <Table Name="dbo.[Group]" Member="GroupLINQs">
-    <Type Name="GroupLINQ">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="SubjectId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Group_Borrow" Member="Borrows" ThisKey="Id" OtherKey="GroupId" Type="Borrow" />
-      <Association Name="GroupLINQ_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
-      <Association Name="SubjectLINQ_Group" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.GroupMember" Member="GroupMembers">
     <Type Name="GroupMember">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="GroupLINQ_GroupMember" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Group_GroupMember" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GroupItem" Member="GroupItems">
+    <Type Name="GroupItem">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InventoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BorrowedQuantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Breakage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="InventoryLINQ_GroupItem" Member="InventoryLINQ" ThisKey="InventoryId" OtherKey="Id" Type="InventoryLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Group_GroupItem" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="GroupLINQs">
+    <Type Name="GroupLINQ">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SubjectId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ReservationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="JoinedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Group_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
+      <Association Name="Group_GroupItem" Member="GroupItems" ThisKey="Id" OtherKey="GroupId" Type="GroupItem" />
+      <Association Name="Reservation_Group" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="SubjectLINQ_Group" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
