@@ -165,7 +165,7 @@ namespace UBCSR.reserve
                      select r).FirstOrDefault();
 
             q.ApprovalStatus = "Approved";
-
+            q.DisapproveRemarks = String.Empty;
             db.SubmitChanges();
 
             //deduct in stocks
@@ -194,18 +194,6 @@ namespace UBCSR.reserve
             sb.Append("$('#disapproveModal').modal('show');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
-
-
-            //int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
-            //var q = (from r in db.Reservations
-            //         where r.Id == resId
-            //         select r).FirstOrDefault();
-
-            //q.ApprovalStatus = "Disapproved";
-
-            //db.SubmitChanges();
-
-            //Response.Redirect("~/reserve/default.aspx");
         }
 
         protected void btnConfirmReturn_Click(object sender, EventArgs e)
@@ -337,20 +325,26 @@ namespace UBCSR.reserve
 
         protected void btnTagGroup_Click(object sender, EventArgs e)
         {
+            Guid myUserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
+
+            //chk if user group is tagged in the reservation
             var q = (from g in db.GroupLINQs
                      join gm in db.GroupMembers
                      on g.Id equals gm.GroupId
                      where
-                     (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
+                     (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                     (gm.UserId == myUserId)
                      select new
                      {
                          Id = g.Id
                      }).ToList();
 
-            //chk user belongs to a group
+            //get user group
             var group = (from g in db.GroupLINQs
                          join gm in db.GroupMembers
                          on g.Id equals gm.GroupId
+                         where
+                         (gm.UserId == myUserId)
                          select new
                          {
                              GroupId = g.Id
