@@ -12,6 +12,7 @@ namespace UBCSR.FileMaintenance
     {
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
+        CSRContextDataContext db = new CSRContextDataContext();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,15 +30,26 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            fm.addBrand(txtAddBrand.Text);
+            var brands = (from b in db.ItemBrands
+                          where b.BrandName == txtAddBrand.Text.Trim()
+                          select b).ToList();
 
-            bindData();
+            if(brands.Count > 0)
+            {
+                lblDuplicateRecords.Text = "Brand name already exists!";
+            }
+            else
+            {
+                fm.addBrand(txtAddBrand.Text);
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+                bindData();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            }   
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)

@@ -30,9 +30,6 @@ namespace UBCSR
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertItemCategory(ItemCategory instance);
-    partial void UpdateItemCategory(ItemCategory instance);
-    partial void DeleteItemCategory(ItemCategory instance);
     partial void InsertItemBrand(ItemBrand instance);
     partial void UpdateItemBrand(ItemBrand instance);
     partial void DeleteItemBrand(ItemBrand instance);
@@ -78,6 +75,9 @@ namespace UBCSR
     partial void InsertGroupLINQ(GroupLINQ instance);
     partial void UpdateGroupLINQ(GroupLINQ instance);
     partial void DeleteGroupLINQ(GroupLINQ instance);
+    partial void InsertItemCategory(ItemCategory instance);
+    partial void UpdateItemCategory(ItemCategory instance);
+    partial void DeleteItemCategory(ItemCategory instance);
     #endregion
 		
 		public CSRContextDataContext() : 
@@ -108,14 +108,6 @@ namespace UBCSR
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<ItemCategory> ItemCategories
-		{
-			get
-			{
-				return this.GetTable<ItemCategory>();
-			}
 		}
 		
 		public System.Data.Linq.Table<ItemBrand> ItemBrands
@@ -237,143 +229,13 @@ namespace UBCSR
 				return this.GetTable<GroupLINQ>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItemCategory")]
-	public partial class ItemCategory : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _CategoryName;
-		
-		private System.Nullable<int> _CategoryTypeId;
-		
-		private EntitySet<Item> _Items;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnCategoryNameChanging(string value);
-    partial void OnCategoryNameChanged();
-    partial void OnCategoryTypeIdChanging(System.Nullable<int> value);
-    partial void OnCategoryTypeIdChanged();
-    #endregion
-		
-		public ItemCategory()
-		{
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
+		public System.Data.Linq.Table<ItemCategory> ItemCategories
 		{
 			get
 			{
-				return this._Id;
+				return this.GetTable<ItemCategory>();
 			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryName", DbType="VarChar(MAX)")]
-		public string CategoryName
-		{
-			get
-			{
-				return this._CategoryName;
-			}
-			set
-			{
-				if ((this._CategoryName != value))
-				{
-					this.OnCategoryNameChanging(value);
-					this.SendPropertyChanging();
-					this._CategoryName = value;
-					this.SendPropertyChanged("CategoryName");
-					this.OnCategoryNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryTypeId", DbType="Int")]
-		public System.Nullable<int> CategoryTypeId
-		{
-			get
-			{
-				return this._CategoryTypeId;
-			}
-			set
-			{
-				if ((this._CategoryTypeId != value))
-				{
-					this.OnCategoryTypeIdChanging(value);
-					this.SendPropertyChanging();
-					this._CategoryTypeId = value;
-					this.SendPropertyChanged("CategoryTypeId");
-					this.OnCategoryTypeIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemCategory_Item", Storage="_Items", ThisKey="Id", OtherKey="ItemCategoryId")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.ItemCategory = this;
-		}
-		
-		private void detach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.ItemCategory = null;
 		}
 	}
 	
@@ -668,7 +530,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemCategory_Item", Storage="_ItemCategory", ThisKey="ItemCategoryId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemCategory_Item", Storage="_ItemCategory", ThisKey="ItemCategoryId", OtherKey="Id", IsForeignKey=true)]
 		public ItemCategory ItemCategory
 		{
 			get
@@ -2221,7 +2083,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_Group", Storage="_GroupLINQs", ThisKey="Id", OtherKey="ReservationId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_GroupLINQ", Storage="_GroupLINQs", ThisKey="Id", OtherKey="ReservationId")]
 		public EntitySet<GroupLINQ> GroupLINQs
 		{
 			get
@@ -3273,7 +3135,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SubjectLINQ_Group", Storage="_GroupLINQs", ThisKey="Id", OtherKey="SubjectId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SubjectLINQ_GroupLINQ", Storage="_GroupLINQs", ThisKey="Id", OtherKey="SubjectId")]
 		public EntitySet<GroupLINQ> GroupLINQs
 		{
 			get
@@ -3575,7 +3437,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupMember", Storage="_GroupLINQ", ThisKey="GroupId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_GroupMember", Storage="_GroupLINQ", ThisKey="GroupId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
 		public GroupLINQ GroupLINQ
 		{
 			get
@@ -3887,7 +3749,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupItem", Storage="_GroupLINQ", ThisKey="GroupId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_GroupItem", Storage="_GroupLINQ", ThisKey="GroupId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
 		public GroupLINQ GroupLINQ
 		{
 			get
@@ -4219,7 +4081,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupMember", Storage="_GroupMembers", ThisKey="Id", OtherKey="GroupId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_GroupMember", Storage="_GroupMembers", ThisKey="Id", OtherKey="GroupId")]
 		public EntitySet<GroupMember> GroupMembers
 		{
 			get
@@ -4232,7 +4094,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupItem", Storage="_GroupItems", ThisKey="Id", OtherKey="GroupId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GroupLINQ_GroupItem", Storage="_GroupItems", ThisKey="Id", OtherKey="GroupId")]
 		public EntitySet<GroupItem> GroupItems
 		{
 			get
@@ -4245,7 +4107,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_Group", Storage="_Reservation", ThisKey="ReservationId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_GroupLINQ", Storage="_Reservation", ThisKey="ReservationId", OtherKey="Id", IsForeignKey=true)]
 		public Reservation Reservation
 		{
 			get
@@ -4279,7 +4141,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SubjectLINQ_Group", Storage="_SubjectLINQ", ThisKey="SubjectId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SubjectLINQ_GroupLINQ", Storage="_SubjectLINQ", ThisKey="SubjectId", OtherKey="Id", IsForeignKey=true)]
 		public SubjectLINQ SubjectLINQ
 		{
 			get
@@ -4355,6 +4217,120 @@ namespace UBCSR
 		{
 			this.SendPropertyChanging();
 			entity.GroupLINQ = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItemCategory")]
+	public partial class ItemCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _CategoryName;
+		
+		private EntitySet<Item> _Items;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCategoryNameChanging(string value);
+    partial void OnCategoryNameChanged();
+    #endregion
+		
+		public ItemCategory()
+		{
+			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryName", DbType="VarChar(MAX)")]
+		public string CategoryName
+		{
+			get
+			{
+				return this._CategoryName;
+			}
+			set
+			{
+				if ((this._CategoryName != value))
+				{
+					this.OnCategoryNameChanging(value);
+					this.SendPropertyChanging();
+					this._CategoryName = value;
+					this.SendPropertyChanged("CategoryName");
+					this.OnCategoryNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemCategory_Item", Storage="_Items", ThisKey="Id", OtherKey="ItemCategoryId")]
+		public EntitySet<Item> Items
+		{
+			get
+			{
+				return this._Items;
+			}
+			set
+			{
+				this._Items.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Items(Item entity)
+		{
+			this.SendPropertyChanging();
+			entity.ItemCategory = this;
+		}
+		
+		private void detach_Items(Item entity)
+		{
+			this.SendPropertyChanging();
+			entity.ItemCategory = null;
 		}
 	}
 }

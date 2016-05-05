@@ -88,8 +88,6 @@
     <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
-            <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="upAdd" runat="server">
                     <ContentTemplate>
@@ -99,18 +97,6 @@
                         </div>
                         <div class="modal-body">
                             <div class="form">
-                                <%--<div class="form-group">
-                                    <label for="ddlAddCategoryType">Category Type</label>
-                                    <asp:DropDownList ID="ddlAddCategoryType" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="ddlAddCategoryType"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vgAdd"
-                                        ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
-                                </div>--%>
-
                                 <div class="form-group">
                                     <label for="txtAddCategory">Category</label>
                                     <asp:TextBox ID="txtAddCategory" runat="server" CssClass="form-control" placeholder="Category"></asp:TextBox>
@@ -122,6 +108,10 @@
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Category is required"></asp:RequiredFieldValidator>
                                 </div>
+                            </div>
+
+                            <div class="form-group">
+                                <asp:Label ID="lblDuplicateRecords" runat="server" CssClass="label label-danger"></asp:Label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -140,8 +130,6 @@
     <!-- Edit Modal -->
     <div id="updateModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
-            <!-- Update Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="upEdit" runat="server">
                     <ContentTemplate>
@@ -154,18 +142,6 @@
                                 <div class="form-group">
                                     <asp:Label ID="lblRowId" runat="server" Visible="false"></asp:Label>
                                 </div>
-
-                                <%--<div class="form-group">
-                                    <label for="ddlEditCategoryType">Category Type</label>
-                                    <asp:DropDownList ID="ddlEditCategoryType" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
-                                        runat="server"
-                                        Display="Dynamic"
-                                        ControlToValidate="ddlEditCategoryType"
-                                        CssClass="label label-danger"
-                                        ValidationGroup="vsEdit"
-                                        ErrorMessage="Category Type is required"></asp:RequiredFieldValidator>
-                                </div>--%>
 
                                 <div class="form-group">
                                     <label for="txtEditCategory">Category</label>
@@ -197,8 +173,6 @@
     <!-- Delete Modal -->
     <div id="deleteModal" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-
-            <!-- Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>

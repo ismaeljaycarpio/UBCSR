@@ -100,6 +100,11 @@
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Section is required"></asp:RequiredFieldValidator>
                                 </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="lblDuplicateRecords" runat="server" CssClass="label label-danger"></asp:Label>
+                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">

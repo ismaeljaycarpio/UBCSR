@@ -170,7 +170,7 @@
                                                     ForeColor="Red"
                                                     ControlToValidate="txtQuantityToBorrowByGroup"
                                                     Display="Dynamic"
-                                                    MinimumValue="1"
+                                                    MinimumValue="0"
                                                     ValidationGroup="vgPrimaryAdd"
                                                     MaximumValue='<%# Eval("Stocks") %>'
                                                     Type="Integer"
@@ -739,7 +739,7 @@
                         <div class="modal-footer">
                             <asp:Button ID="btnConfirmCompletedReturn"
                                 runat="server"
-                                CssClass="btn btn-success btn-sm"
+                                CssClass="btn btn-default btn-sm"
                                 Text="Update"
                                 CausesValidation="true"
                                 ValidationGroup="vgCompleteConfirmReturn"

@@ -12,6 +12,8 @@ namespace UBCSR.FileMaintenance
     {
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
+        CSRContextDataContext db = new CSRContextDataContext();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!Page.IsPostBack)
@@ -28,15 +30,27 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            fm.addCategory(txtAddCategory.Text);
+            string strCategory = txtAddCategory.Text.Trim();
 
-            bindData();
+            var cat = (from c in db.ItemCategories
+                       where c.CategoryName == strCategory
+                       select c).ToList();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            if(cat.Count > 0)
+            {
+                lblDuplicateRecords.Text = "Category already exist!";
+            }
+            else
+            {
+                fm.addCategory(strCategory);
+                bindData();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            }   
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)

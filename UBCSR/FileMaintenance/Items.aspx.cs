@@ -14,6 +14,8 @@ namespace UBCSR.FileMaintenance
     {
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
+        CSRContextDataContext db = new CSRContextDataContext();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,15 +35,26 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            fm.addItem(ddlAddCategory.SelectedValue, ddlAddBrand.SelectedValue, txtAddItem.Text);
+            var items = (from i in db.Items
+                         where i.ItemName == txtAddItem.Text.Trim()
+                         select i).ToList();
 
-            bindData();
+            if(items.Count > 0)
+            {
+                lblDuplicateRecords.Text = "Item already exists";
+            }
+            else
+            {
+                fm.addItem(ddlAddCategory.SelectedValue, ddlAddBrand.SelectedValue, txtAddItem.Text);
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+                bindData();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            } 
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)

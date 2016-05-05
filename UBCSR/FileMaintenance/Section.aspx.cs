@@ -68,18 +68,29 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            UBCSR.Section sec = new UBCSR.Section();
-            sec.Section1 = txtAddSection.Text;
-            db.Sections.InsertOnSubmit(sec);
-            db.SubmitChanges();
+            var secs = (from s in db.Sections
+                        where s.Section1 == txtAddSection.Text.Trim()
+                        select s).ToList();
 
-            this.gvSection.DataBind();
-            
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            if(secs.Count > 0)
+            {
+                lblDuplicateRecords.Text = "Section already exists";
+            }
+            else
+            {
+                UBCSR.Section sec = new UBCSR.Section();
+                sec.Section1 = txtAddSection.Text;
+                db.Sections.InsertOnSubmit(sec);
+                db.SubmitChanges();
+
+                this.gvSection.DataBind();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)

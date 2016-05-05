@@ -63,11 +63,11 @@
                                 <!-- Trigger the modal with a button -->
                                 <div class="pull-right">
                                     <asp:Button ID="btnOpenModal"
-                                    runat="server"
-                                    CssClass="btn btn-info btn-sm"
-                                    Text="Add Brand"
-                                    OnClick="btnOpenModal_Click"
-                                    CausesValidation="false" />
+                                        runat="server"
+                                        CssClass="btn btn-info btn-sm"
+                                        Text="Add Brand"
+                                        OnClick="btnOpenModal_Click"
+                                        CausesValidation="false" />
                                 </div>
                             </ContentTemplate>
                             <Triggers>
@@ -80,7 +80,7 @@
         </div>
     </div>
 
-        <!-- Add Modal -->
+    <!-- Add Modal -->
     <div id="addModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
 
@@ -105,6 +105,11 @@
                                         ValidationGroup="vgAdd"
                                         ErrorMessage="Brand is required"></asp:RequiredFieldValidator>
                                 </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="lblDuplicateRecords" runat="server" CssClass="label label-danger"></asp:Label>
+                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">

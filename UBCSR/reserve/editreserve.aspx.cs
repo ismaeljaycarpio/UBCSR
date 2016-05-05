@@ -345,123 +345,69 @@ namespace UBCSR.reserve
         protected void btnConfirmCompletedReturn_Click(object sender, EventArgs e)
         {
             var group = (from g in db.GroupLINQs
-                         where g.Id == Convert.ToInt32(lblRowId.Text)
+                         where g.Id == Convert.ToInt32(lblCompleteReturnedGroupId.Text)
                          select g).FirstOrDefault();
 
             bool isComplete = true;
 
-            //first time return
-            if (group.IsReturned == false)
+            foreach (GridViewRow row in gvCompleteReturned.Rows)
             {
-                //update here:
-                foreach (GridViewRow row in gvCompleteReturned.Rows)
+                if (row.RowType == DataControlRowType.DataRow)
                 {
-                    if (row.RowType == DataControlRowType.DataRow)
+                    int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                    int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
+                    int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                    int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
+                    int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
+                    string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+
+                    var groupItem = (from gi in db.GroupItems
+                                     where gi.Id == giId
+                                     select gi).FirstOrDefault();
+
+                    groupItem.Breakage = breakageQuantity;
+                    groupItem.Remarks = remarks;
+                    db.SubmitChanges();
+
+                    //return quantity to Inventory Stocks
+                    var inv = (from i in db.InventoryLINQs
+                               where i.Id == groupItem.InventoryId
+                               select i).FirstOrDefault();
+
+                    //deduct returned quantity before subtracting again
+                    inv.Stocks = (inv.Stocks - returnedQuantity);
+
+                    //chk if it has breakage
+                    if (breakageQuantity > 0)
                     {
-                        int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-                        int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
-                        int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
-                        int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
-                        int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
-                        string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+                        inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
+                        groupItem.HasBreakage = true;
+                    }
+                    else
+                    {
+                        inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
+                        groupItem.HasBreakage = false;
+                        groupItem.Remarks = String.Empty;
+                    }
+                    groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
+                    db.SubmitChanges();
 
-                        var groupItem = (from gi in db.GroupItems
-                                         where gi.Id == giId
-                                         select gi).FirstOrDefault();
+                    group.HasBreakage = false;
 
-                        groupItem.Breakage = breakageQuantity;
-                        groupItem.Remarks = remarks;
-                        db.SubmitChanges();
-
-                        //return quantity to Inventory Stocks
-                        var inv = (from i in db.InventoryLINQs
-                                   where i.Id == groupItem.InventoryId
-                                   select i).FirstOrDefault();
-
-                        //chk if it has breakage
-                        if (breakageQuantity > 0)
-                        {
-                            inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
-                            groupItem.HasBreakage = true;
-                        }
-                        else
-                        {
-                            inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
-                            groupItem.HasBreakage = false;
-                        }
-                        groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
-                        db.SubmitChanges();
-
-                        //chk if it has breakage - change status
-                        if (breakageQuantity > 0)
-                        {
-                            group.HasBreakage = true;
-                            isComplete = false;
-                        }
+                    //chk if it has breakage - change status
+                    if (breakageQuantity > 0)
+                    {
+                        group.HasBreakage = true;
+                        isComplete = false;
                     }
                 }
-                group.IsReturned = true;
-            }
-            else
-            {
-                foreach (GridViewRow row in gvCompleteReturned.Rows)
-                {
-                    if (row.RowType == DataControlRowType.DataRow)
-                    {
-                        int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-                        int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
-                        int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
-                        int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
-                        int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
-                        string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
-
-                        var groupItem = (from gi in db.GroupItems
-                                         where gi.Id == giId
-                                         select gi).FirstOrDefault();
-
-                        groupItem.Breakage = breakageQuantity;
-                        groupItem.Remarks = remarks;
-                        db.SubmitChanges();
-
-                        //return quantity to Inventory Stocks
-                        var inv = (from i in db.InventoryLINQs
-                                   where i.Id == groupItem.InventoryId
-                                   select i).FirstOrDefault();
-
-                        //deduct returned quantity before subtracting again
-                        inv.Stocks = (inv.Stocks - returnedQuantity);
-
-                        //chk if it has breakage
-                        if (breakageQuantity > 0)
-                        {
-                            inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
-                            groupItem.HasBreakage = true;
-                        }
-                        else
-                        {
-                            inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
-                            groupItem.HasBreakage = false;
-                            groupItem.Remarks = String.Empty;
-                        }
-                        groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
-                        db.SubmitChanges();
-
-                        group.HasBreakage = false;
-
-                        //chk if it has breakage - change status
-                        if (breakageQuantity > 0)
-                        {
-                            group.HasBreakage = true;
-                            isComplete = false;
-                        }
-                    }
-                }
-                group.IsReturned = true;
             }
 
-            if (isComplete == true)
+            group.IsReturned = true;
+
+            if (isComplete == false)
             {
-                group.Status = "Complete";
+                group.Status = "In-Progress";
             }
 
             db.SubmitChanges();
