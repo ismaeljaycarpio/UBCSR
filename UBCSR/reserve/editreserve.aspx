@@ -225,13 +225,14 @@
                                 <ContentTemplate>
                                     <asp:GridView ID="gvTaggedGroups"
                                         runat="server"
-                                        CssClass="table table-striped table-hover dataTable"
+                                        CssClass="table table-striped table-hover"
                                         GridLines="None"
-                                        AutoGenerateColumns="false"
+                                        AutoGenerateColumns="False"
                                         EmptyDataText="No Record(s) found"
-                                        ShowHeaderWhenEmpty="true"
+                                        ShowHeaderWhenEmpty="True"
                                         DataKeyNames="Id"
-                                        OnRowCommand="gvBorrowers_RowCommand">
+                                        OnRowCommand="gvBorrowers_RowCommand" CellPadding="4" ForeColor="#333333">
+                                        <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="Group Id" Visible="false">
                                                 <ItemTemplate>
@@ -253,7 +254,16 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerStyle CssClass="pagination-ys" />
+                                        <EditRowStyle BackColor="#999999" />
+                                        <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                                        <PagerStyle CssClass="pagination-ys" BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                                        <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                                        <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                                        <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                                        <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                                        <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
                                     </asp:GridView>
                                 </ContentTemplate>
                                 <Triggers>
@@ -272,11 +282,12 @@
                                         runat="server"
                                         CssClass="table table-striped table-hover dataTable"
                                         GridLines="None"
-                                        AutoGenerateColumns="false"
+                                        AutoGenerateColumns="False"
                                         EmptyDataText="No Record(s) found"
-                                        ShowHeaderWhenEmpty="true"
+                                        ShowHeaderWhenEmpty="True"
                                         DataKeyNames="Id"
-                                        OnRowCommand="gvRelease_RowCommand">
+                                        OnRowCommand="gvRelease_RowCommand" CellPadding="4" ForeColor="#333333">
+                                        <AlternatingRowStyle BackColor="White" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="Group Id" Visible="false">
                                                 <ItemTemplate>
@@ -298,7 +309,16 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerStyle CssClass="pagination-ys" />
+                                        <EditRowStyle BackColor="#7C6F57" />
+                                        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+                                        <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+                                        <PagerStyle CssClass="pagination-ys" BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+                                        <RowStyle BackColor="#E3EAEB" />
+                                        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+                                        <SortedAscendingCellStyle BackColor="#F8FAFA" />
+                                        <SortedAscendingHeaderStyle BackColor="#246B61" />
+                                        <SortedDescendingCellStyle BackColor="#D4DFE1" />
+                                        <SortedDescendingHeaderStyle BackColor="#15524A" />
                                     </asp:GridView>
                                 </ContentTemplate>
                                 <Triggers>
@@ -310,18 +330,19 @@
                     <!-- Returned Group List-->
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <h4>Groups that returned the items: </h4>
+                            <h4>Groups that completely returned the items: </h4>
                             <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                                 <ContentTemplate>
                                     <asp:GridView ID="gvReturnedGroup"
                                         runat="server"
-                                        CssClass="table table-striped table-hover dataTable"
-                                        GridLines="None"
-                                        AutoGenerateColumns="false"
+                                        CssClass="table table-striped table-hover small"
+                                        GridLines="Vertical"
+                                        AutoGenerateColumns="False"
                                         EmptyDataText="No Record(s) found"
-                                        ShowHeaderWhenEmpty="true"
+                                        ShowHeaderWhenEmpty="True"
                                         DataKeyNames="Id"
-                                        OnRowCommand="gvReturned_RowCommand">
+                                        OnRowCommand="gvReturned_RowCommand" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black">
+                                        <AlternatingRowStyle BackColor="White" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="Group Id" Visible="false">
                                                 <ItemTemplate>
@@ -334,17 +355,25 @@
 
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:Button ID="btnShowReturn"
+                                                    <asp:Button ID="btnShowReturned"
                                                         runat="server"
-                                                        Text="Return"
-                                                        CommandName="showReturn"
-                                                        CssClass="btn btn-success"
+                                                        Text="View"
+                                                        CommandName="showReturned"
+                                                        CssClass="btn btn-sm btn-default"
                                                         CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
                                         </Columns>
-                                        <PagerStyle CssClass="pagination-ys" />
+                                        <FooterStyle BackColor="#CCCC99" />
+                                        <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />
+                                        <PagerStyle CssClass="pagination-ys" BackColor="#F7F7DE" ForeColor="Black" HorizontalAlign="Right" />
+                                        <RowStyle BackColor="#F7F7DE" />
+                                        <SelectedRowStyle BackColor="#CE5D5A" Font-Bold="True" ForeColor="White" />
+                                        <SortedAscendingCellStyle BackColor="#FBFBF2" />
+                                        <SortedAscendingHeaderStyle BackColor="#848384" />
+                                        <SortedDescendingCellStyle BackColor="#EAEAD3" />
+                                        <SortedDescendingHeaderStyle BackColor="#575357" />
                                     </asp:GridView>
                                 </ContentTemplate>
                                 <Triggers>
@@ -454,7 +483,7 @@
                             <asp:Button ID="btnConfirmBorrow"
                                 runat="server"
                                 CssClass="btn btn-info btn-sm"
-                                Text="Save"
+                                Text="Update"
                                 CausesValidation="true"
                                 ValidationGroup="vgConfirmBorrow"
                                 OnClick="btnConfirmBorrow_Click" />
@@ -473,7 +502,6 @@
     <!-- Return Modal -->
     <div id="showReturnModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
-            <!-- Return Modal content-->
             <div class="modal-content">
                 <asp:UpdatePanel ID="upEdit" runat="server">
                     <ContentTemplate>
@@ -534,10 +562,11 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
-                                                <asp:TemplateField HeaderText="Breakage">
+                                                <asp:TemplateField HeaderText="Breakage Quantity">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtBreakage"
                                                             runat="server"
+                                                            Width="50"
                                                             CssClass="form-control"
                                                             Text='<%# Eval("Breakage") %>'></asp:TextBox>
                                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
@@ -567,10 +596,10 @@
                                                             runat="server"
                                                             CssClass="form-control"
                                                             Text='<%# Eval("Remarks") %>'
+                                                            Columns="100"
                                                             TextMode="MultiLine"></asp:TextBox>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-
                                             </Columns>
                                             <PagerStyle CssClass="pagination-ys" />
                                         </asp:GridView>
@@ -597,6 +626,136 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Complete Return Modal -->
+    <div id="showCompleteReturnedModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Complete Returned Items by Group</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <asp:Label ID="lblCompleteReturnedGroupId" runat="server" Visible="false"></asp:Label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtCompleteReturnedGroupName">Group Name: </label>
+                                    <asp:TextBox ID="txtCompleteReturnedGroupName" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gvCompleteReturned"></label>
+                                    <div class="table table-responsive">
+                                        <asp:GridView ID="gvCompleteReturned"
+                                            runat="server"
+                                            CssClass="table table-striped table-hover"
+                                            GridLines="None"
+                                            AutoGenerateColumns="false"
+                                            EmptyDataText="No Record(s) found"
+                                            ShowHeaderWhenEmpty="true"
+                                            DataKeyNames="Id">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Row Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblRowId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Inventory Id" Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblInventoryId" runat="server" Text='<%# Eval("InventoryId") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:BoundField DataField="Name" HeaderText="Item" />
+
+                                                <asp:TemplateField HeaderText="Borrowed Quantity">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblBorrowedQuantity" 
+                                                            runat="server" 
+                                                            Text='<%# Eval("BorrowedQuantity") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Returned Quantity">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblReturnedQuantity" 
+                                                            runat="server" 
+                                                            Text='<%# Eval("ReturnedQuantity") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Breakage Quantity">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtBreakage"
+                                                            runat="server"
+                                                            Width="50"
+                                                            CssClass="form-control"
+                                                            Text='<%# Eval("Breakage") %>'></asp:TextBox>
+                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+                                                            runat="server"
+                                                            ControlToValidate="txtBreakage"
+                                                            Display="Dynamic"
+                                                            CssClass="label label-danger"
+                                                            ValidationGroup="vgCompleteConfirmReturn"
+                                                            ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
+                                                            ErrorMessage="Invalid input"></asp:RegularExpressionValidator>
+                                                        <asp:RangeValidator ID="RangeValidator1"
+                                                            runat="server"
+                                                            ControlToValidate="txtBreakage"
+                                                            Display="Dynamic"
+                                                            MinimumValue="0"
+                                                            CssClass="label label-danger"
+                                                            ValidationGroup="vgCompleteConfirmReturn"
+                                                            MaximumValue='<%# Eval("BorrowedQuantity") %>'
+                                                            Type="Integer"
+                                                            ErrorMessage="Input cannot be greater than the borrowed quantity"></asp:RangeValidator>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Remarks">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtRemarks"
+                                                            runat="server"
+                                                            CssClass="form-control"
+                                                            Text='<%# Eval("Remarks") %>'
+                                                            Columns="100"
+                                                            TextMode="MultiLine"></asp:TextBox>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <PagerStyle CssClass="pagination-ys" />
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnConfirmCompletedReturn"
+                                runat="server"
+                                CssClass="btn btn-success btn-sm"
+                                Text="Update"
+                                CausesValidation="true"
+                                ValidationGroup="vgCompleteConfirmReturn"
+                                OnClick="btnConfirmCompletedReturn_Click" />
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gvCompleteReturned" EventName="RowCommand" />
+                        <asp:AsyncPostBackTrigger ControlID="btnConfirmCompletedReturn" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Disapprove Confirmation Modal-->
     <div id="disapproveModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">

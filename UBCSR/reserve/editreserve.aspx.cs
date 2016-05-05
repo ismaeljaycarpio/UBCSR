@@ -211,51 +211,120 @@ namespace UBCSR.reserve
                          where g.Id == Convert.ToInt32(lblRowId.Text)
                          select g).FirstOrDefault();
 
-            //update here:
-            foreach(GridViewRow row in gvBreakage.Rows)
+            bool isComplete = true;
+
+            //first time return
+            if(group.IsReturned == false)
             {
-                if(row.RowType == DataControlRowType.DataRow)
+                //update here:
+                foreach (GridViewRow row in gvBreakage.Rows)
                 {
-                    int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-                    int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
-                    int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
-                    int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
-                    int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
-                    string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
-
-                    var groupItem = (from gi in db.GroupItems
-                             where gi.Id == giId
-                             select gi).FirstOrDefault();
-
-                    groupItem.Breakage = breakageQuantity;
-                    groupItem.Remarks = remarks;
-                    db.SubmitChanges();
-
-                    //return quantity to Inventory Stocks
-                    var inv = (from i in db.InventoryLINQs
-                             where i.Id == groupItem.InventoryId
-                             select i).FirstOrDefault();
-
-                    //chk if it has breakage
-                    if(breakageQuantity > 0)
+                    if (row.RowType == DataControlRowType.DataRow)
                     {
-                        inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
-                        groupItem.HasBreakage = true;
-                    }
-                    else
-                    {
-                        inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
-                        groupItem.HasBreakage = false;
-                    }
-                    
-                    db.SubmitChanges();
-                 
-                    //chk if it has breakage - change status
-                    if(breakageQuantity > 0)
-                    {
-                        group.HasBreakage = true;
+                        int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                        int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
+                        int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                        int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
+                        int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
+                        string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+
+                        var groupItem = (from gi in db.GroupItems
+                                         where gi.Id == giId
+                                         select gi).FirstOrDefault();
+
+                        groupItem.Breakage = breakageQuantity;
+                        groupItem.Remarks = remarks;
+                        db.SubmitChanges();
+
+                        //return quantity to Inventory Stocks
+                        var inv = (from i in db.InventoryLINQs
+                                   where i.Id == groupItem.InventoryId
+                                   select i).FirstOrDefault();
+
+                        //chk if it has breakage
+                        if (breakageQuantity > 0)
+                        {
+                            inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
+                            groupItem.HasBreakage = true;
+                        }
+                        else
+                        {
+                            inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
+                            groupItem.HasBreakage = false;
+                        }
+                        groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
+                        db.SubmitChanges();
+
+                        //chk if it has breakage - change status
+                        if (breakageQuantity > 0)
+                        {
+                            group.HasBreakage = true;
+                            isComplete = false;
+                        }
                     }
                 }
+                group.IsReturned = true;
+            }
+            else
+            {
+                foreach (GridViewRow row in gvBreakage.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                        int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
+                        int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                        int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
+                        int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
+                        string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+
+                        var groupItem = (from gi in db.GroupItems
+                                         where gi.Id == giId
+                                         select gi).FirstOrDefault();
+
+                        groupItem.Breakage = breakageQuantity;
+                        groupItem.Remarks = remarks;
+                        db.SubmitChanges();
+
+                        //return quantity to Inventory Stocks
+                        var inv = (from i in db.InventoryLINQs
+                                   where i.Id == groupItem.InventoryId
+                                   select i).FirstOrDefault();
+
+                        //deduct returned quantity before subtracting again
+                        inv.Stocks = (inv.Stocks - returnedQuantity);
+
+                        //chk if it has breakage
+                        if (breakageQuantity > 0)
+                        {
+                            inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
+                            groupItem.HasBreakage = true;                           
+                        }
+                        else
+                        {
+                            inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
+                            groupItem.HasBreakage = false;
+                            groupItem.Remarks = String.Empty;
+                        }
+                        groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
+                        db.SubmitChanges();
+
+                        group.HasBreakage = false;
+
+                        //chk if it has breakage - change status
+                        if (breakageQuantity > 0)
+                        {
+                            group.HasBreakage = true;
+                            isComplete = false;
+                        }
+                    }
+                }
+                group.IsReturned = true;
+            }
+
+            if(isComplete == true)
+            {
+                group.Status = "Complete";
             }
 
             db.SubmitChanges();
@@ -263,10 +332,148 @@ namespace UBCSR.reserve
             bindReserveItems();
             bindTaggedGroups();
             bindReleaseGroups();
+            bindReturnedGroups();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#showReturnModal').modal('hide');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+        }
+
+        //Viewing Completed Returns - in-case of edits
+        protected void btnConfirmCompletedReturn_Click(object sender, EventArgs e)
+        {
+            var group = (from g in db.GroupLINQs
+                         where g.Id == Convert.ToInt32(lblRowId.Text)
+                         select g).FirstOrDefault();
+
+            bool isComplete = true;
+
+            //first time return
+            if (group.IsReturned == false)
+            {
+                //update here:
+                foreach (GridViewRow row in gvCompleteReturned.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                        int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
+                        int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                        int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
+                        int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
+                        string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+
+                        var groupItem = (from gi in db.GroupItems
+                                         where gi.Id == giId
+                                         select gi).FirstOrDefault();
+
+                        groupItem.Breakage = breakageQuantity;
+                        groupItem.Remarks = remarks;
+                        db.SubmitChanges();
+
+                        //return quantity to Inventory Stocks
+                        var inv = (from i in db.InventoryLINQs
+                                   where i.Id == groupItem.InventoryId
+                                   select i).FirstOrDefault();
+
+                        //chk if it has breakage
+                        if (breakageQuantity > 0)
+                        {
+                            inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
+                            groupItem.HasBreakage = true;
+                        }
+                        else
+                        {
+                            inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
+                            groupItem.HasBreakage = false;
+                        }
+                        groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
+                        db.SubmitChanges();
+
+                        //chk if it has breakage - change status
+                        if (breakageQuantity > 0)
+                        {
+                            group.HasBreakage = true;
+                            isComplete = false;
+                        }
+                    }
+                }
+                group.IsReturned = true;
+            }
+            else
+            {
+                foreach (GridViewRow row in gvCompleteReturned.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                        int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
+                        int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                        int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
+                        int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
+                        string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+
+                        var groupItem = (from gi in db.GroupItems
+                                         where gi.Id == giId
+                                         select gi).FirstOrDefault();
+
+                        groupItem.Breakage = breakageQuantity;
+                        groupItem.Remarks = remarks;
+                        db.SubmitChanges();
+
+                        //return quantity to Inventory Stocks
+                        var inv = (from i in db.InventoryLINQs
+                                   where i.Id == groupItem.InventoryId
+                                   select i).FirstOrDefault();
+
+                        //deduct returned quantity before subtracting again
+                        inv.Stocks = (inv.Stocks - returnedQuantity);
+
+                        //chk if it has breakage
+                        if (breakageQuantity > 0)
+                        {
+                            inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
+                            groupItem.HasBreakage = true;
+                        }
+                        else
+                        {
+                            inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
+                            groupItem.HasBreakage = false;
+                            groupItem.Remarks = String.Empty;
+                        }
+                        groupItem.ReturnedQuantity = (groupItem.BorrowedQuantity - breakageQuantity);
+                        db.SubmitChanges();
+
+                        group.HasBreakage = false;
+
+                        //chk if it has breakage - change status
+                        if (breakageQuantity > 0)
+                        {
+                            group.HasBreakage = true;
+                            isComplete = false;
+                        }
+                    }
+                }
+                group.IsReturned = true;
+            }
+
+            if (isComplete == true)
+            {
+                group.Status = "Complete";
+            }
+
+            db.SubmitChanges();
+
+            bindReserveItems();
+            bindTaggedGroups();
+            bindReleaseGroups();
+            bindReturnedGroups();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#showCompleteReturnedModal').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
@@ -294,6 +501,7 @@ namespace UBCSR.reserve
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
+        //discontinued - no more function of tagging of groups
         protected void btnTagGroup_Click(object sender, EventArgs e)
         {
             Guid myUserId = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
@@ -363,12 +571,12 @@ namespace UBCSR.reserve
         protected void btnConfirmDisapprove_Click(object sender, EventArgs e)
         {
             int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
-            var q = (from r in db.Reservations
+            var reservation = (from r in db.Reservations
                      where r.Id == resId
                      select r).FirstOrDefault();
 
-            q.ApprovalStatus = "Disapproved";
-            q.DisapproveRemarks = txtDisapproveRemarks.Text;
+            reservation.ApprovalStatus = "Disapproved";
+            reservation.DisapproveRemarks = txtDisapproveRemarks.Text;
 
             db.SubmitChanges();
 
@@ -394,7 +602,6 @@ namespace UBCSR.reserve
                              GroupName = g.Name,
                              Status = g.Status,
                          }).FirstOrDefault();
-
 
                 lblGroupId.Text = group.Id.ToString();
                 txtGroupNameBorrow.Text = group.GroupName;
@@ -486,7 +693,57 @@ namespace UBCSR.reserve
 
         protected void gvReturned_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName.Equals("showReturned"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int groupId = (int)gvReturnedGroup.DataKeys[index].Value;
 
+                //load group info
+                var q = (from g in db.GroupLINQs
+                         where
+                         (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                         (g.Id == groupId)
+                         select new
+                         {
+                             Id = g.Id,
+                             GroupName = g.Name,
+                             Status = g.Status
+                         }).FirstOrDefault();
+
+                lblCompleteReturnedGroupId.Text = q.Id.ToString();
+                txtCompleteReturnedGroupName.Text = q.GroupName;
+
+                //load related items and chk if it has breakage/missing
+                var items = from i in db.Items
+                            join inv in db.InventoryLINQs
+                            on i.Id equals inv.ItemId
+                            join gi in db.GroupItems
+                            on inv.Id equals gi.InventoryId
+                            join g in db.GroupLINQs
+                            on gi.GroupId equals g.Id
+                            where gi.GroupId == q.Id
+                            select new
+                            {
+                                Id = gi.Id,
+                                InventoryId = gi.InventoryId,
+                                Name = i.ItemName,
+                                Stocks = inv.Stocks,
+                                BorrowedQuantity = gi.BorrowedQuantity,
+                                ReturnedQuantity = gi.ReturnedQuantity,
+                                Breakage = gi.Breakage,
+                                Remarks = gi.Remarks,
+                                HasBreakage = gi.HasBreakage
+                            };
+
+                gvCompleteReturned.DataSource= items.ToList();
+                gvCompleteReturned.DataBind();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#showCompleteReturnedModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void bindReserveItems()
@@ -551,7 +808,9 @@ namespace UBCSR.reserve
             var q = from g in db.GroupLINQs
                     where
                     (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-                    (g.Status == "Returned")
+                    (g.Status == "Complete") &&
+                    (g.HasBreakage == false) &&
+                    (g.IsReturned == true)
                     select new
                     {
                         Id = g.Id,
@@ -605,5 +864,7 @@ namespace UBCSR.reserve
                 args.IsValid = true;
             }
         }
+
+        
     }
 }

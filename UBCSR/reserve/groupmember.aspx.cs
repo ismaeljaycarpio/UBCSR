@@ -338,6 +338,7 @@ namespace UBCSR.reserve
             g.JoinedDate = DateTime.Now;
             g.HasBreakage = false;
             g.CreatedBy = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
+            g.IsReturned = false;
 
             db.GroupLINQs.InsertOnSubmit(g);
             db.SubmitChanges();

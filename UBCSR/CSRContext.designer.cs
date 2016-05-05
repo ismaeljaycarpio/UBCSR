@@ -3084,6 +3084,8 @@ namespace UBCSR
 		
 		private EntitySet<Reservation> _Reservations;
 		
+		private EntitySet<GroupLINQ> _GroupLINQs;
+		
 		private EntityRef<Section> _Section;
 		
     #region Extensibility Method Definitions
@@ -3109,6 +3111,7 @@ namespace UBCSR
 		public SubjectLINQ()
 		{
 			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
+			this._GroupLINQs = new EntitySet<GroupLINQ>(new Action<GroupLINQ>(this.attach_GroupLINQs), new Action<GroupLINQ>(this.detach_GroupLINQs));
 			this._Section = default(EntityRef<Section>);
 			OnCreated();
 		}
@@ -3270,6 +3273,19 @@ namespace UBCSR
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SubjectLINQ_Group", Storage="_GroupLINQs", ThisKey="Id", OtherKey="SubjectId")]
+		public EntitySet<GroupLINQ> GroupLINQs
+		{
+			get
+			{
+				return this._GroupLINQs;
+			}
+			set
+			{
+				this._GroupLINQs.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Section_SubjectLINQ", Storage="_Section", ThisKey="SectionId", OtherKey="Id", IsForeignKey=true)]
 		public Section Section
 		{
@@ -3331,6 +3347,18 @@ namespace UBCSR
 		}
 		
 		private void detach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.SubjectLINQ = null;
+		}
+		
+		private void attach_GroupLINQs(GroupLINQ entity)
+		{
+			this.SendPropertyChanging();
+			entity.SubjectLINQ = this;
+		}
+		
+		private void detach_GroupLINQs(GroupLINQ entity)
 		{
 			this.SendPropertyChanging();
 			entity.SubjectLINQ = null;
@@ -3924,6 +3952,8 @@ namespace UBCSR
 		
 		private string _Name;
 		
+		private System.Nullable<int> _SubjectId;
+		
 		private System.Nullable<int> _ReservationId;
 		
 		private string _Status;
@@ -3936,11 +3966,15 @@ namespace UBCSR
 		
 		private System.Nullable<System.Guid> _CreatedBy;
 		
+		private System.Nullable<bool> _IsReturned;
+		
 		private EntitySet<GroupMember> _GroupMembers;
 		
 		private EntitySet<GroupItem> _GroupItems;
 		
 		private EntityRef<Reservation> _Reservation;
+		
+		private EntityRef<SubjectLINQ> _SubjectLINQ;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3950,6 +3984,8 @@ namespace UBCSR
     partial void OnIdChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnSubjectIdChanging(System.Nullable<int> value);
+    partial void OnSubjectIdChanged();
     partial void OnReservationIdChanging(System.Nullable<int> value);
     partial void OnReservationIdChanged();
     partial void OnStatusChanging(string value);
@@ -3962,6 +3998,8 @@ namespace UBCSR
     partial void OnHasBreakageChanged();
     partial void OnCreatedByChanging(System.Nullable<System.Guid> value);
     partial void OnCreatedByChanged();
+    partial void OnIsReturnedChanging(System.Nullable<bool> value);
+    partial void OnIsReturnedChanged();
     #endregion
 		
 		public GroupLINQ()
@@ -3969,6 +4007,7 @@ namespace UBCSR
 			this._GroupMembers = new EntitySet<GroupMember>(new Action<GroupMember>(this.attach_GroupMembers), new Action<GroupMember>(this.detach_GroupMembers));
 			this._GroupItems = new EntitySet<GroupItem>(new Action<GroupItem>(this.attach_GroupItems), new Action<GroupItem>(this.detach_GroupItems));
 			this._Reservation = default(EntityRef<Reservation>);
+			this._SubjectLINQ = default(EntityRef<SubjectLINQ>);
 			OnCreated();
 		}
 		
@@ -4008,6 +4047,30 @@ namespace UBCSR
 					this._Name = value;
 					this.SendPropertyChanged("Name");
 					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SubjectId", DbType="Int")]
+		public System.Nullable<int> SubjectId
+		{
+			get
+			{
+				return this._SubjectId;
+			}
+			set
+			{
+				if ((this._SubjectId != value))
+				{
+					if (this._SubjectLINQ.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSubjectIdChanging(value);
+					this.SendPropertyChanging();
+					this._SubjectId = value;
+					this.SendPropertyChanged("SubjectId");
+					this.OnSubjectIdChanged();
 				}
 			}
 		}
@@ -4136,6 +4199,26 @@ namespace UBCSR
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReturned", DbType="Bit")]
+		public System.Nullable<bool> IsReturned
+		{
+			get
+			{
+				return this._IsReturned;
+			}
+			set
+			{
+				if ((this._IsReturned != value))
+				{
+					this.OnIsReturnedChanging(value);
+					this.SendPropertyChanging();
+					this._IsReturned = value;
+					this.SendPropertyChanged("IsReturned");
+					this.OnIsReturnedChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_GroupMember", Storage="_GroupMembers", ThisKey="Id", OtherKey="GroupId")]
 		public EntitySet<GroupMember> GroupMembers
 		{
@@ -4162,7 +4245,7 @@ namespace UBCSR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_Group", Storage="_Reservation", ThisKey="ReservationId", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reservation_Group", Storage="_Reservation", ThisKey="ReservationId", OtherKey="Id", IsForeignKey=true)]
 		public Reservation Reservation
 		{
 			get
@@ -4192,6 +4275,40 @@ namespace UBCSR
 						this._ReservationId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Reservation");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SubjectLINQ_Group", Storage="_SubjectLINQ", ThisKey="SubjectId", OtherKey="Id", IsForeignKey=true)]
+		public SubjectLINQ SubjectLINQ
+		{
+			get
+			{
+				return this._SubjectLINQ.Entity;
+			}
+			set
+			{
+				SubjectLINQ previousValue = this._SubjectLINQ.Entity;
+				if (((previousValue != value) 
+							|| (this._SubjectLINQ.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SubjectLINQ.Entity = null;
+						previousValue.GroupLINQs.Remove(this);
+					}
+					this._SubjectLINQ.Entity = value;
+					if ((value != null))
+					{
+						value.GroupLINQs.Add(this);
+						this._SubjectId = value.Id;
+					}
+					else
+					{
+						this._SubjectId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("SubjectLINQ");
 				}
 			}
 		}
