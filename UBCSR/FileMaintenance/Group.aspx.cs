@@ -81,7 +81,7 @@ namespace UBCSR.FileMaintenance
             GroupLINQ g = new GroupLINQ();
             g.Name = txtAddGroup.Text;
             //g.LeaderUserId = Guid.Parse(ddlGroupLeader.SelectedValue.ToString());
-            g.SubjectId = Convert.ToInt32(ddlAddSubject.SelectedValue);
+            //g.SubjectId = Convert.ToInt32(ddlAddSubject.SelectedValue);
 
             db.GroupLINQs.InsertOnSubmit(g);
 

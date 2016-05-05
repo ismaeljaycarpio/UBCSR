@@ -197,9 +197,9 @@
                         <asp:Button ID="btnDisapprove" runat="server" Visible="false"
                             Text="Disapprove" OnClick="btnDisapprove_Click"
                             CssClass="btn btn-danger" CausesValidation="false" />
-                        <asp:Button ID="btnTagGroup" runat="server"
+                        <%--<asp:Button ID="btnTagGroup" runat="server"
                             Text="Tag my Group" OnClick="btnTagGroup_Click"
-                            CssClass="btn btn-success" CausesValidation="false" Visible="false" />
+                            CssClass="btn btn-success" CausesValidation="false" Visible="false" />--%>
                         <asp:Button ID="btnCancel" runat="server"
                             Text="Close" OnClick="btnCancel_Click"
                             CssClass="btn btn-default" />
@@ -238,7 +238,6 @@
                                             </asp:TemplateField>
 
                                             <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
-                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
                                             <asp:BoundField DataField="Status" HeaderText="Status" />
 
                                             <asp:TemplateField>
@@ -295,9 +294,8 @@
                                             </asp:TemplateField>
 
                                             <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
-                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
                                             <asp:BoundField DataField="Status" HeaderText="Status" />
-
+                                            <asp:BoundField DataField="HasBreakage" HeaderText="Has Breakage" />
                                             <asp:TemplateField>
                                                 <ItemTemplate>
                                                     <asp:Button ID="btnShowReturn"
@@ -342,7 +340,6 @@
                                             </asp:TemplateField>
 
                                             <asp:BoundField DataField="GroupName" HeaderText="Group Name" />
-                                            <asp:BoundField DataField="GroupLeader" HeaderText="Group Leader" />
                                             <asp:BoundField DataField="Status" HeaderText="Status" />
 
                                             <asp:TemplateField>
@@ -387,17 +384,12 @@
                         <div class="modal-body">
                             <div class="form">
                                 <div class="form-group">
-                                    <asp:Label ID="lblBorrowId" runat="server" Visible="false"></asp:Label>
+                                    <asp:Label ID="lblGroupId" runat="server" Visible="false"></asp:Label>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="txtGroupNameBorrow">Group Name: </label>
                                     <asp:TextBox ID="txtGroupNameBorrow" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="txtGroupLeaderBorrow">Group Leader: </label>
-                                    <asp:TextBox ID="txtGroupLeaderBorrow" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                 </div>
 
                                 <div class="form-group">
@@ -425,13 +417,13 @@
                                                 </asp:TemplateField>
 
                                                 <asp:BoundField DataField="ItemName" HeaderText="Item" />
-                                                <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
                                                 <asp:BoundField DataField="ReservedQuantity" HeaderText="Reserved Quantity" />
 
                                                 <asp:TemplateField HeaderText="Quantity to borrow">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtQuantity"
                                                             runat="server"
+                                                            Enabled="false"
                                                             Text='<%# Eval("QuantityByGroup") %>'
                                                             CssClass="form-control"></asp:TextBox>
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
@@ -511,11 +503,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtGroupLeader">Group Leader: </label>
-                                    <asp:TextBox ID="txtGroupLeader" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="gvBreakage"></label>
                                     <div class="table table-responsive">
                                         <asp:GridView ID="gvBreakage"
@@ -540,13 +527,20 @@
                                                 </asp:TemplateField>
 
                                                 <asp:BoundField DataField="Name" HeaderText="Item" />
-                                                <asp:BoundField DataField="Stocks" HeaderText="Quantity Remaining" />
 
                                                 <asp:TemplateField HeaderText="Borrowed Quantity">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblBorrowedQuantity" 
                                                             runat="server" 
                                                             Text='<%# Eval("BorrowedQuantity") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField HeaderText="Returned Quantity">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblReturnedQuantity" 
+                                                            runat="server" 
+                                                            Text='<%# Eval("ReturnedQuantity") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
@@ -560,10 +554,20 @@
                                                             runat="server"
                                                             ControlToValidate="txtBreakage"
                                                             Display="Dynamic"
-                                                            ForeColor="Red"
+                                                            CssClass="label label-danger"
                                                             ValidationGroup="vgConfirmReturn"
                                                             ValidationExpression="(^([0-9]*\d*\d{1}\d*)$)"
-                                                            ErrorMessage="">*</asp:RegularExpressionValidator>
+                                                            ErrorMessage="Invalid input"></asp:RegularExpressionValidator>
+                                                        <asp:RangeValidator ID="RangeValidator1"
+                                                            runat="server"
+                                                            ControlToValidate="txtBreakage"
+                                                            Display="Dynamic"
+                                                            MinimumValue="0"
+                                                            CssClass="label label-danger"
+                                                            ValidationGroup="vgConfirmReturn"
+                                                            MaximumValue='<%# Eval("BorrowedQuantity") %>'
+                                                            Type="Integer"
+                                                            ErrorMessage="Input cannot be greater than the borrowed quantity"></asp:RangeValidator>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
@@ -587,8 +591,8 @@
                         <div class="modal-footer">
                             <asp:Button ID="btnConfirmReturn"
                                 runat="server"
-                                CssClass="btn btn-primary"
-                                Text="Save"
+                                CssClass="btn btn-success"
+                                Text="Update"
                                 CausesValidation="true"
                                 ValidationGroup="vgConfirmReturn"
                                 OnClick="btnConfirmReturn_Click" />

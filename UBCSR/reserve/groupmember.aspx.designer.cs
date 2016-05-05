@@ -103,13 +103,13 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
-        /// ddlCreateSubject control.
+        /// ddlCreateReservation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreateSubject;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreateReservation;
         
         /// <summary>
         /// RequiredFieldValidator2 control.
@@ -119,42 +119,6 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
-        /// <summary>
-        /// lblCreateYearFrom control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreateYearFrom;
-        
-        /// <summary>
-        /// lblCreateYearTo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreateYearTo;
-        
-        /// <summary>
-        /// lblCreateSem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreateSem;
-        
-        /// <summary>
-        /// lblCreateSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreateSection;
         
         /// <summary>
         /// gvCreateMembers control.
@@ -202,6 +166,15 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.TextBox txtGroupName;
         
         /// <summary>
+        /// ddlAddReservation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddReservation;
+        
+        /// <summary>
         /// gvMembers control.
         /// </summary>
         /// <remarks>
@@ -245,6 +218,15 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEditGroupName;
+        
+        /// <summary>
+        /// ddlEditReservation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEditReservation;
         
         /// <summary>
         /// gvEditMembers control.

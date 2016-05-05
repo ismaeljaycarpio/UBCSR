@@ -166,15 +166,6 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.WebControls.Button btnDisapprove;
         
         /// <summary>
-        /// btnTagGroup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnTagGroup;
-        
-        /// <summary>
         /// btnCancel control.
         /// </summary>
         /// <remarks>
@@ -265,13 +256,13 @@ namespace UBCSR.reserve {
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
-        /// lblBorrowId control.
+        /// lblGroupId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBorrowId;
+        protected global::System.Web.UI.WebControls.Label lblGroupId;
         
         /// <summary>
         /// txtGroupNameBorrow control.
@@ -281,15 +272,6 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtGroupNameBorrow;
-        
-        /// <summary>
-        /// txtGroupLeaderBorrow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGroupLeaderBorrow;
         
         /// <summary>
         /// gvBorrow control.
@@ -335,15 +317,6 @@ namespace UBCSR.reserve {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtGroupName;
-        
-        /// <summary>
-        /// txtGroupLeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGroupLeader;
         
         /// <summary>
         /// gvBreakage control.

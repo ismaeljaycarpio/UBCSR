@@ -80,10 +80,10 @@ namespace UBCSR.reserve
                         //can edit -> admin,csr head,student assistant,instructor
                         if(User.IsInRole("Student"))
                         {
-                            btnTagGroup.Visible = true;
+                            //btnTagGroup.Visible = true;
 
                             //hide borrow/return button
-                            gvTaggedGroups.Columns[4].Visible = false;
+                            gvTaggedGroups.Columns[3].Visible = false;
                             gvReleaseGroup.Columns[4].Visible = false;
                         }
                         else
@@ -92,7 +92,7 @@ namespace UBCSR.reserve
                                 !User.IsInRole("Student Assistant"))
                             {
                                 //hide borrow/return button
-                                gvTaggedGroups.Columns[4].Visible = false;
+                                gvTaggedGroups.Columns[3].Visible = false;
                                 //gvBorrowers.Columns[5].Visible = false;
                             }
                         }
@@ -196,55 +196,57 @@ namespace UBCSR.reserve
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
+        //Returning Confirmation
         protected void btnConfirmReturn_Click(object sender, EventArgs e)
         {
-            var res = (from r in db.Reservations
-                       where r.Id == Convert.ToInt32(Request.QueryString["resId"])
-                       select r).FirstOrDefault();
+            var group = (from g in db.GroupLINQs
+                         where g.Id == Convert.ToInt32(lblRowId.Text)
+                         select g).FirstOrDefault();
 
             //update here:
             foreach(GridViewRow row in gvBreakage.Rows)
             {
                 if(row.RowType == DataControlRowType.DataRow)
                 {
-                    //int biId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
-                    //int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
-                    //int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
-                    //int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
-                    //string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+                    int giId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                    int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
+                    int breakageQuantity = Convert.ToInt32(((TextBox)row.FindControl("txtBreakage")).Text);
+                    int quantityToBorrow = Convert.ToInt32(((Label)row.FindControl("lblBorrowedQuantity")).Text);
+                    int returnedQuantity = Convert.ToInt32(((Label)row.FindControl("lblReturnedQuantity")).Text);
+                    string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
 
-                    //var q = (from bi in db.BorrowItems
-                    //         where bi.Id == biId
-                    //         select bi).FirstOrDefault();
+                    var groupItem = (from gi in db.GroupItems
+                             where gi.Id == giId
+                             select gi).FirstOrDefault();
 
-                    //q.Breakage = breakageQuantity;
-                    //q.Remarks = remarks;
+                    groupItem.Breakage = breakageQuantity;
+                    groupItem.Remarks = remarks;
+                    db.SubmitChanges();
 
-                    //db.SubmitChanges();
+                    //return quantity to Inventory Stocks
+                    var inv = (from i in db.InventoryLINQs
+                             where i.Id == groupItem.InventoryId
+                             select i).FirstOrDefault();
 
-                    ////add in ReservationItem
-                    //var resItems = (from ri in db.ReservationItems
-                    //                where
-                    //                (ri.InventoryId == inventoryId) &&
-                    //                (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
-                    //                select ri).FirstOrDefault();
-
-                    //resItems.Quantity = (resItems.Quantity + quantityToBorrow);
-
-
-                    //return quantity to inv stocks
-                    //var qu = (from i in db.InventoryLINQs
-                    //         where i.Id == q.InventoryId
-                    //         select i).FirstOrDefault();
-
-                    //qu.Stocks = (qu.Stocks + q.BorrowedQuantity);
-                    //db.SubmitChanges();
+                    //chk if it has breakage
+                    if(breakageQuantity > 0)
+                    {
+                        inv.Stocks = (inv.Stocks + (groupItem.BorrowedQuantity - breakageQuantity));
+                        groupItem.HasBreakage = true;
+                    }
+                    else
+                    {
+                        inv.Stocks = (inv.Stocks + groupItem.BorrowedQuantity);
+                        groupItem.HasBreakage = false;
+                    }
+                    
+                    db.SubmitChanges();
                  
-                    ////chk if it has breakage - change status
-                    //if(breakageQuantity > 0)
-                    //{
-                    //    res.Status = "Has Breakage";
-                    //}
+                    //chk if it has breakage - change status
+                    if(breakageQuantity > 0)
+                    {
+                        group.HasBreakage = true;
+                    }
                 }
             }
 
@@ -261,60 +263,21 @@ namespace UBCSR.reserve
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
+        //Releasing Confirmation
         protected void btnConfirmBorrow_Click(object sender, EventArgs e)
         {
-            int reservationId = Convert.ToInt32(Request.QueryString["resId"]);
+            //set group to In-Progress
+            var group = (from g in db.GroupLINQs
+                       where
+                       g.Id == Convert.ToInt32(lblGroupId.Text)
+                       select g).FirstOrDefault();
 
-            foreach(GridViewRow row in gvBorrow.Rows)
-            {
-                if(row.RowType == DataControlRowType.DataRow)
-                {
-                    int inventoryId = Convert.ToInt32(((Label)row.FindControl("lblInventoryId")).Text);
-                    int quantityToBorrow = Convert.ToInt32(((TextBox)row.FindControl("txtQuantity")).Text);
-
-                    //update borroweditems
-                    //var item = (from bi in db.BorrowItems
-                    //            join b in db.Borrows
-                    //            on bi.BorrowId equals b.Id
-                    //            where
-                    //            (b.ReservationId == reservationId) &&
-                    //            (bi.InventoryId == inventoryId)
-                    //            select bi).FirstOrDefault();
-
-                    //item.BorrowedQuantity = quantityToBorrow;
-
-
-                    ////deduct in ReservationItem
-                    //var resItems = (from ri in db.ReservationItems
-                    //                where 
-                    //                (ri.InventoryId == inventoryId) &&
-                    //                (ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"]))
-                    //                select ri).FirstOrDefault();
-                    //resItems.Quantity = (resItems.Quantity - quantityToBorrow);
-
-
-                    ////deduct in Inventory
-                    //var q = (from i in db.InventoryLINQs
-                    //         where i.Id == inventoryId
-                    //         select i).FirstOrDefault();
-                    //q.Stocks = (q.Stocks - quantityToBorrow);
-
-                    db.SubmitChanges();
-                }
-            }
-
-            //set borrowId to In-Progress
-            //int borId = Convert.ToInt32(lblBorrowId.Text);
-            //var bor = (from b in db.Borrows
-            //           where
-            //           b.Id == borId
-            //           select b).FirstOrDefault();
-            //bor.Status = "In-Progress";
-            //db.SubmitChanges();
+            group.Status = "In-Progress";
+            db.SubmitChanges();
 
             //bindReserveItems();
-            //bindTaggedGroups();
-            //bindReleaseGroups();
+            bindTaggedGroups();
+            bindReleaseGroups();
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -404,36 +367,29 @@ namespace UBCSR.reserve
             Response.Redirect("~/reserve/default.aspx");
         }
 
+        //Tagged Groups Gridview
         protected void gvBorrowers_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName.Equals("showBorrow"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int borId = (int)gvTaggedGroups.DataKeys[index].Value;
+                int groupId = (int)gvTaggedGroups.DataKeys[index].Value;
 
                 //load group info
-                //var q = (from b in db.Borrows
-                //         join g in db.GroupLINQs
-                //         on b.GroupId equals g.Id
-                //         join gm in db.GroupMembers
-                //         on g.Id equals gm.GroupId
-                //         join acc in db.AccountLINQs
-                //         on gm.UserId equals acc.UserId
-                //         where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-                //         (b.Id == borId)
-                //         select new
-                //         {
-                //             Id = b.Id,
-                //             GroupName = g.Name,
-                //             GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-                //             Status = b.Status,
-                //             GroupId = g.Id
-                //         }).FirstOrDefault();
+                var group = (from g in db.GroupLINQs
+                         where 
+                         (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                         (g.Id == groupId)
+                         select new
+                         {
+                             Id = g.Id,
+                             GroupName = g.Name,
+                             Status = g.Status,
+                         }).FirstOrDefault();
 
 
-                //lblBorrowId.Text = q.Id.ToString();
-                //txtGroupNameBorrow.Text = q.GroupName;
-                //txtGroupLeaderBorrow.Text = q.GroupLeader;
+                lblGroupId.Text = group.Id.ToString();
+                txtGroupNameBorrow.Text = group.GroupName;
 
                 //load related items - from BorrowItems
                 var items = from i in db.Items
@@ -464,58 +420,53 @@ namespace UBCSR.reserve
             }
         }
 
+        //Groups currently using the items Gridview
         protected void gvRelease_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName.Equals("showReturn"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int borId = (int)gvReleaseGroup.DataKeys[index].Value;
+                int groupId = (int)gvReleaseGroup.DataKeys[index].Value;
 
                 //load group info
-                //var q = (from b in db.Borrows
-                //         join g in db.GroupLINQs
-                //         on b.GroupId equals g.Id
-                //         join gm in db.GroupMembers
-                //         on g.Id equals gm.GroupId
-                //         join acc in db.AccountLINQs
-                //         on gm.UserId equals acc.UserId
-                //         where (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-                //         (b.Id == borId)
-                //         select new
-                //         {
-                //             Id = b.Id,
-                //             GroupName = g.Name,
-                //             GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-                //             Status = b.Status,
-                //             GroupId = g.Id
-                //         }).FirstOrDefault();
+                var q = (from g in db.GroupLINQs
+                         where 
+                         (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                         (g.Id == groupId)
+                         select new
+                         {
+                             Id = g.Id,
+                             GroupName = g.Name,
+                             Status = g.Status
+                         }).FirstOrDefault();
 
-                //lblRowId.Text = q.Id.ToString();
-                //txtGroupName.Text = q.GroupName;
-                //txtGroupLeader.Text = q.GroupLeader;
+                lblRowId.Text = q.Id.ToString();
+                txtGroupName.Text = q.GroupName;
 
                 //load related items and chk if it has breakage/missing
-                //var items = from i in db.Items
-                //            join inv in db.InventoryLINQs
-                //            on i.Id equals inv.ItemId
-                //            join bi in db.BorrowItems
-                //            on inv.Id equals bi.InventoryId
-                //            join b in db.Borrows
-                //            on bi.BorrowId equals b.Id
-                //            where bi.BorrowId == q.Id
-                //            select new
-                //            {
-                //                Id = bi.Id,
-                //                InventoryId = bi.InventoryId,
-                //                Name = i.ItemName,
-                //                Stocks = inv.Stocks,
-                //                BorrowedQuantity = bi.BorrowedQuantity,
-                //                Breakage = bi.Breakage,
-                //                Remarks = bi.Remarks
-                //            };
+                var items = from i in db.Items
+                            join inv in db.InventoryLINQs
+                            on i.Id equals inv.ItemId
+                            join gi in db.GroupItems
+                            on inv.Id equals gi.InventoryId
+                            join g in db.GroupLINQs
+                            on gi.GroupId equals g.Id
+                            where gi.GroupId == q.Id
+                            select new
+                            {
+                                Id = gi.Id,
+                                InventoryId = gi.InventoryId,
+                                Name = i.ItemName,
+                                Stocks = inv.Stocks,
+                                BorrowedQuantity = gi.BorrowedQuantity,
+                                ReturnedQuantity = gi.ReturnedQuantity,
+                                Breakage = gi.Breakage,
+                                Remarks = gi.Remarks,
+                                HasBreakage = gi.HasBreakage
+                            };
 
-                //gvBreakage.DataSource = items.ToList();
-                //gvBreakage.DataBind();
+                gvBreakage.DataSource = items.ToList();
+                gvBreakage.DataBind();
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
@@ -523,6 +474,11 @@ namespace UBCSR.reserve
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
+        }
+
+        protected void gvReturned_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
         }
 
         protected void bindReserveItems()
@@ -551,72 +507,52 @@ namespace UBCSR.reserve
 
         protected void bindTaggedGroups()
         {
-            //var q = from b in db.Borrows
-            //        join g in db.GroupLINQs
-            //        on b.GroupId equals g.Id
-            //        join gm in db.GroupMembers
-            //        on g.Id equals gm.GroupId
-            //        join acc in db.AccountLINQs
-            //        on gm.UserId equals acc.UserId
-            //        where
-            //        (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-            //        (b.Status == "Joined")
-            //        select new
-            //        {
-            //            Id = b.Id,
-            //            GroupName = g.Name,
-            //            GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-            //            Status = b.Status
-            //        };
-            //gvTaggedGroups.DataSource = q.ToList();
-            //gvTaggedGroups.DataBind();
+            var q = from g in db.GroupLINQs
+                    where
+                    (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                    (g.Status == "Joined")
+                    select new
+                    {
+                        Id = g.Id,
+                        GroupName = g.Name,
+                        Status = g.Status
+                    };
+            gvTaggedGroups.DataSource = q.ToList();
+            gvTaggedGroups.DataBind();
         }
 
         protected void bindReleaseGroups()
         {
-            //var q = from b in db.Borrows
-            //        join g in db.GroupLINQs
-            //        on b.GroupId equals g.Id
-            //        join gm in db.GroupMembers
-            //        on g.Id equals gm.GroupId
-            //        join acc in db.AccountLINQs
-            //        on gm.UserId equals acc.UserId
-            //        where
-            //        (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-            //        (b.Status == "In-Progress")
-            //        select new
-            //        {
-            //            Id = b.Id,
-            //            GroupName = g.Name,
-            //            GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-            //            Status = b.Status
-            //        };
-            //gvReleaseGroup.DataSource = q.ToList();
-            //gvReleaseGroup.DataBind();
+            var q = from g in db.GroupLINQs
+                    where
+                    (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                    (g.Status == "In-Progress")
+                    select new
+                    {
+                        Id = g.Id,
+                        GroupName = g.Name,
+                        Status = g.Status,
+                        HasBreakage = g.HasBreakage
+                    };
+            gvReleaseGroup.DataSource = q.ToList();
+            gvReleaseGroup.DataBind();
         }
 
         protected void bindReturnedGroups()
         {
-            //var q = from b in db.Borrows
-            //        join g in db.GroupLINQs
-            //        on b.GroupId equals g.Id
-            //        join gm in db.GroupMembers
-            //        on g.Id equals gm.GroupId
-            //        join acc in db.AccountLINQs
-            //        on gm.UserId equals acc.UserId
-            //        where
-            //        (b.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
-            //        (b.Status == "Returned")
-            //        select new
-            //        {
-            //            Id = b.Id,
-            //            GroupName = g.Name,
-            //            GroupLeader = acc.LastName + ", " + acc.FirstName + " " + acc.MiddleName,
-            //            Status = b.Status
-            //        };
+            var q = from g in db.GroupLINQs
+                    where
+                    (g.ReservationId == Convert.ToInt32(Request.QueryString["resId"])) &&
+                    (g.Status == "Returned")
+                    select new
+                    {
+                        Id = g.Id,
+                        GroupName = g.Name,
+                        Status = g.Status
+                    };
 
-            //gvReturnedGroup.DataSource = q.ToList();
-            //gvReturnedGroup.DataBind();
+            gvReturnedGroup.DataSource = q.ToList();
+            gvReturnedGroup.DataBind();
         }
 
         protected void disableFields()
@@ -648,11 +584,6 @@ namespace UBCSR.reserve
             ddlSubject.DataTextField = "Name";
             ddlSubject.DataValueField = "Id";
             ddlSubject.DataBind();
-        }
-
-        protected void gvReturned_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-
         }
 
         protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)

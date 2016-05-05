@@ -16,7 +16,7 @@ namespace UBCSR.reserve
         {
             if (!Page.IsPostBack)
             {
-                fillSubject();
+                fillReservation();
             }
         }
 
@@ -27,7 +27,12 @@ namespace UBCSR.reserve
 
         protected void gvTeam_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if(e.CommandName.Equals("addMembers"))
+            if(e.CommandName.Equals("editRecord"))
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
+            }
+            else if(e.CommandName.Equals("addMembers"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
@@ -38,11 +43,13 @@ namespace UBCSR.reserve
                              select new
                              {
                                  GroupId = g.Id,
-                                 GroupName = g.Name
+                                 GroupName = g.Name,
+                                 ReservationId = g.ReservationId
                              }).FirstOrDefault();
 
                 lblGroupId.Text = query.GroupId.ToString();
                 txtGroupName.Text = query.GroupName;
+                ddlAddReservation.SelectedValue = query.ReservationId.ToString();
 
                 //load accnts that dont belong to this group
                 //dont include self
@@ -90,21 +97,19 @@ namespace UBCSR.reserve
                 string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
                 hfDeleteId.Value = rowId;
 
-                var query = (from acc in db.AccountLINQs
-                             join gm in db.GroupMembers
-                             on acc.UserId equals gm.UserId
-                             join g in db.GroupLINQs
-                             on gm.GroupId equals g.Id
+                var query = (from g in db.GroupLINQs
                              where
                              (g.Id == Convert.ToInt32(rowId))
                              select new
                              {
                                  GroupId = g.Id,
-                                 GroupName = g.Name
+                                 GroupName = g.Name,
+                                 ReservationId = g.ReservationId
                              }).FirstOrDefault();
 
                 lblEditGroupId.Text = query.GroupId.ToString();
                 txtEditGroupName.Text = query.GroupName;
+                ddlEditReservation.SelectedValue = query.ReservationId.ToString();
 
                 //load members
                 var q = from a in db.AccountLINQs
@@ -260,21 +265,28 @@ namespace UBCSR.reserve
             string strSearch = txtSearch.Text;
 
             var q = (from g in db.GroupLINQs
-                     join s in db.SubjectLINQs
-                     on g.SubjectId equals s.Id
+                     join r in db.Reservations
+                     on g.ReservationId equals r.Id
+                     join sub in db.SubjectLINQs
+                     on r.SubjectId equals sub.Id
                      join sec in db.Sections
-                     on s.SectionId equals sec.Id
+                     on sub.SectionId equals sec.Id
                      where
-                     (g.Name.Contains(strSearch) || s.Code.Contains(strSearch) || s.Name.Contains(strSearch) || s.Sem.Contains(strSearch) || sec.Section1.Contains(strSearch))
+                     (g.Name.Contains(strSearch) || 
+                     sub.Code.Contains(strSearch) || 
+                     sub.Name.Contains(strSearch) || 
+                     sub.Sem.Contains(strSearch) || 
+                     sec.Section1.Contains(strSearch)) &&
+                     (g.CreatedBy == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString()))
                      select new
                      {
                          Id = g.Id,
                          GroupName = g.Name,
-                         Subject = s.Name,
+                         Subject = sub.Name,
                          Section = sec.Section1,
-                         YearFrom = s.YearFrom,
-                         YearTo = s.YearTo,
-                         Sem = s.Sem
+                         YearFrom = sub.YearFrom,
+                         YearTo = sub.YearTo,
+                         Sem = sub.Sem
                      }).ToList();
 
             e.Result = q;
@@ -321,11 +333,17 @@ namespace UBCSR.reserve
             //add to Group table
             GroupLINQ g = new GroupLINQ();
             g.Name = txtCreateGroupName.Text;
-            g.SubjectId = Convert.ToInt32(ddlCreateSubject.SelectedValue);
+            g.ReservationId = Convert.ToInt32(ddlCreateReservation.SelectedValue);
+            g.Status = "Joined";
+            g.JoinedDate = DateTime.Now;
+            g.HasBreakage = false;
+            g.CreatedBy = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
+
             db.GroupLINQs.InsertOnSubmit(g);
             db.SubmitChanges();
 
             int groupId = g.Id;
+            int reservationId = Convert.ToInt32(g.ReservationId);
 
             foreach (GridViewRow row in gvCreateMembers.Rows)
             {
@@ -351,6 +369,24 @@ namespace UBCSR.reserve
                     }
                 }
             }
+           
+            var reservationItems = (from ri in db.ReservationItems
+                                    where ri.ReservationId == reservationId
+                                    select ri).ToList();
+
+            foreach(var resItem in reservationItems)
+            {
+                GroupItem gi = new GroupItem();
+                gi.GroupId = groupId;
+                gi.InventoryId = resItem.InventoryId;
+                gi.BorrowedQuantity = resItem.QuantityByGroup;
+                gi.Breakage = 0;
+                gi.HasBreakage = false;
+                gi.ReturnedQuantity = 0;
+                
+                db.GroupItems.InsertOnSubmit(gi);
+                db.SubmitChanges();
+            }
 
             this.gvTeam.DataBind();
 
@@ -361,52 +397,36 @@ namespace UBCSR.reserve
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
         }
 
-        protected void ddlCreateSubject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void fillReservation()
         {
-            if(ddlCreateSubject.SelectedValue != "0")
-            {
-                var q = (from sub in db.SubjectLINQs
-                         join sec in db.Sections
-                         on sub.SectionId equals sec.Id
-                         where sub.Id == Convert.ToInt32(ddlCreateSubject.SelectedValue)
-                         select new
-                         {
-                             YearFrom = sub.YearFrom,
-                             YearTo = sub.YearTo,
-                             Sem = sub.Sem,
-                             Section = sec.Section1
-                         }).FirstOrDefault();
+            var reservations = (from r in db.Reservations
+                               join sub in db.SubjectLINQs
+                               on r.SubjectId equals sub.Id
+                               where
+                               (r.ApprovalStatus == "Approved")
+                               select new
+                               {
+                                   Id = r.Id,
+                                   Name = "Subject: " + sub.Name + " / Expirement No: " + r.ExperimentNo + " / Labroom: " + r.LabRoom 
+                               }).ToList();
 
-                lblCreateYearFrom.Text = q.YearFrom.ToString();
-                lblCreateYearTo.Text = q.YearTo.ToString();
-                lblCreateSem.Text = q.Sem;
-                lblCreateSection.Text = q.Section;
-            }
-            else
-            {
-                lblCreateYearFrom.Text = "";
-                lblCreateYearTo.Text = "";
-                lblCreateSem.Text = "";
-                lblCreateSection.Text = "";
-            }
-        }
+            ddlCreateReservation.DataSource = reservations;
+            ddlCreateReservation.DataTextField = "Name";
+            ddlCreateReservation.DataValueField = "Id";
+            ddlCreateReservation.DataBind();
+            ddlCreateReservation.Items.Insert(0, new ListItem("-- Select Reservation --", "0"));
 
-        protected void fillSubject()
-        {
-            var q = (from sub in db.SubjectLINQs
-                     join sec in db.Sections
-                     on sub.SectionId equals sec.Id
-                     select new
-                     {
-                         Id = sub.Id,
-                         SubjectName = sub.Name
-                     }).ToList();
+            ddlAddReservation.DataSource = reservations;
+            ddlAddReservation.DataTextField = "Name";
+            ddlAddReservation.DataValueField = "Id";
+            ddlAddReservation.DataBind();
+            ddlAddReservation.Items.Insert(0, new ListItem("-- Select Reservation --", "0"));
 
-            ddlCreateSubject.DataSource = q;
-            ddlCreateSubject.DataTextField = "SubjectName";
-            ddlCreateSubject.DataValueField = "Id";
-            ddlCreateSubject.DataBind();
-            ddlCreateSubject.Items.Insert(0, new ListItem("-- Select One --", "0"));
+            ddlEditReservation.DataSource = reservations;
+            ddlEditReservation.DataTextField = "Name";
+            ddlEditReservation.DataValueField = "Id";
+            ddlEditReservation.DataBind();
+            ddlEditReservation.Items.Insert(0, new ListItem("-- Select Reservation --", "0"));
         }
     }
 }

@@ -13,23 +13,22 @@
                     </div>
 
                     <div class="panel-body">
-                        <div class="form-horizontal">
+                        <div class="form-inline">
                             <div class="form-group">
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
-                                        <span class="input-group-btn" style="width: 0;">
-                                            <asp:Button ID="btnSearch"
-                                                runat="server"
-                                                CssClass="btn btn-primary"
-                                                Text="Go"
-                                                OnClick="btnSearch_Click" />
-                                        </span>
-                                    </div>
+                                <div class="input-group">
+                                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search..."></asp:TextBox>
+                                    <span class="input-group-btn">
+                                        <asp:Button ID="btnSearch"
+                                            runat="server"
+                                            CssClass="btn btn-primary"
+                                            Text="Go"
+                                            OnClick="btnSearch_Click" />
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
+                        <br />
                         <div class="table-responsive">
                             <asp:UpdatePanel ID="upTeam" runat="server">
                                 <ContentTemplate>
@@ -137,40 +136,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="ddlCreateSubject">Subject: </label>
-                                    <asp:DropDownList ID="ddlCreateSubject" 
+                                    <label for="ddlCreateReservation">Reservation: </label>
+                                    <asp:DropDownList ID="ddlCreateReservation" 
                                         runat="server"
-                                        AutoPostBack="true"
-                                        OnSelectedIndexChanged="ddlCreateSubject_SelectedIndexChanged"
                                         CssClass="form-control"></asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
                                         runat="server"
                                         Display="Dynamic"
-                                        ControlToValidate="ddlCreateSubject"
+                                        ControlToValidate="ddlCreateReservation"
                                         CssClass="label label-danger"
                                         ValidationGroup="vgCreateGroup"
                                         InitialValue="0"
-                                        ErrorMessage="Subject is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateYearFrom">Year From:</label>
-                                    <asp:Label ID="lblCreateYearFrom" runat="server"></asp:Label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateYearTo">Year To:</label>
-                                    <asp:Label ID="lblCreateYearTo" runat="server"></asp:Label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateSem">Semester:</label>
-                                    <asp:Label ID="lblCreateSem" runat="server"></asp:Label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lblCreateSection">Section:</label>
-                                    <asp:Label ID="lblCreateSection" runat="server"></asp:Label>
+                                        ErrorMessage="Reservation is required"></asp:RequiredFieldValidator>
                                 </div>
 
                                 <div class="form-group">
@@ -247,6 +224,14 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="ddlAddReservation">Reservation: </label>
+                                    <asp:DropDownList ID="ddlAddReservation" 
+                                        runat="server"
+                                        CssClass="form-control"
+                                        Enabled="false"></asp:DropDownList>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="gvMembers"></label>
                                     <div class="table table-responsive">
                                         <asp:GridView ID="gvMembers"
@@ -318,6 +303,14 @@
                                 <div class="form-group">
                                     <label for="txtGroupName">Group Name: </label>
                                     <asp:TextBox ID="txtEditGroupName" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ddlEditReservation">Reservation: </label>
+                                    <asp:DropDownList ID="ddlEditReservation" 
+                                        runat="server"
+                                        CssClass="form-control"
+                                        Enabled="false"></asp:DropDownList>
                                 </div>
 
                                 <div class="form-group">

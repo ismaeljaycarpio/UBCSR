@@ -45,8 +45,7 @@ namespace UBCSR.borrow
                            where a.UserId == myUserId
                            select new
                            {
-                               UserId = a.UserId,
-                               SubjectId = g.SubjectId
+                               UserId = a.UserId
                            }).ToList();
 
                 lblTitle.Text = "Reserved List";
@@ -58,7 +57,7 @@ namespace UBCSR.borrow
                             join s in db.SubjectLINQs
                             on r.SubjectId equals s.Id
                             join g in db.GroupLINQs
-                            on s.Id equals g.SubjectId
+                            on r.Id equals g.ReservationId
                             join gm in db.GroupMembers
                             on g.Id equals gm.GroupId
                             where
