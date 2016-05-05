@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <div class="panel-body">
+                <asp:Panel ID="pnlDisapprove" runat="server" CssClass="panel-body">
                     <div role="form">
                         <div class="col-md-4">
                             <label for="txtRemarks">Disapproved Remarks</label>
@@ -99,7 +99,7 @@
                                 CssClass="form-control"></asp:TextBox>
                         </div>
                     </div>
-                </div>
+                </asp:Panel>
 
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -200,9 +200,11 @@
                         <%--<asp:Button ID="btnTagGroup" runat="server"
                             Text="Tag my Group" OnClick="btnTagGroup_Click"
                             CssClass="btn btn-success" CausesValidation="false" Visible="false" />--%>
-                        <asp:Button ID="btnCancel" runat="server"
-                            Text="Close" OnClick="btnCancel_Click"
-                            CssClass="btn btn-default" />
+                        <asp:Button ID="btnCancel" 
+                            runat="server"
+                            Text="Close" 
+                            OnClick="btnCancel_Click"
+                            CssClass="btn btn-default btn-sm" />
                     </div>
 
                     <asp:Panel ID="pnlSuccessfullJoin" CssClass="alert alert-success" runat="server" Visible="false">
@@ -246,21 +248,10 @@
                                                         runat="server"
                                                         Text="Release"
                                                         CommandName="showBorrow"
-                                                        CssClass="btn btn-info"
+                                                        CssClass="btn btn-info btn-sm"
                                                         CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-
-                                            <%--<asp:TemplateField>
-                                                <ItemTemplate>
-                                                    <asp:Button ID="btnShowReturn"
-                                                        runat="server"
-                                                        Text="Return"
-                                                        CommandName="showReturn"
-                                                        CssClass="btn btn-success"
-                                                        CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>--%>
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
@@ -302,11 +293,10 @@
                                                         runat="server"
                                                         Text="Return"
                                                         CommandName="showReturn"
-                                                        CssClass="btn btn-success"
+                                                        CssClass="btn btn-success btn-sm"
                                                         CommandArgument='<%#((GridViewRow) Container).RowIndex %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
                                     </asp:GridView>
@@ -463,12 +453,12 @@
                         <div class="modal-footer">
                             <asp:Button ID="btnConfirmBorrow"
                                 runat="server"
-                                CssClass="btn btn-primary"
+                                CssClass="btn btn-info btn-sm"
                                 Text="Save"
                                 CausesValidation="true"
                                 ValidationGroup="vgConfirmBorrow"
                                 OnClick="btnConfirmBorrow_Click" />
-                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
                     </ContentTemplate>
                     <Triggers>
@@ -591,12 +581,12 @@
                         <div class="modal-footer">
                             <asp:Button ID="btnConfirmReturn"
                                 runat="server"
-                                CssClass="btn btn-success"
+                                CssClass="btn btn-success btn-sm"
                                 Text="Update"
                                 CausesValidation="true"
                                 ValidationGroup="vgConfirmReturn"
                                 OnClick="btnConfirmReturn_Click" />
-                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
                     </ContentTemplate>
                     <Triggers>
@@ -634,12 +624,12 @@
                         <div class="modal-footer">
                             <asp:Button ID="btnConfirmDisapprove"
                                 runat="server"
-                                CssClass="btn btn-danger"
+                                CssClass="btn btn-danger btn-sm"
                                 Text="Save"
                                 CausesValidation="true"
                                 ValidationGroup="vgConfirmDisapprove"
                                 OnClick="btnConfirmDisapprove_Click" />
-                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
                     </ContentTemplate>
                     <Triggers>

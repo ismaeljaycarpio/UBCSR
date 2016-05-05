@@ -46,7 +46,15 @@ namespace UBCSR.reserve
                         txtDateNeeded.Text = r.DateFrom.ToString();
                         txtDateNeededTo.Text = r.DateTo.ToString();
                         txtLabRoom.Text = r.LabRoom;
-                        txtDisapprovedRemarks.Text = r.DisapproveRemarks;
+                        
+                        if(r.DisapproveRemarks != String.Empty)
+                        {
+                            txtDisapprovedRemarks.Text = r.DisapproveRemarks;
+                        }
+                        else
+                        {
+                            pnlDisapprove.Visible = false;
+                        }
 
                         //assign Id to control
                         hfResId.Value = r.Id.ToString();
