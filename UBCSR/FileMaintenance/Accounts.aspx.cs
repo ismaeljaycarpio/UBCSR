@@ -283,13 +283,13 @@ namespace UBCSR.FileMaintenance
             ddlAddRole.DataTextField = "RoleName";
             ddlAddRole.DataValueField = "RoleId";
             ddlAddRole.DataBind();
-            ddlAddRole.Items.Insert(0, new ListItem("Select One", "0"));
+            ddlAddRole.Items.Insert(0, new ListItem("-- Select One --", "0"));
 
             ddlEditRole.DataSource = fm.getRoles("");
             ddlEditRole.DataTextField = "RoleName";
             ddlEditRole.DataValueField = "RoleId";
             ddlEditRole.DataBind();
-            ddlEditRole.Items.Insert(0, new ListItem("Select One", "0"));
+            ddlEditRole.Items.Insert(0, new ListItem("-- Select One --", "0"));
 
             var q = (from g in db.GroupLINQs
                      select g);

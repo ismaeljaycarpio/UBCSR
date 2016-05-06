@@ -88,7 +88,7 @@
       <Column Name="ReturnedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="DisapproveRemarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="Reservation_ReservationItem" Member="ReservationItems" ThisKey="Id" OtherKey="ReservationId" Type="ReservationItem" />
-      <Association Name="Reservation_GroupLINQ" Member="GroupLINQs" ThisKey="Id" OtherKey="ReservationId" Type="GroupLINQ" />
+      <Association Name="Reservation_Group" Member="GroupLINQs" ThisKey="Id" OtherKey="ReservationId" Type="GroupLINQ" />
       <Association Name="SubjectLINQ_Reservation" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
     </Type>
   </Table>
@@ -138,7 +138,6 @@
       <Column Name="Sem" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="SectionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="SubjectLINQ_Reservation" Member="Reservations" ThisKey="Id" OtherKey="SubjectId" Type="Reservation" />
-      <Association Name="SubjectLINQ_GroupLINQ" Member="GroupLINQs" ThisKey="Id" OtherKey="SubjectId" Type="GroupLINQ" />
       <Association Name="Section_SubjectLINQ" Member="Section" ThisKey="SectionId" OtherKey="Id" Type="Section" IsForeignKey="true" />
     </Type>
   </Table>
@@ -154,7 +153,7 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="GroupLINQ_GroupMember" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Group_GroupMember" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
   <Table Name="dbo.GroupItem" Member="GroupItems">
@@ -168,25 +167,7 @@
       <Column Name="HasBreakage" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="ReturnedQuantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="InventoryLINQ_GroupItem" Member="InventoryLINQ" ThisKey="InventoryId" OtherKey="Id" Type="InventoryLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
-      <Association Name="GroupLINQ_GroupItem" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[Group]" Member="GroupLINQs">
-    <Type Name="GroupLINQ">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="SubjectId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ReservationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="JoinedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="HasBreakage" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="CreatedBy" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="IsReturned" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="GroupLINQ_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
-      <Association Name="GroupLINQ_GroupItem" Member="GroupItems" ThisKey="Id" OtherKey="GroupId" Type="GroupItem" />
-      <Association Name="Reservation_GroupLINQ" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" />
-      <Association Name="SubjectLINQ_GroupLINQ" Member="SubjectLINQ" ThisKey="SubjectId" OtherKey="Id" Type="SubjectLINQ" IsForeignKey="true" />
+      <Association Name="Group_GroupItem" Member="GroupLINQ" ThisKey="GroupId" OtherKey="Id" Type="GroupLINQ" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
   <Table Name="dbo.ItemCategory" Member="ItemCategories">
@@ -194,6 +175,22 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CategoryName" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="ItemCategory_Item" Member="Items" ThisKey="Id" OtherKey="ItemCategoryId" Type="Item" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="GroupLINQs">
+    <Type Name="GroupLINQ">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ReservationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Remarks" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="JoinedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="HasBreakage" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsReturned" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Group_GroupMember" Member="GroupMembers" ThisKey="Id" OtherKey="GroupId" Type="GroupMember" />
+      <Association Name="Group_GroupItem" Member="GroupItems" ThisKey="Id" OtherKey="GroupId" Type="GroupItem" />
+      <Association Name="Reservation_Group" Member="Reservation" ThisKey="ReservationId" OtherKey="Id" Type="Reservation" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
 </Database>
