@@ -187,6 +187,9 @@
                                     </asp:DropDownList>
                                 </div>
 
+                                <div class="form-group">
+                                    <asp:Label ID="lblDuplicateRecords" runat="server" CssClass="label label-danger"></asp:Label>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

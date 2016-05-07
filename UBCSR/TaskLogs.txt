@@ -1,4 +1,10 @@
 ﻿
+===========================================================================
+======================= May 07 2016 =======================================
+===========================================================================
+- implemented >> no duplication of subject based from section and subject code - ***DONE***
+- implemented >> no duplication of account Id - ***DONE***
+- implemented >> no duplication of inventory based on item,stocks,expiration date, serial
 
 
 ===========================================================================

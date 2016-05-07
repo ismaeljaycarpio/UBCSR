@@ -16,6 +16,7 @@ namespace UBCSR.Inventory
         DAL.Transaction tr = new DAL.Transaction();
         DAL.FileMaintenance fm = new DAL.FileMaintenance();
         DataTable dt;
+        CSRContextDataContext db = new CSRContextDataContext();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -102,18 +103,36 @@ namespace UBCSR.Inventory
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            tr.addToInventory(ddlAddItem.SelectedValue,
-                txtAddStocks.Text,
-                txtAddExpiration.Text,
-                txtAddSerial.Text, txtAddRemarks.Text);
+            var inv = (from i in db.InventoryLINQs
+                      where 
+                      (i.ItemId == Convert.ToInt32(ddlAddItem.SelectedValue)) &&
+                      (i.Serial == txtAddSerial.Text)
+                      select i).ToList();
 
-            bindData();
+            if(txtAddExpiration.Text != String.Empty)
+            {
+                inv = inv.Where(d => d.Expiration == Convert.ToDateTime(txtAddExpiration.Text)).ToList(); 
+            }
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            if(inv.Count > 0)
+            {
+                lblDuplicateRecord.Text = "Duplicate record exists";
+            }
+            else
+            {
+                tr.addToInventory(ddlAddItem.SelectedValue,
+                    txtAddStocks.Text,
+                    txtAddExpiration.Text,
+                    txtAddSerial.Text, txtAddRemarks.Text);
+
+                bindData();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void populateDropdowns()

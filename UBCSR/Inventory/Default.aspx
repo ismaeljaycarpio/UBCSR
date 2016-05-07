@@ -187,6 +187,10 @@
                                     <label for="txtAddRemarks">Remarks</label>
                                     <asp:TextBox ID="txtAddRemarks" runat="server" CssClass="form-control" placeholder="Remarks" TextMode="MultiLine"></asp:TextBox>
                                 </div>
+
+                                <div class="form-group">
+                                    <asp:Label ID="lblDuplicateRecord" runat="server" CssClass="label label-danger"></asp:Label>
+                                </div>
                             </div>
 
                         </div>

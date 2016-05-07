@@ -73,24 +73,37 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            SubjectLINQ s = new SubjectLINQ();
-            s.Code = txtAddCode.Text;
-            s.Name = txtAddSubject.Text;
-            s.YearFrom = Convert.ToInt32(txtAddYearFrom.Text);
-            s.YearTo = Convert.ToInt32(txtAddYearTo.Text);
-            s.Sem = ddlAddSemester.SelectedValue;
-            s.SectionId = Convert.ToInt32(ddlAddSection.SelectedValue);
+            var dup = (from sub in db.SubjectLINQs
+                       where 
+                       (sub.Code == txtAddCode.Text) &&
+                       (sub.SectionId == Convert.ToInt32(ddlAddSection.SelectedValue))
+                       select sub).ToList();
 
-            db.SubjectLINQs.InsertOnSubmit(s);
-            db.SubmitChanges();
+            if(dup.Count > 0)
+            {
+                lblDuplicateRecords.Text = "Duplicate entry exist";
+            }
+            else
+            {
+                SubjectLINQ s = new SubjectLINQ();
+                s.Code = txtAddCode.Text;
+                s.Name = txtAddSubject.Text;
+                s.YearFrom = Convert.ToInt32(txtAddYearFrom.Text);
+                s.YearTo = Convert.ToInt32(txtAddYearTo.Text);
+                s.Sem = ddlAddSemester.SelectedValue;
+                s.SectionId = Convert.ToInt32(ddlAddSection.SelectedValue);
 
-            this.gvSubjects.DataBind();
+                db.SubjectLINQs.InsertOnSubmit(s);
+                db.SubmitChanges();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+                this.gvSubjects.DataBind();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            }
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)

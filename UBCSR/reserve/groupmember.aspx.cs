@@ -321,6 +321,9 @@ namespace UBCSR.reserve
             gvCreateMembers.DataSource = q.ToList();
             gvCreateMembers.DataBind();
 
+            //fill dropdown
+            fillCreateDropdown();
+
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#createModal').modal('show');");
@@ -411,12 +414,6 @@ namespace UBCSR.reserve
                                    Name = "Subject: " + sub.Name + " / Expirement No: " + r.ExperimentNo + " / Labroom: " + r.LabRoom 
                                }).ToList();
 
-            ddlCreateReservation.DataSource = reservations;
-            ddlCreateReservation.DataTextField = "Name";
-            ddlCreateReservation.DataValueField = "Id";
-            ddlCreateReservation.DataBind();
-            ddlCreateReservation.Items.Insert(0, new ListItem("-- Select Reservation --", "0"));
-
             ddlAddReservation.DataSource = reservations;
             ddlAddReservation.DataTextField = "Name";
             ddlAddReservation.DataValueField = "Id";
@@ -428,6 +425,26 @@ namespace UBCSR.reserve
             ddlEditReservation.DataValueField = "Id";
             ddlEditReservation.DataBind();
             ddlEditReservation.Items.Insert(0, new ListItem("-- Select Reservation --", "0"));
+        }
+
+        protected void fillCreateDropdown()
+        {
+            var reservations = (from r in db.Reservations
+                                join sub in db.SubjectLINQs
+                                on r.SubjectId equals sub.Id
+                                where
+                                (r.ApprovalStatus == "Approved")
+                                select new
+                                {
+                                    Id = r.Id,
+                                    Name = "Subject: " + sub.Name + " / Expirement No: " + r.ExperimentNo + " / Labroom: " + r.LabRoom
+                                }).ToList();
+
+            ddlCreateReservation.DataSource = reservations;
+            ddlCreateReservation.DataTextField = "Name";
+            ddlCreateReservation.DataValueField = "Id";
+            ddlCreateReservation.DataBind();
+            ddlCreateReservation.Items.Insert(0, new ListItem("-- Select Reservation --", "0"));
         }
     }
 }

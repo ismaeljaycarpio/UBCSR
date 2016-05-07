@@ -155,9 +155,6 @@ namespace UBCSR.FileMaintenance
                 txtEditUserId.Text = dt.Rows[0]["StudentId"].ToString();
                 ddlEditRole.SelectedValue = dt.Rows[0]["RoleId"].ToString();
 
-                //[load groups]
-
-
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
                 sb.Append("$('#updateModal').modal('show');");
@@ -174,25 +171,6 @@ namespace UBCSR.FileMaintenance
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
                 sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
-            }
-                //dont implement
-            else if(e.CommandName.Equals("updateGroups"))
-            {
-                int index = Convert.ToInt32(e.CommandArgument);
-                string userName = ((Label)gvAccount.Rows[index].FindControl("lblStudentId")).Text;
-                lblUpdateGroupId.Text = userName;
-
-                var q = (from a in db.AccountLINQs
-                         where a.StudentId == userName
-                         select a).FirstOrDefault();
-
-                //ddlGroupNo.SelectedValue = q.GroupId.ToString();
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#updateGroupModal').modal('show');");
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
             }
@@ -255,26 +233,37 @@ namespace UBCSR.FileMaintenance
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            //same username and pass for newly created accnts
-            MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text, 
-                txtAddUserId.Text);
+            var accnts = (from a in db.AccountLINQs
+                          where a.StudentId == txtAddUserId.Text
+                          select a).ToList();
 
-            System.Web.Security.Roles.AddUserToRole(newUser.UserName, 
-                ddlAddRole.SelectedItem.Text);
+            if(accnts.Count > 0)
+            {
+                lblDuplicateRecord.Text = "Duplicate record exist";
+            }
+            else
+            {
+                //same username and pass for newly created accnts
+                MembershipUser newUser = Membership.CreateUser(txtAddUserId.Text,
+                    txtAddUserId.Text);
 
-            fm.addUser(Guid.Parse(newUser.ProviderUserKey.ToString()),
-                txtAddFirstName.Text,
-                txtAddMiddleName.Text,
-                txtAddLastName.Text,
-                txtAddUserId.Text);
+                System.Web.Security.Roles.AddUserToRole(newUser.UserName,
+                    ddlAddRole.SelectedItem.Text);
 
-            bindData();
+                fm.addUser(Guid.Parse(newUser.ProviderUserKey.ToString()),
+                    txtAddFirstName.Text,
+                    txtAddMiddleName.Text,
+                    txtAddLastName.Text,
+                    txtAddUserId.Text);
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+                bindData();
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#addModal').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            } 
         }
 
         protected void populateDropdowns()
@@ -290,14 +279,6 @@ namespace UBCSR.FileMaintenance
             ddlEditRole.DataValueField = "RoleId";
             ddlEditRole.DataBind();
             ddlEditRole.Items.Insert(0, new ListItem("-- Select One --", "0"));
-
-            var q = (from g in db.GroupLINQs
-                     select g);
-
-            ddlGroupNo.DataSource = q.ToList();
-            ddlGroupNo.DataTextField = "Name";
-            ddlGroupNo.DataValueField = "Id";
-            ddlGroupNo.DataBind();
         }
 
         protected void gvAccount_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -327,30 +308,6 @@ namespace UBCSR.FileMaintenance
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
         }
 
-        protected void btnUpdateGroupNo_Click(object sender, EventArgs e)
-        {
-            var q = (from a in db.AccountLINQs
-                     where a.StudentId == lblUpdateGroupId.Text
-                     select a).FirstOrDefault();
-
-            //q.GroupId = Convert.ToInt32(ddlGroupNo.SelectedValue);
-            db.SubmitChanges();
-
-            bindData();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#updateGroupModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
-        }
-
-        protected void ddlGroupNo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var q = (from g in db.GroupLINQs
-                     where g.Id == Convert.ToInt32(ddlGroupNo.SelectedValue)
-                     select g).FirstOrDefault();
-        }
 
         protected void btnExport_Click(object sender, EventArgs e)
         {
