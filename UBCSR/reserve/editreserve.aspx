@@ -799,6 +799,35 @@
         </div>
     </div>
 
+    <!-- Under valued Stock  Modal-->
+    <div id="undervaluedStockModal" class="modal fade" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <!-- Return Modal content-->
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel6" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Disapprove Confirm</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <p>Stocks item has reached negative amount, modify borrowed quantity and try again</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         $(function () {
             //Enable Disable TextBoxes in a Row when the Row CheckBox is checked.

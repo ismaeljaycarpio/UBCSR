@@ -167,31 +167,51 @@ namespace UBCSR.reserve
 
         protected void btnApprove_Click(object sender, EventArgs e)
         {
-            int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
-            var q = (from r in db.Reservations
-                     where r.Id == resId
-                     select r).FirstOrDefault();
+            bool isApproved = true;
 
-            q.ApprovalStatus = "Approved";
-            q.DisapproveRemarks = String.Empty;
-            db.SubmitChanges();
-
-            //deduct in stocks
-            var resItems = (from ri in db.ReservationItems
-                            where ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"])
-                            select ri).ToList();
-
-            foreach(var item in resItems)
+            if(isApproved)
             {
-                var updateStocks = (from inv in db.InventoryLINQs
-                                    where inv.Id == item.InventoryId
-                                    select inv).FirstOrDefault();
+                int resId = Convert.ToInt32(Request.QueryString["resId"].ToString());
+                var q = (from r in db.Reservations
+                         where r.Id == resId
+                         select r).FirstOrDefault();
 
-                updateStocks.Stocks = (updateStocks.Stocks - item.Quantity);
-                db.SubmitChanges();
+                q.ApprovalStatus = "Approved";
+                q.DisapproveRemarks = String.Empty;
+
+                //deduct in stocks
+                var resItems = (from ri in db.ReservationItems
+                                where ri.ReservationId == Convert.ToInt32(Request.QueryString["resId"])
+                                select ri).ToList();
+
+                foreach (var item in resItems)
+                {
+                    var updateStocks = (from inv in db.InventoryLINQs
+                                        where inv.Id == item.InventoryId
+                                        select inv).FirstOrDefault();
+
+                    //chk if stocks is under valued
+                    if((updateStocks.Stocks - item.Quantity) < 1)
+                    {
+                        isApproved = false;
+                        break;
+                    }
+                    updateStocks.Stocks = (updateStocks.Stocks - item.Quantity);
+                }
+
+                if(isApproved)
+                {
+                    db.SubmitChanges();
+                    Response.Redirect("~/reserve/default.aspx");
+                }
             }
 
-            Response.Redirect("~/reserve/default.aspx");
+            //show prompt
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(@"<script type='text/javascript'>");
+            sb.Append("$('#undervaluedStockModal').modal('show');");
+            sb.Append(@"</script>");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);    
         }
 
         protected void btnDisapprove_Click(object sender, EventArgs e)

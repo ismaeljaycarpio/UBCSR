@@ -264,32 +264,64 @@ namespace UBCSR.reserve
         {
             string strSearch = txtSearch.Text;
 
-            var q = (from g in db.GroupLINQs
-                     join r in db.Reservations
-                     on g.ReservationId equals r.Id
-                     join sub in db.SubjectLINQs
-                     on r.SubjectId equals sub.Id
-                     join sec in db.Sections
-                     on sub.SectionId equals sec.Id
-                     where
-                     (g.Name.Contains(strSearch) || 
-                     sub.Code.Contains(strSearch) || 
-                     sub.Name.Contains(strSearch) || 
-                     sub.Sem.Contains(strSearch) || 
-                     sec.Section1.Contains(strSearch)) &&
-                     (g.CreatedBy == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString()))
-                     select new
-                     {
-                         Id = g.Id,
-                         GroupName = g.Name,
-                         Subject = sub.Name,
-                         Section = sec.Section1,
-                         YearFrom = sub.YearFrom,
-                         YearTo = sub.YearTo,
-                         Sem = sub.Sem
-                     }).ToList();
+            if(User.IsInRole("Admin"))
+            {
+                var q = (from g in db.GroupLINQs
+                         join r in db.Reservations
+                         on g.ReservationId equals r.Id
+                         join sub in db.SubjectLINQs
+                         on r.SubjectId equals sub.Id
+                         join sec in db.Sections
+                         on sub.SectionId equals sec.Id
+                         where
+                         (g.Name.Contains(strSearch) ||
+                         sub.Code.Contains(strSearch) ||
+                         sub.Name.Contains(strSearch) ||
+                         sub.Sem.Contains(strSearch) ||
+                         sec.Section1.Contains(strSearch))
+                         select new
+                         {
+                             Id = g.Id,
+                             GroupName = g.Name,
+                             Subject = sub.Name,
+                             Section = sec.Section1,
+                             YearFrom = sub.YearFrom,
+                             YearTo = sub.YearTo,
+                             Sem = sub.Sem
+                         }).ToList();
 
-            e.Result = q;
+                e.Result = q;
+            }
+            else
+            {
+                var q = (from g in db.GroupLINQs
+                         join r in db.Reservations
+                         on g.ReservationId equals r.Id
+                         join sub in db.SubjectLINQs
+                         on r.SubjectId equals sub.Id
+                         join sec in db.Sections
+                         on sub.SectionId equals sec.Id
+                         where
+                         (g.Name.Contains(strSearch) ||
+                         sub.Code.Contains(strSearch) ||
+                         sub.Name.Contains(strSearch) ||
+                         sub.Sem.Contains(strSearch) ||
+                         sec.Section1.Contains(strSearch)) &&
+                         (g.CreatedBy == Guid.Parse(Membership.GetUser().ProviderUserKey.ToString()))
+                         select new
+                         {
+                             Id = g.Id,
+                             GroupName = g.Name,
+                             Subject = sub.Name,
+                             Section = sec.Section1,
+                             YearFrom = sub.YearFrom,
+                             YearTo = sub.YearTo,
+                             Sem = sub.Sem
+                         }).ToList();
+
+                e.Result = q;
+            }
+            
             txtSearch.Focus();
         }
 
