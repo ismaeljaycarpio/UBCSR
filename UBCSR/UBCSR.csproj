@@ -452,6 +452,7 @@
     <Compile Include="FileMaintenance\Subject.aspx.designer.cs">
       <DependentUpon>Subject.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Javascript.cs" />
     <Compile Include="reserve\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

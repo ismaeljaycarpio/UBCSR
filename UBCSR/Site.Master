@@ -259,7 +259,7 @@
 
         <br />
         <div class="container body-content">
-            <div class="breadcrumb">
+            <div class="breadcrumb small">
                 <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
             </div>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
