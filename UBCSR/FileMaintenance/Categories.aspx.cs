@@ -50,7 +50,7 @@ namespace UBCSR.FileMaintenance
                 sb.Append("$('#addModal').modal('hide');");
                 sb.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
-            }   
+            }
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
