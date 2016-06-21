@@ -15,7 +15,6 @@ namespace UBCSR
             sb.Append("$('#" + modalId + "').modal('show');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(control, pageObject.GetType(), Guid.NewGuid().ToString(), sb.ToString(), false);
-            //pageObject.ClientScript.RegisterClientScriptBlock(pageObject.GetType(), Guid.NewGuid().ToString(), sb.ToString(), false);
         }
 
         public static void HideModal(Control control, Page pageObject, string modalId)
@@ -25,7 +24,6 @@ namespace UBCSR
             sb.Append("$('#" + modalId + "').modal('hide');");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(control, pageObject.GetType(), Guid.NewGuid().ToString(), sb.ToString(), false);
-            //pageObject.ClientScript.RegisterClientScriptBlock(pageObject.GetType(), Guid.NewGuid().ToString(), sb.ToString(), false);
         }
     }
 }
