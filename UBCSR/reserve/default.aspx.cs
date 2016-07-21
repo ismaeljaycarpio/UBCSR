@@ -239,12 +239,7 @@ namespace UBCSR.borrow
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 hfDeleteId.Value = ((Label)gvBorrow.Rows[index].FindControl("lblRowId")).Text;
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "deleteModal");
             }
         }
 
@@ -263,12 +258,7 @@ namespace UBCSR.borrow
             db.SubmitChanges();
 
             bindGridview();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#deleteModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "deleteModal");
         }
 
         protected void btnCreateReservation_Click(object sender, EventArgs e)

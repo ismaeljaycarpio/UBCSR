@@ -85,11 +85,7 @@ namespace UBCSR.reserve
                 gvMembers.DataSource = q.ToList();
                 gvMembers.DataBind();
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#addMembersModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "addMembersModal");
             }
             else if(e.CommandName.Equals("editMembers"))
             {
@@ -138,11 +134,7 @@ namespace UBCSR.reserve
                     }
                 }
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#editMembersModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "editMembersModal");
             }
             else if(e.CommandName.Equals("deleteRecord"))
             {
@@ -150,11 +142,7 @@ namespace UBCSR.reserve
                 string rowId = ((Label)gvTeam.Rows[index].FindControl("lblRowId")).Text;
                 hfDeleteId.Value = rowId;
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "deleteModal");
             }
         }
 
@@ -169,11 +157,7 @@ namespace UBCSR.reserve
 
             this.gvTeam.DataBind();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#deleteModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "deleteModal");
         }
 
         protected void btnAddGroup_Click(object sender, EventArgs e)
@@ -208,11 +192,7 @@ namespace UBCSR.reserve
 
             this.gvTeam.DataBind();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addMembersModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "addMembersModal");
         }
 
         protected void btnEditGroup_Click(object sender, EventArgs e)
@@ -250,14 +230,8 @@ namespace UBCSR.reserve
                     }
                 }
             }
-
             this.gvTeam.DataBind();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#editMembersModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "editMembersModal");
         }
 
         protected void GroupDataSource_Selecting(object sender, LinqDataSourceSelectEventArgs e)
@@ -356,11 +330,7 @@ namespace UBCSR.reserve
             //fill dropdown
             fillCreateDropdown();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#createModal').modal('show');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+            Javascript.ShowModal(this, this, "createModal");
         }
 
         protected void btnCreateGroup_Click(object sender, EventArgs e)
@@ -425,12 +395,7 @@ namespace UBCSR.reserve
             }
 
             this.gvTeam.DataBind();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#createModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "createModal");
         }
 
         protected void fillReservation()

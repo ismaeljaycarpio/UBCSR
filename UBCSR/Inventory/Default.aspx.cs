@@ -94,11 +94,7 @@ namespace UBCSR.Inventory
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('show');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+            Javascript.ShowModal(this, this, "addModal");
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -126,12 +122,7 @@ namespace UBCSR.Inventory
                     txtAddSerial.Text, txtAddRemarks.Text);
 
                 bindData();
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#addModal').modal('hide');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+                Javascript.HideModal(this, this, "addModal");
             }
         }
 
@@ -165,12 +156,7 @@ namespace UBCSR.Inventory
                 lblRowId.Text);
 
             bindData();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#editModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditHideModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "editModal");
         }
 
         protected void gvInventory_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -179,7 +165,6 @@ namespace UBCSR.Inventory
             if (e.CommandName.Equals("editRecord"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
                 dt = tr.getInventory((int)(gvInventory.DataKeys[index].Value));
                 lblRowId.Text = dt.Rows[0]["Id"].ToString();
@@ -195,52 +180,32 @@ namespace UBCSR.Inventory
                 
                 txtEditSerial.Text = dt.Rows[0]["Serial"].ToString();
                 txtEditRemarks.Text = dt.Rows[0]["Remarks"].ToString();
-
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#editModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "editModal");
             }
             else if (e.CommandName.Equals("updateRecord"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
                 dt = tr.getInventory((int)(gvInventory.DataKeys[index].Value));
                 lblId.Text = dt.Rows[0]["Id"].ToString();
                 ddlUpdateItem.SelectedValue = dt.Rows[0]["ItemId"].ToString();
                 lblCurrentStocks.Text = dt.Rows[0]["Stocks"].ToString();
-
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#updateModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "updateModal");
             }
             else if (e.CommandName.Equals("deleteRecord"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
 
                 hfDeleteId.Value = ((Label)gvInventory.Rows[index].FindControl("lblId")).Text;
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "deleteModal");
             }
         }
 
         protected void btnUpdateStocks_Click(object sender, EventArgs e)
         {
             tr.updateStocks(txtUpdateStocks.Text, lblId.Text);
-
             bindData();
-            
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#updateModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "UpdateHideModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "updateModal");
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -249,12 +214,7 @@ namespace UBCSR.Inventory
             tr.deleteInventory(hfDeleteId.Value);
 
             bindData();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#deleteModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "deleteModal");
         }
 
         protected void btnExport_Click(object sender, EventArgs e)

@@ -207,21 +207,13 @@ namespace UBCSR.reserve
             }
 
             //show prompt
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#undervaluedStockModal').modal('show');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);    
+            Javascript.ShowModal(this, this, "undervaluedStockModal");  
         }
 
         protected void btnDisapprove_Click(object sender, EventArgs e)
         {
             //open remarks modal
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#disapproveModal').modal('show');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.ShowModal(this, this, "disapproveModal");
         }
 
         //Returning Confirmation
@@ -354,11 +346,8 @@ namespace UBCSR.reserve
             bindReleaseGroups();
             bindReturnedGroups();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#showReturnModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            //hide prompt
+            Javascript.HideModal(this, this, "showReturnModal");
         }
 
         //Viewing Completed Returns - in-case of edits
@@ -437,11 +426,7 @@ namespace UBCSR.reserve
             bindReleaseGroups();
             bindReturnedGroups();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#showCompleteReturnedModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "showCompleteReturnedModal");
         }
 
         //Releasing Confirmation
@@ -460,11 +445,7 @@ namespace UBCSR.reserve
             bindTaggedGroups();
             bindReleaseGroups();
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#showBorrowModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "showBorrowModal");
         }
 
         //discontinued - no more function of tagging of groups
@@ -593,11 +574,7 @@ namespace UBCSR.reserve
                 gvBorrow.DataSource = items.ToList();
                 gvBorrow.DataBind();
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#showBorrowModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "showBorrowModal");
             }
         }
 
@@ -649,11 +626,7 @@ namespace UBCSR.reserve
                 gvBreakage.DataSource = items.ToList();
                 gvBreakage.DataBind();
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#showReturnModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "showReturnModal");
             }
         }
 
@@ -704,11 +677,7 @@ namespace UBCSR.reserve
                 gvCompleteReturned.DataSource= items.ToList();
                 gvCompleteReturned.DataBind();
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#showCompleteReturnedModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "showCompleteReturnedModal");
             }
         }
 
@@ -830,7 +799,5 @@ namespace UBCSR.reserve
                 args.IsValid = true;
             }
         }
-
-        
     }
 }

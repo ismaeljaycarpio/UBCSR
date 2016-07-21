@@ -35,35 +35,20 @@ namespace UBCSR.FileMaintenance
                          select s).FirstOrDefault();
 
                 txtEditSection.Text = q.Section1;
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#updateModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "updateModal");
             }
-
             else if (e.CommandName.Equals("deleteRecord"))
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 string rowId = ((Label)gvSection.Rows[index].FindControl("lblRowId")).Text;
                 hfDeleteId.Value = rowId;
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "deleteModal");
             }
         }
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('show');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            Javascript.ShowModal(this, this, "addModal");
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -84,12 +69,7 @@ namespace UBCSR.FileMaintenance
                 db.SubmitChanges();
 
                 this.gvSection.DataBind();
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#addModal').modal('hide');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+                Javascript.HideModal(this, this, "addModal");
             }
         }
 
@@ -104,12 +84,7 @@ namespace UBCSR.FileMaintenance
             db.SubmitChanges();
 
             this.gvSection.DataBind();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#updateModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "updateModal");
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -123,12 +98,7 @@ namespace UBCSR.FileMaintenance
             db.SubmitChanges();
 
             this.gvSection.DataBind();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#deleteModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "deleteModal");
         }
 
         protected void SectionDataSource_Selecting(object sender, LinqDataSourceSelectEventArgs e)

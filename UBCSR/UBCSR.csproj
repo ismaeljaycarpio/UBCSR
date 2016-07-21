@@ -327,6 +327,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\UBCSR.pubxml" />
+    <Content Include="reset-pass.aspx" />
     <Content Include="Scripts\ai.0.21.5-build00175.js" />
     <Content Include="Scripts\ai.0.21.5-build00175.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -571,6 +572,13 @@
       <DependentUpon>NestedFileMaintenance.master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="reset-pass.aspx.cs">
+      <DependentUpon>reset-pass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="reset-pass.aspx.designer.cs">
+      <DependentUpon>reset-pass.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

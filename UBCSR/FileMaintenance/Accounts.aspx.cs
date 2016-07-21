@@ -49,12 +49,7 @@ namespace UBCSR.FileMaintenance
                 txtEditUserId.Text);
 
             bindData();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#updateModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditHideModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "updateModal");
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -155,11 +150,7 @@ namespace UBCSR.FileMaintenance
                 txtEditUserId.Text = dt.Rows[0]["StudentId"].ToString();
                 ddlEditRole.SelectedValue = dt.Rows[0]["RoleId"].ToString();
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#updateModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "updateModal");
             }
             else if(e.CommandName.Equals("deleteRecord"))
             {
@@ -167,12 +158,7 @@ namespace UBCSR.FileMaintenance
 
                 string userName = ((Label)gvAccount.Rows[index].FindControl("lblStudentId")).Text;
                 lblStudentId.Text = userName;
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#deleteModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteShowModalScript", sb.ToString(), false);
+                Javascript.ShowModal(this, this, "deleteModal");
             }
         }
 
@@ -224,11 +210,7 @@ namespace UBCSR.FileMaintenance
 
         protected void btnOpenModal_Click(object sender, EventArgs e)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#addModal').modal('show');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddShowModalScript", sb.ToString(), false);
+            Javascript.ShowModal(this, this, "addModal");
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -257,13 +239,8 @@ namespace UBCSR.FileMaintenance
                     txtAddUserId.Text);
 
                 bindData();
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#addModal').modal('hide');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "HideShowModalScript", sb.ToString(), false);
-            } 
+                Javascript.HideModal(this, this, "addModal");
+            }
         }
 
         protected void populateDropdowns()
@@ -300,14 +277,8 @@ namespace UBCSR.FileMaintenance
             fm.deleteUser(lblStudentId.Text);
 
             bindData();
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#deleteModal').modal('hide');");
-            sb.Append(@"</script>");
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteHideModalScript", sb.ToString(), false);
+            Javascript.HideModal(this, this, "deleteModal");
         }
-
 
         protected void btnExport_Click(object sender, EventArgs e)
         {

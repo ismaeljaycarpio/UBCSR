@@ -14,9 +14,9 @@
                         <ContentTemplate>
                             <div class="form-inline">
                                 <div class="input-group">
-                                    <asp:TextBox ID="txtSearch" 
-                                        runat="server" 
-                                        CssClass="form-control" 
+                                    <asp:TextBox ID="txtSearch"
+                                        runat="server"
+                                        CssClass="form-control"
                                         placeholder="Search Inventory"></asp:TextBox>
                                     <div class="input-group-btn">
                                         <asp:Button ID="btnSearch"
@@ -61,7 +61,7 @@
                                                 <asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                       
+
                                         <asp:TemplateField HeaderText="Item" SortExpression="ItemName">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblItemName" runat="server" Text='<%# Eval("ItemName") %>'></asp:Label>
