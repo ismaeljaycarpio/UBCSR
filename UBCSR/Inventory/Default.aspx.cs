@@ -105,11 +105,6 @@ namespace UBCSR.Inventory
                       (i.Serial == txtAddSerial.Text)
                       select i).ToList();
 
-            if(txtAddExpiration.Text != String.Empty)
-            {
-                inv = inv.Where(d => d.Expiration == Convert.ToDateTime(txtAddExpiration.Text)).ToList(); 
-            }
-
             if(inv.Count > 0)
             {
                 lblDuplicateRecord.Text = "Duplicate record exists";
@@ -118,7 +113,6 @@ namespace UBCSR.Inventory
             {
                 tr.addToInventory(ddlAddItem.SelectedValue,
                     txtAddStocks.Text,
-                    txtAddExpiration.Text,
                     txtAddSerial.Text, txtAddRemarks.Text);
 
                 bindData();
@@ -150,7 +144,6 @@ namespace UBCSR.Inventory
         {
             tr.editInventory(ddlEditItem.SelectedValue,
                 txtEditStocks.Text,
-                txtEditExpiration.Text,
                 txtEditSerial.Text,
                 txtEditRemarks.Text,
                 lblRowId.Text);
@@ -169,15 +162,7 @@ namespace UBCSR.Inventory
                 dt = tr.getInventory((int)(gvInventory.DataKeys[index].Value));
                 lblRowId.Text = dt.Rows[0]["Id"].ToString();
                 ddlEditItem.SelectedValue = dt.Rows[0]["ItemId"].ToString();
-                txtEditStocks.Text = dt.Rows[0]["Stocks"].ToString();
-
-                //chk if it has expiration date
-                string expDate;
-                if((expDate = dt.Rows[0]["Expiration"].ToString()) != String.Empty)
-                {
-                    txtEditExpiration.Text = Convert.ToDateTime(expDate).ToShortDateString();
-                }
-                
+                txtEditStocks.Text = dt.Rows[0]["Stocks"].ToString();                
                 txtEditSerial.Text = dt.Rows[0]["Serial"].ToString();
                 txtEditRemarks.Text = dt.Rows[0]["Remarks"].ToString();
                 Javascript.ShowModal(this, this, "editModal");

@@ -86,12 +86,6 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Expiration" SortExpression="Expiration">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblExpiration" runat="server" Text='<%# Eval("Expiration", "{0: dddd, d MMM yyyy}") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
                                         <asp:TemplateField HeaderText="Serial" SortExpression="Serial">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblSerial" runat="server" Text='<%# Eval("Serial") %>'></asp:Label>
@@ -170,15 +164,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="txtAddExpiration">Expiration Date</label>
-                                    <asp:TextBox ID="txtAddExpiration"
-                                        runat="server"
-                                        CssClass="form-control"
-                                        placeholder="Expiration Date"
-                                        data-provide="datepicker"></asp:TextBox>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="txtAddSerial">Serial</label>
                                     <asp:TextBox ID="txtAddSerial" runat="server" CssClass="form-control" placeholder="Serial"></asp:TextBox>
                                 </div>
@@ -247,15 +232,6 @@
                                         CssClass="label label-danger"
                                         ValidationGroup="vgEdit"
                                         ErrorMessage="Stocks is required"></asp:RequiredFieldValidator>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="txtEditExpiration">Expiration Date</label>
-                                    <asp:TextBox ID="txtEditExpiration"
-                                        runat="server"
-                                        CssClass="form-control"
-                                        placeholder="Expiration Date"
-                                        data-provide="datepicker"></asp:TextBox>
                                 </div>
 
                                 <div class="form-group">

@@ -22,26 +22,15 @@ namespace UBCSR.DAL
         #region Inventory
         public void addToInventory(string itemId, 
             string stocks, 
-            string expiration, 
             string serial, 
             string remarks)
         {
-            strSql = "INSERT INTO Inventory VALUES(@ItemId,@Stocks,@Expiration,@Serial,@DateAdded,@Remarks)";
+            strSql = "INSERT INTO Inventory VALUES(@ItemId,@Stocks,@Serial,@DateAdded,@Remarks)";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@ItemId", itemId);
                 comm.Parameters.AddWithValue("@Stocks", stocks);
-
-                if (expiration != String.Empty)
-                {
-                    comm.Parameters.AddWithValue("@Expiration", Convert.ToDateTime(expiration));
-                }
-                else
-                {
-                    comm.Parameters.AddWithValue("@Expiration", SqlDateTime.Null);
-                }
-
                 comm.Parameters.AddWithValue("@Serial", serial);
                 comm.Parameters.AddWithValue("@DateAdded", DateTime.Now);
                 comm.Parameters.AddWithValue("@Remarks", remarks);
@@ -54,29 +43,18 @@ namespace UBCSR.DAL
 
         public void editInventory(string itemId, 
             string stocks, 
-            string expiration, 
             string serial, 
             string remarks,
             string Id)
         {
-            strSql = "UPDATE Inventory SET ItemId = @ItemId, Stocks = @Stocks, Expiration = @Expiration, " +
+            strSql = "UPDATE Inventory SET ItemId = @ItemId, Stocks = @Stocks, " +
                 "Serial = @Serial, Remarks = @Remarks " +
                 "WHERE Id = @Id";
             using (conn = new SqlConnection(CONN_STRING))
             {
                 comm = new SqlCommand(strSql, conn);
                 comm.Parameters.AddWithValue("@ItemId", itemId);
-                comm.Parameters.AddWithValue("@Stocks", stocks);
-
-                if(expiration != String.Empty)
-                {
-                    comm.Parameters.AddWithValue("@Expiration", Convert.ToDateTime(expiration));
-                }
-                else
-                {
-                    comm.Parameters.AddWithValue("@Expiration", SqlDateTime.Null);
-                }
-   
+                comm.Parameters.AddWithValue("@Stocks", stocks);   
                 comm.Parameters.AddWithValue("@Serial", serial);
                 comm.Parameters.AddWithValue("@Remarks", remarks);
                 comm.Parameters.AddWithValue("@Id", Id);
@@ -120,7 +98,7 @@ namespace UBCSR.DAL
         public DataTable searchInventory(string itemSearch)
         {
             strSql = "SELECT Inventory.Id, Item.ItemName, ItemCategory.CategoryName, ItemBrand.BrandName, " +
-                "Inventory.Stocks, Inventory.Expiration, Inventory.Serial, Inventory.Remarks " +
+                "Inventory.Stocks, Inventory.Serial, Inventory.Remarks " +
                 "FROM " +
                 "ItemCategory, ItemBrand, Item, Inventory " +
                 "WHERE Item.ItemCategoryId = ItemCategory.Id AND " +
