@@ -104,8 +104,14 @@ namespace UBCSR.borrow
 
         protected void bindDropdown()
         {
-            var q = (from s in db.SubjectLINQs
-                     select s).ToList();
+            var q = from s in db.SubjectLINQs
+                    join sec in db.Sections
+                    on s.SectionId equals sec.Id
+                    select new
+                    {
+                        Name = s.Name + " <> " + sec.Section1,
+                        Id = s.Id
+                    };
 
             ddlSubject.DataSource = q;
             ddlSubject.DataTextField = "Name";
