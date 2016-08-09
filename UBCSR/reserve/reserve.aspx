@@ -13,7 +13,7 @@
                 <div class="panel-body">
                     <div role="form">
                         <div class="col-md-4">
-                            <label for="ddlSubject">Subject</label>
+                            <label for="ddlSubject">Subject - [Section]</label>
                             <asp:DropDownList ID="ddlSubject" runat="server" CssClass="form-control"></asp:DropDownList>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
                                 runat="server"
@@ -99,14 +99,17 @@
                                     EmptyDataText="No Record(s) found"
                                     ShowHeaderWhenEmpty="true"
                                     DataKeyNames="Id"
+                                    PageSize="5"
+                                    AllowPaging="true"
                                     OnRowDataBound="gvInv_RowDataBound"
+                                    OnPageIndexChanging="gvInv_PageIndexChanging"
                                     OnRowCommand="gvInv_RowCommand">
                                     <Columns>
-                                        <asp:TemplateField>
+                                        <%--<asp:TemplateField>
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkRow" runat="server" />
                                             </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </asp:TemplateField>--%>
 
                                         <asp:TemplateField HeaderText="Row Id" Visible="false">
                                             <ItemTemplate>
@@ -122,8 +125,7 @@
                                                 <asp:TextBox ID="txtQuantityToBorrow"
                                                     runat="server"
                                                     CssClass="form-control"
-                                                    Width="50"
-                                                    Enabled="false"></asp:TextBox>
+                                                    Width="50"></asp:TextBox>
                                                 <asp:RangeValidator ID="RangeValidator1"
                                                     runat="server"
                                                     ForeColor="Red"
@@ -142,8 +144,7 @@
                                                 <asp:TextBox ID="txtQuantityToBorrowByGroup"
                                                     runat="server"
                                                     CssClass="form-control"
-                                                    Width="50"
-                                                    Enabled="false"></asp:TextBox>
+                                                    Width="50"></asp:TextBox>
                                                 <asp:RangeValidator ID="RangeValidator2"
                                                     runat="server"
                                                     ForeColor="Red"
@@ -174,10 +175,10 @@
         </div>
     </div>
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         $(function () {
             //Enable Disable TextBoxes in a Row when the Row CheckBox is checked.
-            $("[id*=chkRow]").bind("click", function () {
+            $("[id*=chkRow]").click(function () {
 
                 //Find and reference the GridView.
                 var grid = $(this).closest("table");
@@ -197,7 +198,7 @@
                 }
             });
         });
-    </script>
+    </script>--%>
 
     <script type="text/javascript">
         $(function () {

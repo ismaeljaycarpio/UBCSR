@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace UBCSR.borrow
 {
     public partial class reserve : System.Web.UI.Page
     {
+        public const string CHECKED_ITEMS = "SelectedCustomersIndex"; 
         CSRContextDataContext db = new CSRContextDataContext();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,32 +46,34 @@ namespace UBCSR.borrow
 
                 int reserveId = r.Id;
 
+                gvInv.AllowPaging = false;
+                gvInv.DataBind();
+
                 //reserve selected items
                 foreach (GridViewRow row in gvInv.Rows)
                 {
-                    //chk if checkbox is checked
-                    if (((CheckBox)row.FindControl("chkRow")).Checked == true)
+                    string quantity = "";
+                    string quantityByGroup = "";
+                    int invId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+
+                    if (
+                        (quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty &&
+                        (quantityByGroup = ((TextBox)row.FindControl("txtQuantityToBorrowByGroup")).Text) != String.Empty
+                       )
                     {
-                        string quantity = "";
-                        string quantityByGroup = "";
-                        int invId = Convert.ToInt32(((Label)row.FindControl("lblRowId")).Text);
+                        ReservationItem ri = new ReservationItem();
+                        ri.InventoryId = invId;
+                        ri.Quantity = Convert.ToInt32(quantity);
+                        ri.ReservationId = reserveId;
+                        ri.QuantityByGroup = Convert.ToInt32(quantityByGroup);
 
-                        if (
-                            (quantity = ((TextBox)row.FindControl("txtQuantityToBorrow")).Text) != String.Empty &&
-                            (quantityByGroup = ((TextBox)row.FindControl("txtQuantityToBorrowByGroup")).Text) != String.Empty
-                           )
-                        {
-                            ReservationItem ri = new ReservationItem();
-                            ri.InventoryId = invId;
-                            ri.Quantity = Convert.ToInt32(quantity);
-                            ri.ReservationId = reserveId;
-                            ri.QuantityByGroup = Convert.ToInt32(quantityByGroup);
-
-                            db.ReservationItems.InsertOnSubmit(ri);
-                            db.SubmitChanges();
-                        }
+                        db.ReservationItems.InsertOnSubmit(ri);
+                        db.SubmitChanges();
                     }
                 }
+
+                gvInv.AllowPaging = true;
+                gvInv.DataBind();
 
                 Response.Redirect("~/reserve/default.aspx");
             }
@@ -109,7 +113,7 @@ namespace UBCSR.borrow
                     on s.SectionId equals sec.Id
                     select new
                     {
-                        Name = s.Name + " <> " + sec.Section1,
+                        Name = s.Name + "  [" + sec.Section1 + "]",
                         Id = s.Id
                     };
 
@@ -134,6 +138,55 @@ namespace UBCSR.borrow
         protected void gvInv_RowDataBound(object sender, GridViewRowEventArgs e)
         {
 
+        }
+
+        protected void gvInv_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvInv.PageIndex = e.NewPageIndex;
+            bindGridview();
+        }
+
+        private void RememberOldValues()
+        {
+            ArrayList categoryIDList = new ArrayList();
+            int index = -1;
+            foreach (GridViewRow row in gvInv.Rows)
+            {
+                index = (int)gvInv.DataKeys[row.RowIndex].Value;
+                TextBox txtQuantityToBorrow = ((TextBox)row.FindControl("txtQuantityToBorrow")) as TextBox;
+                TextBox txtQuantityToBorrowByGroup = ((TextBox)row.FindControl("txtQuantityToBorrowByGroup")) as TextBox;
+
+                // Check in the Session
+                if (Session[CHECKED_ITEMS] != null)
+                    categoryIDList = (ArrayList)Session[CHECKED_ITEMS];
+                if (txtQuantityToBorrow.Text != String.Empty &&
+                    txtQuantityToBorrowByGroup.Text != String.Empty)
+                {
+                    if (!categoryIDList.Contains(index))
+                        categoryIDList.Add(index);
+                }
+                else
+                    categoryIDList.Remove(index);
+            }
+            if (categoryIDList != null && categoryIDList.Count > 0)
+                Session[CHECKED_ITEMS] = categoryIDList;
+        }
+
+        private void RePopulateValues()
+        {
+            ArrayList categoryIDList = (ArrayList)Session[CHECKED_ITEMS];
+            if (categoryIDList != null && categoryIDList.Count > 0)
+            {
+                foreach (GridViewRow row in gvInv.Rows)
+                {
+                    int index = (int)gvInv.DataKeys[row.RowIndex].Value;
+                    if (categoryIDList.Contains(index))
+                    {
+                        CheckBox myCheckBox = (CheckBox)row.FindControl("CheckBox1");
+                        myCheckBox.Checked = true;
+                    }
+                }
+            }
         }
     }
 }

@@ -113,7 +113,8 @@ namespace UBCSR.Inventory
             {
                 tr.addToInventory(ddlAddItem.SelectedValue,
                     txtAddStocks.Text,
-                    txtAddSerial.Text, txtAddRemarks.Text);
+                    txtAddSerial.Text, 
+                    txtAddRemarks.Text);
 
                 bindData();
                 Javascript.HideModal(this, this, "addModal");
